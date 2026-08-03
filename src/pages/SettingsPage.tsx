@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { User, Shield, Bell, Palette, Key, Save, Sparkles } from 'lucide-react';
+import { User, Shield, Bell, Palette, Save, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import toast from 'react-hot-toast';
 
 export const SettingsPage: React.FC = () => {
   const { user, setUser } = useApp();
-  const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'notifications' | 'theme' | 'apikeys'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'notifications' | 'theme'>('profile');
 
   // Form states
   const [name, setName] = useState(user.name);
@@ -30,7 +30,6 @@ export const SettingsPage: React.FC = () => {
     { id: 'security', label: 'Security & Password', icon: Shield },
     { id: 'notifications', label: 'Notifications', icon: Bell },
     { id: 'theme', label: 'Theme & Brand', icon: Palette },
-    { id: 'apikeys', label: 'API Keys & Webhooks', icon: Key },
   ] as const;
 
   return (
@@ -40,7 +39,7 @@ export const SettingsPage: React.FC = () => {
       <div>
         <h1 className="text-2xl font-bold text-[#2D1B69]">Account & System Settings</h1>
         <p className="text-xs text-[#6B7280]">
-          Manage your personal profile, security credentials, workspace theme, and API integrations.
+          Manage your personal profile, security credentials, and workspace theme.
         </p>
       </div>
 
@@ -185,18 +184,6 @@ export const SettingsPage: React.FC = () => {
                 <p className="text-xs text-[#6B7280]">
                   This application strictly enforces the soft Light + Lavender aesthetic for maximum readability and modern SaaS feel.
                 </p>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'apikeys' && (
-            <div className="space-y-4">
-              <h3 className="text-lg font-bold text-[#2D1B69]">API Keys for Webhooks</h3>
-              <div className="p-4 rounded-2xl bg-[#F8F7FF] border border-[#E9D5FF] font-mono text-xs flex justify-between items-center">
-                <span>aether_live_9f8d7c6b5a4e3f21</span>
-                <button onClick={() => toast.success('API Key copied!')} className="text-[#8B5CF6] font-bold font-sans">
-                  Copy Key
-                </button>
               </div>
             </div>
           )}
