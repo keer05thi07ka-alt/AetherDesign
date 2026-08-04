@@ -32,7 +32,28 @@ SQL string concatenation is never required.
 - Host prefix is aws-1, not aws-0.
 - Node to use is "Execute Query" with the PostgreSQL elephant icon (not BigQuery, not Databricks).
 
-## 0.4 — CORS  [PENDING]
+## 0.4 — CORS  [PASSED]
+
+Browser fetch from http://localhost:5173 to Workbench webhook: 200 OK.
+No Vite proxy required.
+
+### Webhook URL patterns
+| Type | URL | Notes |
+|---|---|---|
+| Production | https://api.agents.snsihub.ai/webhook/<path> | Requires workflow ACTIVE. Returns clean data. |
+| Test | https://api.agents.snsihub.ai/webhook-test/<path> | Works while paused. Wraps response in {success,status,mode,output}. |
+
+API host is api.agents.snsihub.ai (subdomain), not agents.snsihub.ai.
+
+### CORS configuration
+Webhook Trigger node -> Options -> "Allowed Origins (CORS)"
+Value used: *
+Tighten to the deployed frontend origin before demo.
+
+### Frontend base URL
+VITE_API_BASE_URL=https://api.agents.snsihub.ai/webhook
+Always use the production URL, never webhook-test.
+
 ## 0.5 — JWT webhook auth  [PENDING]
 ## 0.7 — Embeddings route  [PENDING]
 ## 0.8 — Image generation to storage  [PENDING]
