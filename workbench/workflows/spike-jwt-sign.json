@@ -1,0 +1,304 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-04T10:44:49.758Z",
+  "_fingerprint": "YWN0aW9uOmp3dHxtYW51YWwtdHJpZ2dlcjptYW51YWwtdHJpZ2dlcjo6bWFudWFs",
+  "nodes": [
+    {
+      "id": "manual-trigger-1785839982025",
+      "type": "manual-trigger",
+      "position": {
+        "x": 425.74658203125,
+        "y": 264.22454833984375
+      },
+      "data": {
+        "label": "Manual Trigger",
+        "toolId": "manual-trigger",
+        "toolData": {
+          "id": "manual-trigger",
+          "displayName": "Manual Trigger",
+          "category": "Triggers",
+          "icon": "play_arrow",
+          "description": "Start a workflow manually by clicking the Execute button",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "payloadMessage": {
+                "description": "JSON or text payload to pass as trigger output"
+              },
+              "numberOfProcesses": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "description": "Number of items to emit (duplicates payload N times)"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process"
+              },
+              "data": {
+                "description": "Data payload"
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": true,
+        "isPrimaryTrigger": true,
+        "inputs": {},
+        "connectedHandles": [],
+        "executionStatus": "success",
+        "executionId": "6a71c269a46f5c9756082094",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {}
+            }
+          ]
+        }
+      },
+      "width": 220,
+      "height": 99,
+      "positionAbsolute": {
+        "x": 425.74658203125,
+        "y": 264.22454833984375
+      }
+    },
+    {
+      "id": "jwt-1785840002728",
+      "type": "action",
+      "position": {
+        "x": 690.6057285365143,
+        "y": 268.8975763687878
+      },
+      "data": {
+        "label": "JWT",
+        "toolId": "jwt",
+        "toolData": {
+          "id": "jwt",
+          "displayName": "JWT",
+          "category": "Security",
+          "provider": "jwt",
+          "icon": "/tools/jwt.svg",
+          "description": "Sign, verify and decode JSON Web Tokens",
+          "inputSchemaJSON": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Sign",
+                    "description": "Action"
+                  },
+                  "payload": {
+                    "type": "string",
+                    "description": "Payload (JSON string)"
+                  },
+                  "credentialId": {
+                    "type": "string",
+                    "description": "Credential ID"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Secret or Private Key"
+                  },
+                  "algorithm": {
+                    "type": "string",
+                    "enum": [
+                      "HS256",
+                      "HS384",
+                      "HS512",
+                      "RS256",
+                      "RS384",
+                      "RS512",
+                      "ES256",
+                      "ES384",
+                      "ES512",
+                      "PS256",
+                      "PS384",
+                      "PS512",
+                      "none"
+                    ],
+                    "default": "HS256",
+                    "description": "Algorithm"
+                  },
+                  "expiresIn": {
+                    "type": "string",
+                    "description": "Expires In (e.g. 1h, 7d)"
+                  },
+                  "notBefore": {
+                    "type": "string",
+                    "description": "Not Before (e.g. 10m)"
+                  },
+                  "audience": {
+                    "type": "string",
+                    "description": "Audience"
+                  },
+                  "issuer": {
+                    "type": "string",
+                    "description": "Issuer"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Subject"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "token",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "payload"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Verify",
+                    "description": "Action"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "JWT Token"
+                  },
+                  "credentialId": {
+                    "type": "string",
+                    "description": "Credential ID"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Secret or Public Key"
+                  },
+                  "algorithms": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Allowed Algorithms"
+                  },
+                  "audience": {
+                    "type": "string",
+                    "description": "Expected Audience"
+                  },
+                  "issuer": {
+                    "type": "string",
+                    "description": "Expected Issuer"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Expected Subject"
+                  },
+                  "ignoreExpiration": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Ignore Expiration"
+                  },
+                  "ignoreNotBefore": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Ignore Not Before"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "verified",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "token"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Decode",
+                    "description": "Action"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "JWT Token"
+                  },
+                  "complete": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Complete (Include Header & Signature)"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "decoded",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "token"
+                ],
+                "additionalProperties": false
+              }
+            ],
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "useJsonPayload": true,
+          "payload": "{\"sub\":\"user-123\",\"org_id\":\"org-abc\",\"role\":\"designer\"}",
+          "payload_mode": "fixed",
+          "secret": "aether-dev-secret-change-me"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyLTEyMyIsIm9yZ19pZCI6Im9yZy1hYmMiLCJyb2xlIjoiZGVzaWduZXIiLCJpYXQiOjE3ODU4NDAyMzh9.poqJit9QrGThffOpGGJ0i2eu0XsKdktVPENmAagWvUc"
+              },
+              "pairedItem": 0
+            }
+          ],
+          "outputs": null,
+          "logs": null
+        },
+        "executionStatus": "success",
+        "executionId": "6a71c269a46f5c9756082094",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": true,
+      "positionAbsolute": {
+        "x": 690.6057285365143,
+        "y": 268.8975763687878
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "manual-trigger-1785839982025",
+      "sourceHandle": null,
+      "target": "jwt-1785840002728",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-manual-trigger-1785839982025-jwt-1785840002728"
+    }
+  ]
+}
