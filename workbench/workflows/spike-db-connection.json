@@ -1,0 +1,200 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-04T10:22:12.313Z",
+  "_fingerprint": "YWN0aW9uOnBvc3RncmVzLmV4ZWN1dGVRdWVyeXxtYW51YWwtdHJpZ2dlcjptYW51",
+  "nodes": [
+    {
+      "id": "manual-trigger-1785837435113",
+      "type": "manual-trigger",
+      "position": {
+        "x": -32.487062588263626,
+        "y": 109.50673499217595
+      },
+      "data": {
+        "label": "Manual Trigger",
+        "toolId": "manual-trigger",
+        "toolData": {
+          "id": "manual-trigger",
+          "displayName": "Manual Trigger",
+          "category": "Triggers",
+          "icon": "play_arrow",
+          "description": "Start a workflow manually by clicking the Execute button",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "payloadMessage": {
+                "description": "JSON or text payload to pass as trigger output"
+              },
+              "numberOfProcesses": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "description": "Number of items to emit (duplicates payload N times)"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process"
+              },
+              "data": {
+                "description": "Data payload"
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": true,
+        "isPrimaryTrigger": true,
+        "inputs": {},
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {}
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionError": null
+      },
+      "width": 220,
+      "height": 99,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -32.487062588263626,
+        "y": 109.50673499217595
+      },
+      "dragging": false
+    },
+    {
+      "id": "postgres.executeQuery-1785837464012",
+      "type": "action",
+      "position": {
+        "x": 230.3656716328794,
+        "y": 111.92093882705564
+      },
+      "data": {
+        "label": "Execute Query",
+        "toolId": "postgres.executeQuery",
+        "toolData": {
+          "id": "postgres.executeQuery",
+          "displayName": "Execute Query",
+          "category": "Memory & State",
+          "provider": "postgres",
+          "operation": "executeQuery",
+          "icon": "Database",
+          "description": "Execute a raw SQL query",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "credentialId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "queryTimeout": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "description": "Connection timeout in seconds"
+              },
+              "idleTimeout": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0,
+                "description": "Delay closing idle connection in seconds"
+              },
+              "replaceEmptyStringsWithNull": {
+                "type": "boolean",
+                "default": false,
+                "description": "Replace empty string values with NULL"
+              },
+              "outputLargeNumbersAsText": {
+                "type": "boolean",
+                "default": false,
+                "description": "Output BIGINT/NUMERIC as text"
+              },
+              "queryBatching": {
+                "type": "string",
+                "enum": [
+                  "single",
+                  "independently",
+                  "transaction"
+                ],
+                "default": "single",
+                "description": "Query Batching"
+              },
+              "query": {
+                "type": "string",
+                "description": "SQL query to execute"
+              },
+              "queryParameters": {
+                "type": "array",
+                "default": [],
+                "description": "Parameters for prepared statements"
+              }
+            },
+            "required": [
+              "credentialId",
+              "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "executionMode": "batch"
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "query": "select $1::text as passed_value, $2::int as passed_number;",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "queryParameters": "{{ [\"hello\", 42] }}"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "status": "success",
+                "data": {
+                  "items": [
+                    {
+                      "json": {
+                        "passed_value": "hello",
+                        "passed_number": 42
+                      }
+                    }
+                  ]
+                },
+                "metadata": {
+                  "rowCount": 1,
+                  "command": "SELECT"
+                }
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionError": null
+      },
+      "width": 220,
+      "height": 93,
+      "selected": true,
+      "positionAbsolute": {
+        "x": 230.3656716328794,
+        "y": 111.92093882705564
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "manual-trigger-1785837435113",
+      "sourceHandle": null,
+      "target": "postgres.executeQuery-1785837464012",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-manual-trigger-1785837435113-postgres.executeQuery-1785837464012"
+    }
+  ]
+}
