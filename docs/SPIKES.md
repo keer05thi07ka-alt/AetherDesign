@@ -178,4 +178,26 @@ No File Search resource.
 CONSEQUENCE: Phase 3 builds retrieval with HTTP Request (embeddings)
 + pgvector, as originally planned. No managed RAG shortcut.
 
-## 0.9 — Gemini File Search Store  [PENDING]
+## 0.9 — Gemini File Search  [AVAILABLE]
+
+Gemini node Resource dropdown: Text | Audio | Document | Media File | File Search
+
+Operations:
+- Create File Search Store
+- Upload to File Search Store
+- List File Search Stores
+- Delete File Search Store
+- File Search (built-in tool on "Message a Model")
+
+Credential: "Google Gemini Api Account" dropdown exists -> keys go in the
+credential store, NOT inline headers. Create "aetherdesign-gemini" in Phase 2.
+
+### DECISION — hybrid RAG
+Gemini File Search  -> brand guideline documents (managed, handles PDFs)
+pgvector + embeddings -> asset semantic search + brand consistency scoring
+                         (needs org_id filtering and image embeddings;
+                          File Search cannot do either)
+
+Rationale: File Search alone would mean writing zero code, forfeiting the
+sanctioned RAG engineering showcase. pgvector alone would mean hand-building
+document chunking that File Search does for free.
