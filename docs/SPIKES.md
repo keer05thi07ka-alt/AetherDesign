@@ -136,30 +136,46 @@ Fallback if the Hugging Face Generate Image node fails.
 
 ## 0.8 — Image generation  [PASSED]
 
-### Provider used
-FILL IN: huggingface node / imagen-4.0-fast-generate-001 / gemini-3.1-flash-image
+### Working setup
+Node: Generate Image (Hugging Face, AI/LLM category)
+Credential: aetherdesign-inference (credential store — NOT inline)
+Width/Height: 768 x 768
+Generation time: ~20s or less
 
-Generation time: FILL IN seconds
-Output field path: FILL IN
+### Output shape — NOT wrapped
+{ "image": "data:image/png;base64,...", "_usage": { inputTokens, outputTokens } }
 
-### Hugging Face node — blocked
+Reference: {{ $json.image }}
+
+CONTRAST: HTTP Request node DOES wrap -> {{ $json.body.<field> }}
+Generate Image node does NOT wrap    -> {{ $json.image }}
+Two different shapes. Do not confuse them.
+
+### Hugging Face token requirement
 A "Read" token is NOT sufficient. Error:
   "This authentication method does not have sufficient permissions
    to call Inference Providers"
-Requires a fine-grained token with "Make calls to Inference Providers".
-Note: the node's error hint mentions Google/BigQuery scopes — that text is
-a hardcoded UI string and is NOT relevant to this node. Ignore it.
+Requires FINE-GRAINED token with "Make calls to Inference Providers" ticked.
+The node's error hint mentions Google/BigQuery scopes — hardcoded UI string,
+irrelevant, ignore it.
 
 ### Known limitation — text in generated images
-Diffusion models render headline text approximately; sub-headlines come out
-garbled. Do NOT rely on the model for copy.
-Phase 4 approach: generate the visual, overlay real text as HTML/SVG in the
-frontend editor. This is also better for multilingual variants (Phase 6) —
-one base image, N text overlays, instead of N generations.
+Headline renders acceptably ("SUMMER SALE"); sub-headlines come out garbled.
+Do NOT rely on the model for copy.
+Phase 4 approach: generate the visual, overlay real text as HTML/SVG.
+Also better for multilingual (Phase 6): one base image, N text overlays,
+instead of N generations.
 
-### Storage — still open
+### Storage — decide in Phase 4
 Output is a base64 data URI, not a file.
-Options: decode via code.execute -> aws.s3.file.upload, OR store base64
-directly in Postgres for the demo. Decide in Phase 4.
+Options: (a) code.execute decode -> aws.s3.file.upload
+         (b) store base64 directly in Postgres for the demo
+Workbench has a Binary output tab that renders images — useful for debugging.
+
+## 0.9 — Gemini File Search Store  [NOT AVAILABLE]
+Gemini node Resource dropdown offers Text / Audio / Vision only.
+No File Search resource.
+CONSEQUENCE: Phase 3 builds retrieval with HTTP Request (embeddings)
++ pgvector, as originally planned. No managed RAG shortcut.
 
 ## 0.9 — Gemini File Search Store  [PENDING]
