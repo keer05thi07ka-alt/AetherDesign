@@ -134,5 +134,32 @@ $json.statusCode is available for IF-node error branching.
 - models/gemini-3.1-flash-image ("Nano Banana 2")
 Fallback if the Hugging Face Generate Image node fails.
 
-## 0.8 — Image generation to storage  [PENDING]
-## 0.9 — Gemini File Search Store availability  [PENDING]
+## 0.8 — Image generation  [PASSED]
+
+### Provider used
+FILL IN: huggingface node / imagen-4.0-fast-generate-001 / gemini-3.1-flash-image
+
+Generation time: FILL IN seconds
+Output field path: FILL IN
+
+### Hugging Face node — blocked
+A "Read" token is NOT sufficient. Error:
+  "This authentication method does not have sufficient permissions
+   to call Inference Providers"
+Requires a fine-grained token with "Make calls to Inference Providers".
+Note: the node's error hint mentions Google/BigQuery scopes — that text is
+a hardcoded UI string and is NOT relevant to this node. Ignore it.
+
+### Known limitation — text in generated images
+Diffusion models render headline text approximately; sub-headlines come out
+garbled. Do NOT rely on the model for copy.
+Phase 4 approach: generate the visual, overlay real text as HTML/SVG in the
+frontend editor. This is also better for multilingual variants (Phase 6) —
+one base image, N text overlays, instead of N generations.
+
+### Storage — still open
+Output is a base64 data URI, not a file.
+Options: decode via code.execute -> aws.s3.file.upload, OR store base64
+directly in Postgres for the demo. Decide in Phase 4.
+
+## 0.9 — Gemini File Search Store  [PENDING]
