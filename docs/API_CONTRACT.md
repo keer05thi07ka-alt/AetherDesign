@@ -276,3 +276,23 @@ without changing any workflow logic.
 Test: create a webhook with path "test/:thing", deploy, call
 /webhook/test/hello, and check whether the trigger output exposes
 params.thing.
+
+
+## 2.0 — Webhook payload structure  [VERIFIED]
+
+Path parameters ARE supported. Path "test/:thing" called as /test/hello gives:
+
+{
+  "query":   {},                       -> {{ $json.query.<name> }}
+  "headers": { ... },                  -> {{ $json.headers.<name> }}
+  "params":  { "thing": "hello" },     -> {{ $json.params.<name> }}
+  "file":    null
+}
+
+Header names arrive LOWERCASED: authorization, origin, user-agent.
+No "body" key present on GET requests.
+
+CONSEQUENCE: API uses clean REST paths.
+  GET  /webhook/api/:resource
+  GET  /webhook/api/:resource/:id
+  POST /webhook/api/:resource

@@ -134,43 +134,51 @@ $json.statusCode is available for IF-node error branching.
 - models/gemini-3.1-flash-image ("Nano Banana 2")
 Fallback if the Hugging Face Generate Image node fails.
 
-## 0.8 — Image generation  [PASSED]
+## 0.8 — Image generation  [SOLVED — Cloudflare Workers AI]
 
-### Working setup
-Node: Generate Image (Hugging Face, AI/LLM category)
-Credential: aetherdesign-inference (credential store — NOT inline)
-Width/Height: 768 x 768
-Generation time: ~20s or less
+Provider: Cloudflare Workers AI
+Model:    @cf/black-forest-labs/flux-1-schnell
+Quota:    ~10,000 requests/day free
+Node:     HTTP Request
 
-### Output shape — NOT wrapped
-{ "image": "data:image/png;base64,...", "_usage": { inputTokens, outputTokens } }
+| Field | Value |
+|---|---|
+| Method | POST |
+| URL | https://api.cloudflare.com/client/v4/accounts/<ACCOUNT_ID>/ai/run/@cf/black-forest-labs/flux-1-schnell |
+| Header | Authorization: Bearer <TOKEN> |
+| Header | Content-Type: application/json |
+| Body Content Type | JSON |
+| Response Format | JSON |
 
-Reference: {{ $json.image }}
+Body: {"prompt":"...","steps":4}
 
-CONTRAST: HTTP Request node DOES wrap -> {{ $json.body.<field> }}
-Generate Image node does NOT wrap    -> {{ $json.image }}
-Two different shapes. Do not confuse them.
+Response: { statusCode, body: { result: { image: "<base64>" }, success: true } }
+Field path: {{ $json.body.result.image }}
+Format: JPEG — render as data:image/jpeg;base64,<string>
 
-### Hugging Face token requirement
-A "Read" token is NOT sufficient. Error:
-  "This authentication method does not have sufficient permissions
-   to call Inference Providers"
-Requires FINE-GRAINED token with "Make calls to Inference Providers" ticked.
-The node's error hint mentions Google/BigQuery scopes — hardcoded UI string,
-irrelevant, ignore it.
+NOTE: the Binary output tab does not activate for this node even with
+Response Format = File / Binary. Keep Response Format = JSON and preview
+via a scratch HTML file during development.
 
-### Known limitation — text in generated images
-Headline renders acceptably ("SUMMER SALE"); sub-headlines come out garbled.
-Do NOT rely on the model for copy.
-Phase 4 approach: generate the visual, overlay real text as HTML/SVG.
-Also better for multilingual (Phase 6): one base image, N text overlays,
-instead of N generations.
+### Providers rejected
+| Provider | Why |
+|---|---|
+| Hugging Face Inference | Monthly credits depleted after ~6 calls |
+| Gemini Nano Banana Pro | limit: 0 — paid tier only |
+| Imagen 4.0 Fast | 404, retired for new accounts |
+| Pollinations.ai | 500 Internal Server Error |
 
-### Storage — decide in Phase 4
-Output is a base64 data URI, not a file.
-Options: (a) code.execute decode -> aws.s3.file.upload
-         (b) store base64 directly in Postgres for the demo
-Workbench has a Binary output tab that renders images — useful for debugging.
+### Resolution strategy
+FLUX caps near 1024px. Generate ONCE at 1024x1024, then crop/resize per
+platform with a code.execute node in Phase 4:
+  Instagram square 1080x1080 | Story 1080x1920
+  Email banner 1200x400      | Facebook link 1200x630
+One generation -> four platform assets.
+
+### Text handling
+Diffusion models render text unreliably (verified: garbled sub-headlines).
+Generate the visual only; overlay real text as HTML/SVG in the frontend.
+Makes multilingual variants nearly free in Phase 6.
 
 ## 0.9 — Gemini File Search Store  [NOT AVAILABLE]
 Gemini node Resource dropdown offers Text / Audio / Vision only.
