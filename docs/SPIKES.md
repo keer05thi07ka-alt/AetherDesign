@@ -96,6 +96,43 @@ Auth and RBAC are declarative per-webhook config.
 No manual JWT verification chain needed anywhere in Phase 2.
 org_id must still be taken from the verified token, never the request body.
 
-## 0.7 — Embeddings route  [PENDING]
+## 0.7 — Embeddings  [PASSED]
+
+Workbench has NO native embeddings node.
+Route: HTTP Request node -> Gemini API.
+
+### Working configuration
+| Field | Value |
+|---|---|
+| Method | POST |
+| URL | https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent |
+| Header | x-goog-api-key: <key from credential store> |
+| Header | Content-Type: application/json |
+| Body Content Type | JSON |
+| Response Format | JSON |
+
+Body:
+{"model":"models/gemini-embedding-001","content":{"parts":[{"text":"..."}]},"outputDimensionality":768}
+
+VECTOR DIMENSION: 768 (verified) -> Phase 1 schema uses vector(768)
+
+### CRITICAL — HTTP Request wraps every response
+Shape: { statusCode, body: { ...actual API response... } }
+
+Downstream reference MUST be:  {{ $json.body.embedding.values }}
+NOT:                           {{ $json.embedding.values }}
+
+$json.statusCode is available for IF-node error branching.
+
+### Model availability (ListModels, Aug 2026)
+- text-embedding-004   -> RETIRED (404)
+- gemini-embedding-001 -> WORKS, 2048 token input limit
+- gemini-embedding-2   -> available, 8192 token input (fallback for long chunks)
+
+### Bonus: image models on the same Gemini key
+- models/imagen-4.0-fast-generate-001
+- models/gemini-3.1-flash-image ("Nano Banana 2")
+Fallback if the Hugging Face Generate Image node fails.
+
 ## 0.8 — Image generation to storage  [PENDING]
 ## 0.9 — Gemini File Search Store availability  [PENDING]
