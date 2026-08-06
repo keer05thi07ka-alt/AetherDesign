@@ -257,3 +257,23 @@ POST /webhook/identity/login  {email, password}
 Chain: Webhook -> Crypto(SHA256) -> Execute Query -> IF(rowCount==1)
        -> TRUE: Set Fields (flatten) -> JWT Sign
        -> FALSE: Set Fields (error)
+
+## JWT claims exposure  [VERIFIED]
+
+A webhook with Authentication: JWT Auth exposes decoded claims at $json.jwt:
+
+{
+  "query":   {},
+  "headers": { authorization: "Bearer ..." },
+  "params":  {},
+  "jwt":     { sub, org_id, role, email, exp, iat },
+  "file":    null,
+  "sessionId": "rs_..."
+}
+
+TENANCY RULE:
+  org_id  -> {{ $json.jwt.org_id }}   (verified, unforgeable)
+  user_id -> {{ $json.jwt.sub }}
+  role    -> {{ $json.jwt.role }}
+
+NEVER read org_id from body, query, or params.
