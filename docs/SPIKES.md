@@ -209,3 +209,17 @@ pgvector + embeddings -> asset semantic search + brand consistency scoring
 Rationale: File Search alone would mean writing zero code, forfeiting the
 sanctioned RAG engineering showcase. pgvector alone would mean hand-building
 document chunking that File Search does for free.
+
+
+## PLATFORM BUG — two Execute Query nodes in one workflow
+
+Symptom: the second Execute Query node's "Parameters for prepared statements"
+field is silently cleared on save. Its SQL may also be overwritten with the
+first node's query.
+
+Confirmed with support. Workaround suggested: drag fields in rather than typing.
+
+DESIGN RULE ADOPTED: one Execute Query node per workflow.
+Split branching flows into separate workflows with fixed webhook paths.
+  identity/login  -> wf1-login
+  identity/signup -> wf1-signup
