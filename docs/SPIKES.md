@@ -223,3 +223,37 @@ DESIGN RULE ADOPTED: one Execute Query node per workflow.
 Split branching flows into separate workflows with fixed webhook paths.
   identity/login  -> wf1-login
   identity/signup -> wf1-signup
+
+
+  ## Phase 2 platform notes
+
+### BUG — fields clear on save
+Two Execute Query nodes in one workflow: the second node's Parameters field
+is cleared and its SQL may be overwritten by the first node's.
+The Postgres credential dropdown also resets to blank on reopen.
+
+RULE: one Execute Query per workflow. Re-check the credential on every open.
+
+### Reserved path prefix
+Webhook path "auth/*" returns 401 even with Authentication: None.
+"auth" is reserved. Auth endpoints use /identity/login and /identity/signup.
+
+### Node names are not editable
+$('Node Name') references are unusable. Chain data forward instead.
+
+### IF node passes full input through
+After IF: {{ $json.data.items[0].json.<column> }}
+
+### JWT node replaces the item
+Output is only { token }. Recover upstream fields with a Set Fields node
++ "Include Other Input Fields" ON, or decode the token client-side.
+
+### Postgres node output shape
+{ status, data: { items: [ { json: {row} } ] }, metadata: { rowCount, command } }
+
+### Working auth endpoint
+POST /webhook/identity/login  {email, password}
+-> { token } with claims: sub, org_id, role, email, exp (24h)
+Chain: Webhook -> Crypto(SHA256) -> Execute Query -> IF(rowCount==1)
+       -> TRUE: Set Fields (flatten) -> JWT Sign
+       -> FALSE: Set Fields (error)
