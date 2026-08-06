@@ -1,18 +1,28 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-06T04:55:27.409Z",
-  "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpjb3JlLnNldHxhY3Rpb246Y29yZS5zZXR8",
+  "_exportedAt": "2026-08-06T06:41:40.333Z",
+  "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpjb3JlLnNldHxhY3Rpb246Y3J5cHRvfGFj",
   "nodes": [
     {
       "id": "webhook-1785920034915",
-      "type": "webhook",
-      "position": {
-        "x": 608.2316729372682,
-        "y": 305.26840240472
-      },
       "data": {
         "label": "Webhook Trigger",
+        "inputs": {
+          "path": "identity/login",
+          "method": "POST",
+          "options": {
+            "allowedOrigins": "*"
+          },
+          "allowedRoles": "admin, staff",
+          "jwtAlgorithm": "HS256",
+          "responseMode": "lastNode",
+          "roleClaimKey": "role",
+          "sessionClaim": "sub",
+          "sessionSource": "none",
+          "authentication": "none",
+          "requireRoleCheck": false
+        },
         "toolId": "webhook",
         "toolData": {
           "id": "webhook",
@@ -554,23 +564,13 @@
           ]
         },
         "isTrigger": true,
-        "isPrimaryTrigger": true,
-        "inputs": {
-          "method": "POST",
-          "responseMode": "lastNode",
-          "authentication": "none",
-          "jwtAlgorithm": "HS256",
-          "sessionClaim": "sub",
-          "requireRoleCheck": false,
-          "roleClaimKey": "role",
-          "allowedRoles": "admin, staff",
-          "sessionSource": "none",
-          "path": "identity/login",
-          "options": {
-            "allowedOrigins": "*"
-          }
-        },
+        "isFormWait": false,
+        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "isTimerWait": false,
+        "isWebhookWait": false,
         "connectedHandles": [],
+        "isPrimaryTrigger": true,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -585,7 +585,7 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a7413af-3dfd0a96066f50c747de4fde",
+                  "x-amzn-trace-id": "Root=1-6a742ad7-4cd7fd5f6ab183ad781163df",
                   "content-length": "54",
                   "sec-ch-ua-platform": "\"Windows\"",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
@@ -616,31 +616,32 @@
             },
             "cost": 2
           }
-        },
-        "executionStatus": "success",
-        "executionId": "6a7413af8e6de4444a082aaa",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
+        }
       },
+      "type": "webhook",
       "width": 220,
       "height": 98,
+      "dragging": false,
+      "position": {
+        "x": 608.2316729372682,
+        "y": 305.26840240472
+      },
       "selected": false,
       "positionAbsolute": {
         "x": 608.2316729372682,
         "y": 305.26840240472
-      },
-      "dragging": false
+      }
     },
     {
       "id": "crypto-1785920101280",
-      "type": "action",
-      "position": {
-        "x": 863.9316542963115,
-        "y": 312.1164551293381
-      },
       "data": {
         "label": "Crypto Tools",
+        "inputs": {
+          "value": "{{ $json.body.password }}",
+          "action": "Hash",
+          "binaryFile": false,
+          "propertyName": "passwordHash"
+        },
         "toolId": "crypto",
         "toolData": {
           "id": "crypto",
@@ -923,14 +924,13 @@
           }
         },
         "isTrigger": false,
-        "isPrimaryTrigger": false,
-        "inputs": {
-          "action": "Hash",
-          "value": "{{ $json.body.password }}",
-          "propertyName": "passwordHash",
-          "binaryFile": false
-        },
+        "isFormWait": false,
+        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "isTimerWait": false,
+        "isWebhookWait": false,
         "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -945,7 +945,7 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a7413af-3dfd0a96066f50c747de4fde",
+                  "x-amzn-trace-id": "Root=1-6a742ad7-4cd7fd5f6ab183ad781163df",
                   "content-length": "54",
                   "sec-ch-ua-platform": "\"Windows\"",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
@@ -969,31 +969,58 @@
               "pairedItem": 0
             }
           ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a7413af8e6de4444a082aaa",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
+        }
       },
+      "type": "action",
       "width": 220,
       "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 863.9316542963115,
+        "y": 312.1164551293381
+      },
       "selected": false,
       "positionAbsolute": {
         "x": 863.9316542963115,
         "y": 312.1164551293381
-      },
-      "dragging": false
+      }
     },
     {
       "id": "postgres.executeQuery-1785921585813",
-      "type": "action",
-      "position": {
-        "x": 1168.0201864347011,
-        "y": 309.4722095322711
-      },
       "data": {
         "label": "Execute Query",
+        "inputs": {
+          "mode": "manual",
+          "assignments": [
+            {
+              "name": "error",
+              "type": "string",
+              "value": "Invalid email or password",
+              "valueType": "expression"
+            },
+            {
+              "name": "code",
+              "type": "string",
+              "value": "INVALID_CREDENTIALS",
+              "valueType": "expression"
+            }
+          ],
+          "includeBinaryData": true,
+          "supportDotNotation": true,
+          "inputFieldsToInclude": "all",
+          "includeOtherInputFields": false,
+          "ignoreTypeConversionErrors": false,
+          "queryParameters": "{{ [$json.body.email, $json.passwordHash] }} ",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "query": "select u.id         as user_id,\r\n       u.email      as email,\r\n       u.full_name  as full_name,\r\n       u.avatar_url as avatar_url,\r\n       m.org_id     as org_id,\r\n       m.role       as role,\r\n       o.name       as org_name\r\nfrom users u\r\njoin memberships m   on m.user_id = u.id\r\njoin organizations o on o.id = m.org_id\r\nwhere u.email = $1\r\n  and u.password_hash = $2\r\nlimit 1;",
+          "replaceEmptyStringsWithNull": false,
+          "outputLargeNumbersAsText": false,
+          "schemaMode": "list",
+          "tableMode": "list",
+          "columnsMode": "manually",
+          "schema": "public",
+          "queryBatching": "single"
+        },
         "toolId": "postgres.executeQuery",
         "toolData": {
           "id": "postgres.executeQuery",
@@ -1061,31 +1088,13 @@
           "executionMode": "batch"
         },
         "isTrigger": false,
-        "isPrimaryTrigger": false,
-        "inputs": {
-          "mode": "manual",
-          "includeOtherInputFields": true,
-          "inputFieldsToInclude": "all",
-          "includeBinaryData": true,
-          "ignoreTypeConversionErrors": false,
-          "supportDotNotation": true,
-          "assignments": [
-            {
-              "name": "token",
-              "value": "{{ $json.token }}",
-              "type": "string",
-              "valueType": "expression"
-            }
-          ],
-          "schemaMode": "list",
-          "tableMode": "list",
-          "columnsMode": "manually",
-          "schema": "public",
-          "queryParameters": "{{ [$json.body.email, $json.passwordHash] }} ",
-          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
-          "query": "select u.id         as user_id,\r\n       u.email      as email,\r\n       u.full_name  as full_name,\r\n       u.avatar_url as avatar_url,\r\n       m.org_id     as org_id,\r\n       m.role       as role,\r\n       o.name       as org_name\r\nfrom users u\r\njoin memberships m   on m.user_id = u.id\r\njoin organizations o on o.id = m.org_id\r\nwhere u.email = $1\r\n  and u.password_hash = $2\r\nlimit 1;"
-        },
+        "isFormWait": false,
+        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "isTimerWait": false,
+        "isWebhookWait": false,
         "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -1113,31 +1122,42 @@
               }
             }
           ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a7413af8e6de4444a082aaa",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
+        }
       },
+      "type": "action",
       "width": 220,
       "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 1170.1419918160038,
+        "y": 311.5940149135737
+      },
       "selected": true,
       "positionAbsolute": {
-        "x": 1168.0201864347011,
-        "y": 309.4722095322711
-      },
-      "dragging": false
+        "x": 1170.1419918160038,
+        "y": 311.5940149135737
+      }
     },
     {
       "id": "ifnode-1785924343698",
-      "type": "action",
-      "position": {
-        "x": 1492.8153155895195,
-        "y": 314.8463162202583
-      },
       "data": {
         "label": "IF Condition",
+        "inputs": {
+          "conditions": {
+            "combinator": "and",
+            "conditions": [
+              {
+                "id": "f27emp2ea",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                },
+                "leftValue": "{{ $json.metadata.rowCount }}",
+                "rightValue": "1"
+              }
+            ]
+          }
+        },
         "toolId": "ifnode",
         "toolData": {
           "id": "ifnode",
@@ -1238,24 +1258,13 @@
           }
         },
         "isTrigger": false,
-        "isPrimaryTrigger": false,
-        "inputs": {
-          "conditions": {
-            "conditions": [
-              {
-                "id": "f27emp2ea",
-                "leftValue": "{{ $json.metadata.rowCount }}",
-                "rightValue": "1",
-                "operator": {
-                  "type": "string",
-                  "operation": "equals"
-                }
-              }
-            ],
-            "combinator": "and"
-          }
-        },
+        "isFormWait": false,
+        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "isTimerWait": false,
+        "isWebhookWait": false,
         "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -1313,31 +1322,32 @@
               }
             ]
           }
-        },
-        "executionStatus": "success",
-        "executionId": "6a7413af8e6de4444a082aaa",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
+        }
       },
+      "type": "action",
       "width": 220,
       "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 1492.8153155895195,
+        "y": 314.8463162202583
+      },
       "selected": false,
       "positionAbsolute": {
         "x": 1492.8153155895195,
         "y": 314.8463162202583
-      },
-      "dragging": false
+      }
     },
     {
       "id": "jwt-1785924448742",
-      "type": "action",
-      "position": {
-        "x": 2137.8822380764977,
-        "y": 340.37830525444264
-      },
       "data": {
         "label": "JWT",
+        "inputs": {
+          "secret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "payload": "{\"sub\":\"{{ $json.user_id }}\",\"org_id\":\"{{ $json.org_id }}\",\"role\":\"{{ $json.role }}\",\"email\":\"{{ $json.email }}\",\"exp\":{{ Math.floor(Date.now()/1000) + 86400 }}}",
+          "payload_mode": "expression",
+          "useJsonPayload": true
+        },
         "toolId": "jwt",
         "toolData": {
           "id": "jwt",
@@ -1515,48 +1525,94 @@
           }
         },
         "isTrigger": false,
-        "isPrimaryTrigger": false,
-        "inputs": {
-          "useJsonPayload": true,
-          "secret": "REDACTED_SEE_CREDENTIAL_STORE",
-          "payload_mode": "expression",
-          "payload": "{\"sub\":\"{{ $json.user_id }}\",\"org_id\":\"{{ $json.org_id }}\",\"role\":\"{{ $json.role }}\",\"email\":\"{{ $json.email }}\",\"exp\":{{ Math.floor(Date.now()/1000) + 86400 }}}"
-        },
+        "isFormWait": false,
+        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "isTimerWait": false,
+        "isWebhookWait": false,
         "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
               "json": {
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYwNzg1MTEsImlhdCI6MTc4NTk5MjExMX0.ECBISNvkhc3Bxwks1SAgzSBBbT6C52CJvXCHO-sdLGs"
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYwODQ0MzksImlhdCI6MTc4NTk5ODAzOX0.vzTcC8dvx0KUcgMvvyHi4jJyHH84PVJVQNdVtL9Ex9g"
               },
               "pairedItem": 0
             }
           ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a7413af8e6de4444a082aaa",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
+        }
       },
+      "type": "action",
       "width": 220,
       "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 2137.8822380764977,
+        "y": 340.37830525444264
+      },
       "selected": false,
       "positionAbsolute": {
         "x": 2137.8822380764977,
         "y": 340.37830525444264
-      },
-      "dragging": false
+      }
     },
     {
       "id": "core.set-1785924577456",
-      "type": "action",
-      "position": {
-        "x": 1850.4892024311914,
-        "y": 311.18907306496436
-      },
       "data": {
         "label": "Set Fields",
+        "inputs": {
+          "mode": "manual",
+          "assignments": [
+            {
+              "name": "user_id",
+              "type": "string",
+              "value": "{{ $json.data.items[0].json.user_id }}",
+              "valueType": "expression"
+            },
+            {
+              "name": "email",
+              "type": "string",
+              "value": "{{ $json.data.items[0].json.email }}",
+              "valueType": "expression"
+            },
+            {
+              "name": "full_name",
+              "type": "string",
+              "value": "{{ $json.data.items[0].json.full_name }}",
+              "valueType": "expression"
+            },
+            {
+              "name": "avatar_url",
+              "type": "string",
+              "value": "{{ $json.data.items[0].json.avatar_url }}",
+              "valueType": "expression"
+            },
+            {
+              "name": "org_id",
+              "type": "string",
+              "value": "{{ $json.data.items[0].json.org_id }}",
+              "valueType": "expression"
+            },
+            {
+              "name": "org_name",
+              "type": "string",
+              "value": "{{ $json.data.items[0].json.org_name }}",
+              "valueType": "expression"
+            },
+            {
+              "name": "role",
+              "type": "string",
+              "value": "{{ $json.data.items[0].json.role }}",
+              "valueType": "expression"
+            }
+          ],
+          "includeBinaryData": true,
+          "supportDotNotation": true,
+          "inputFieldsToInclude": "all",
+          "includeOtherInputFields": false,
+          "ignoreTypeConversionErrors": false
+        },
         "toolId": "core.set",
         "toolData": {
           "id": "core.set",
@@ -1671,60 +1727,13 @@
           }
         },
         "isTrigger": false,
-        "isPrimaryTrigger": false,
-        "inputs": {
-          "mode": "manual",
-          "includeOtherInputFields": false,
-          "inputFieldsToInclude": "all",
-          "includeBinaryData": true,
-          "ignoreTypeConversionErrors": false,
-          "supportDotNotation": true,
-          "assignments": [
-            {
-              "name": "user_id",
-              "value": "{{ $json.data.items[0].json.user_id }}",
-              "type": "string",
-              "valueType": "expression"
-            },
-            {
-              "name": "email",
-              "value": "{{ $json.data.items[0].json.email }}",
-              "type": "string",
-              "valueType": "expression"
-            },
-            {
-              "name": "full_name",
-              "value": "{{ $json.data.items[0].json.full_name }}",
-              "type": "string",
-              "valueType": "expression"
-            },
-            {
-              "name": "avatar_url",
-              "value": "{{ $json.data.items[0].json.avatar_url }}",
-              "type": "string",
-              "valueType": "expression"
-            },
-            {
-              "name": "org_id",
-              "value": "{{ $json.data.items[0].json.org_id }}",
-              "type": "string",
-              "valueType": "expression"
-            },
-            {
-              "name": "org_name",
-              "value": "{{ $json.data.items[0].json.org_name }}",
-              "type": "string",
-              "valueType": "expression"
-            },
-            {
-              "name": "role",
-              "value": "{{ $json.data.items[0].json.role }}",
-              "type": "string",
-              "valueType": "expression"
-            }
-          ]
-        },
+        "isFormWait": false,
+        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "isTimerWait": false,
+        "isWebhookWait": false,
         "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -1739,203 +1748,48 @@
               }
             }
           ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a7413af8e6de4444a082aaa",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
+        }
       },
+      "type": "action",
       "width": 220,
       "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 1850.4892024311914,
+        "y": 311.18907306496436
+      },
       "selected": false,
       "positionAbsolute": {
         "x": 1850.4892024311914,
         "y": 311.18907306496436
-      },
-      "dragging": false
+      }
     },
     {
       "id": "core.set-1785924770324",
-      "type": "action",
-      "position": {
-        "x": 1855.310732891951,
-        "y": 426.8174141963516
-      },
       "data": {
         "label": "Set Fields",
-        "toolId": "core.set",
-        "toolData": {
-          "id": "core.set",
-          "displayName": "Set Fields",
-          "category": "Core  Utilities",
-          "provider": "core",
-          "operation": "set",
-          "description": "Set or update fields",
-          "inputSchemaJSON": {
-            "type": "object",
-            "properties": {
-              "mode": {
-                "type": "string",
-                "enum": [
-                  "manual",
-                  "json"
-                ],
-                "default": "manual",
-                "description": "Select Manual Mapping or JSON Output"
-              },
-              "assignments": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "Field name"
-                    },
-                    "value": {
-                      "description": "Field value (Fixed or Expression)"
-                    },
-                    "valueType": {
-                      "type": "string",
-                      "enum": [
-                        "fixed",
-                        "expression"
-                      ],
-                      "default": "expression",
-                      "description": "Whether field value is fixed or an expression"
-                    },
-                    "type": {
-                      "type": "string",
-                      "description": "Data type of the field"
-                    }
-                  },
-                  "required": [
-                    "name"
-                  ],
-                  "additionalProperties": false
-                },
-                "description": "Fields to set when using Manual Mapping"
-              },
-              "jsonValue": {
-                "type": "string",
-                "description": "JSON to merge into the output when using JSON Output mode"
-              },
-              "includeOtherInputFields": {
-                "type": "boolean",
-                "default": false,
-                "description": "Also include unchanged fields from the input"
-              },
-              "inputFieldsToInclude": {
-                "type": "string",
-                "enum": [
-                  "all",
-                  "selected",
-                  "allExcept"
-                ],
-                "default": "all",
-                "description": "Choose which input data to include in the output data"
-              },
-              "fieldsToInclude": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "List of input fields to include when Input Fields to Include is Selected"
-              },
-              "fieldsToExclude": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "List of input fields to exclude when Input Fields to Include is All Except"
-              },
-              "includeBinaryData": {
-                "type": "boolean",
-                "default": true,
-                "description": "Include binary data in the output"
-              },
-              "ignoreTypeConversionErrors": {
-                "type": "boolean",
-                "default": false,
-                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
-              },
-              "supportDotNotation": {
-                "type": "boolean",
-                "default": true,
-                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
-              },
-              "items": {
-                "type": "array",
-                "description": "Array of items to process (for multi-item execution)"
-              },
-              "$inputItem": {
-                "description": "Single item to process (for backward compatibility)"
-              }
-            },
-            "additionalProperties": true,
-            "$schema": "http://json-schema.org/draft-07/schema#"
-          }
-        },
-        "isTrigger": false,
-        "isPrimaryTrigger": false,
         "inputs": {
           "mode": "manual",
-          "includeOtherInputFields": false,
-          "inputFieldsToInclude": "all",
-          "includeBinaryData": true,
-          "ignoreTypeConversionErrors": false,
-          "supportDotNotation": true,
           "assignments": [
             {
               "name": "error",
-              "value": "Invalid email or password",
               "type": "string",
+              "value": "Invalid email or password",
               "valueType": "expression"
             },
             {
               "name": "code",
-              "value": "INVALID_CREDENTIALS",
               "type": "string",
+              "value": "INVALID_CREDENTIALS",
               "valueType": "expression"
             }
-          ]
+          ],
+          "includeBinaryData": true,
+          "supportDotNotation": true,
+          "inputFieldsToInclude": "all",
+          "includeOtherInputFields": false,
+          "ignoreTypeConversionErrors": false
         },
-        "connectedHandles": [],
-        "lastTestOutput": {
-          "items": [
-            {
-              "json": {
-                "error": "Invalid email or password",
-                "code": "INVALID_CREDENTIALS"
-              }
-            }
-          ]
-        },
-        "executionStatus": "skipped",
-        "executionId": "6a7413af8e6de4444a082aaa",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
-      },
-      "width": 220,
-      "height": 93,
-      "selected": false,
-      "positionAbsolute": {
-        "x": 1855.310732891951,
-        "y": 426.8174141963516
-      },
-      "dragging": false
-    },
-    {
-      "id": "core.set-1785991965393",
-      "type": "action",
-      "position": {
-        "x": 2415.5202690727383,
-        "y": 343.6575151994281
-      },
-      "data": {
-        "label": "Set Fields",
         "toolId": "core.set",
         "toolData": {
           "id": "core.set",
@@ -2050,112 +1904,74 @@
           }
         },
         "isTrigger": false,
-        "isPrimaryTrigger": false,
-        "inputs": {
-          "mode": "manual",
-          "includeOtherInputFields": true,
-          "inputFieldsToInclude": "all",
-          "includeBinaryData": true,
-          "ignoreTypeConversionErrors": false,
-          "supportDotNotation": true,
-          "assignments": [
-            {
-              "name": "token",
-              "value": "{{ $json.token }}",
-              "type": "string",
-              "valueType": "expression"
-            }
-          ]
-        },
-        "connectedHandles": [],
-        "lastTestOutput": {
-          "items": [
-            {
-              "json": {
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYwNzg1MTEsImlhdCI6MTc4NTk5MjExMX0.ECBISNvkhc3Bxwks1SAgzSBBbT6C52CJvXCHO-sdLGs"
-              }
-            }
-          ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a7413af8e6de4444a082aaa",
         "isFormWait": false,
+        "executionId": "6a742ad7e0a80cbd972e1d4e",
         "isTimerWait": false,
-        "isWebhookWait": false
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "skipped",
+        "lastTestOutput": null
       },
+      "type": "action",
       "width": 220,
       "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 1855.310732891951,
+        "y": 426.8174141963516
+      },
       "selected": false,
       "positionAbsolute": {
-        "x": 2415.5202690727383,
-        "y": 343.6575151994281
-      },
-      "dragging": false
+        "x": 1855.310732891951,
+        "y": 426.8174141963516
+      }
     }
   ],
   "edges": [
     {
+      "id": "reactflow__edge-webhook-1785920034915-crypto-1785920101280",
+      "data": {},
+      "type": "custom",
       "source": "webhook-1785920034915",
-      "sourceHandle": null,
-      "target": "crypto-1785920101280",
-      "targetHandle": null,
-      "type": "custom",
-      "data": {},
-      "id": "reactflow__edge-webhook-1785920034915-crypto-1785920101280"
+      "target": "crypto-1785920101280"
     },
     {
+      "id": "reactflow__edge-postgres.executeQuery-1785921585813-ifnode-1785924343698",
+      "data": {},
+      "type": "custom",
       "source": "postgres.executeQuery-1785921585813",
-      "sourceHandle": null,
-      "target": "ifnode-1785924343698",
-      "targetHandle": null,
-      "type": "custom",
-      "data": {},
-      "id": "reactflow__edge-postgres.executeQuery-1785921585813-ifnode-1785924343698"
+      "target": "ifnode-1785924343698"
     },
     {
+      "id": "reactflow__edge-ifnode-1785924343698false-core.set-1785924770324",
+      "data": {},
+      "type": "custom",
       "source": "ifnode-1785924343698",
-      "sourceHandle": "false",
       "target": "core.set-1785924770324",
-      "targetHandle": null,
-      "type": "custom",
-      "data": {},
-      "id": "reactflow__edge-ifnode-1785924343698false-core.set-1785924770324"
+      "sourceHandle": "false"
     },
     {
+      "id": "reactflow__edge-ifnode-1785924343698true-core.set-1785924577456",
+      "data": {},
+      "type": "custom",
       "source": "ifnode-1785924343698",
-      "sourceHandle": "true",
       "target": "core.set-1785924577456",
-      "targetHandle": null,
-      "type": "custom",
-      "data": {},
-      "id": "reactflow__edge-ifnode-1785924343698true-core.set-1785924577456"
+      "sourceHandle": "true"
     },
     {
+      "id": "reactflow__edge-core.set-1785924577456-jwt-1785924448742",
+      "data": {},
+      "type": "custom",
       "source": "core.set-1785924577456",
-      "sourceHandle": null,
-      "target": "jwt-1785924448742",
-      "targetHandle": null,
-      "type": "custom",
-      "data": {},
-      "id": "reactflow__edge-core.set-1785924577456-jwt-1785924448742"
+      "target": "jwt-1785924448742"
     },
     {
+      "id": "reactflow__edge-crypto-1785920101280-postgres.executeQuery-1785921585813",
+      "data": {},
+      "type": "custom",
       "source": "crypto-1785920101280",
-      "sourceHandle": null,
-      "target": "postgres.executeQuery-1785921585813",
-      "targetHandle": null,
-      "type": "custom",
-      "data": {},
-      "id": "reactflow__edge-crypto-1785920101280-postgres.executeQuery-1785921585813"
-    },
-    {
-      "source": "jwt-1785924448742",
-      "sourceHandle": null,
-      "target": "core.set-1785991965393",
-      "targetHandle": null,
-      "type": "custom",
-      "data": {},
-      "id": "reactflow__edge-jwt-1785924448742-core.set-1785991965393"
+      "target": "postgres.executeQuery-1785921585813"
     }
   ]
 }
