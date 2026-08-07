@@ -6,7 +6,7 @@ import { useApp } from '../context/AppContext';
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { loginAsRole } = useApp();
+  const { signIn, loading } = useApp();
 
   const isCreatorRoute = location.pathname.includes('creator') || location.search.includes('role=creator');
   const [activeRole, setActiveRole] = useState<'business' | 'creator'>(isCreatorRoute ? 'creator' : 'business');
@@ -22,10 +22,13 @@ export const LoginPage: React.FC = () => {
     }
   }, [location.pathname, location.search]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    loginAsRole(activeRole);
-    if (activeRole === 'business') {
+    const workspace = await signIn(email, password);
+    if (!workspace) return;
+
+    // Route by the role the backend returned, not the tab that was clicked.
+    if (workspace === 'business') {
       navigate('/business/dashboard');
     } else {
       navigate('/creator/dashboard');
@@ -125,10 +128,17 @@ export const LoginPage: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white text-xs font-bold rounded-2xl shadow-lg shadow-purple-500/25 transition-all flex items-center justify-center space-x-2 mt-4"
+                disabled={loading}
+                className="w-full py-3.5 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white text-xs font-bold rounded-2xl shadow-lg shadow-purple-500/25 transition-all flex items-center justify-center space-x-2 mt-4 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span>Enter {activeRole === 'business' ? 'Business' : 'Creator'} Workspace</span>
-                <ArrowRight className="w-4 h-4" />
+                {loading ? (
+                  <span>Signing in…</span>
+                ) : (
+                  <>
+                    <span>Enter {activeRole === 'business' ? 'Business' : 'Creator'} Workspace</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
             </form>
           </div>

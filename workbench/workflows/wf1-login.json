@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-06T06:41:40.333Z",
+  "_exportedAt": "2026-08-07T05:01:22.685Z",
   "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpjb3JlLnNldHxhY3Rpb246Y3J5cHRvfGFj",
   "nodes": [
     {
@@ -565,7 +565,7 @@
         },
         "isTrigger": true,
         "isFormWait": false,
-        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "executionId": "6a7565c6fda7c8acf1538fa5",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
@@ -585,7 +585,7 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a742ad7-4cd7fd5f6ab183ad781163df",
+                  "x-amzn-trace-id": "Root=1-6a7565c6-5f199a3e3227f0cb4b745a29",
                   "content-length": "54",
                   "sec-ch-ua-platform": "\"Windows\"",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
@@ -925,7 +925,7 @@
         },
         "isTrigger": false,
         "isFormWait": false,
-        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "executionId": "6a7565c6fda7c8acf1538fa5",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
@@ -945,7 +945,7 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a742ad7-4cd7fd5f6ab183ad781163df",
+                  "x-amzn-trace-id": "Root=1-6a7565c6-5f199a3e3227f0cb4b745a29",
                   "content-length": "54",
                   "sec-ch-ua-platform": "\"Windows\"",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
@@ -990,36 +990,19 @@
       "data": {
         "label": "Execute Query",
         "inputs": {
-          "mode": "manual",
-          "assignments": [
-            {
-              "name": "error",
-              "type": "string",
-              "value": "Invalid email or password",
-              "valueType": "expression"
-            },
-            {
-              "name": "code",
-              "type": "string",
-              "value": "INVALID_CREDENTIALS",
-              "valueType": "expression"
-            }
+          "queryParameters": [
+            " {{$node[\"webhook-1785920034915\"].json[\"body\"][\"email\"]}}",
+            " {{$node[\"crypto-1785920101280\"].json[\"passwordHash\"]}}"
           ],
-          "includeBinaryData": true,
-          "supportDotNotation": true,
-          "inputFieldsToInclude": "all",
-          "includeOtherInputFields": false,
-          "ignoreTypeConversionErrors": false,
-          "queryParameters": "{{ [$json.body.email, $json.passwordHash] }} ",
-          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
-          "query": "select u.id         as user_id,\r\n       u.email      as email,\r\n       u.full_name  as full_name,\r\n       u.avatar_url as avatar_url,\r\n       m.org_id     as org_id,\r\n       m.role       as role,\r\n       o.name       as org_name\r\nfrom users u\r\njoin memberships m   on m.user_id = u.id\r\njoin organizations o on o.id = m.org_id\r\nwhere u.email = $1\r\n  and u.password_hash = $2\r\nlimit 1;",
+          "query": "select u.id         as user_id,\r\n       u.email      as email,\r\n       u.full_name  as full_name,\r\n       u.avatar_url as avatar_url,\r\n       m.org_id     as org_id,\r\n       m.role       as role,\r\n       o.name       as org_name\r\nfrom users u\r\njoin memberships m   on m.user_id = u.id\r\njoin organizations o on o.id = m.org_id\r\nwhere u.email = $1\r\n  and u.password_hash = $2\r\nlimit 1;\r\n",
           "replaceEmptyStringsWithNull": false,
           "outputLargeNumbersAsText": false,
           "schemaMode": "list",
           "tableMode": "list",
           "columnsMode": "manually",
           "schema": "public",
-          "queryBatching": "single"
+          "queryBatching": "single",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e"
         },
         "toolId": "postgres.executeQuery",
         "toolData": {
@@ -1089,12 +1072,11 @@
         },
         "isTrigger": false,
         "isFormWait": false,
-        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "executionId": "6a7565c6fda7c8acf1538fa5",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
         "isPrimaryTrigger": false,
-        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -1122,20 +1104,21 @@
               }
             }
           ]
-        }
+        },
+        "executionStatus": "success"
       },
       "type": "action",
       "width": 220,
       "height": 93,
       "dragging": false,
       "position": {
-        "x": 1170.1419918160038,
-        "y": 311.5940149135737
+        "x": 1177.4668847623525,
+        "y": 322.5813543330969
       },
-      "selected": true,
+      "selected": false,
       "positionAbsolute": {
-        "x": 1170.1419918160038,
-        "y": 311.5940149135737
+        "x": 1177.4668847623525,
+        "y": 322.5813543330969
       }
     },
     {
@@ -1259,7 +1242,7 @@
         },
         "isTrigger": false,
         "isFormWait": false,
-        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "executionId": "6a7565c6fda7c8acf1538fa5",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
@@ -1526,7 +1509,7 @@
         },
         "isTrigger": false,
         "isFormWait": false,
-        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "executionId": "6a7565c6fda7c8acf1538fa5",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
@@ -1536,7 +1519,7 @@
           "items": [
             {
               "json": {
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYwODQ0MzksImlhdCI6MTc4NTk5ODAzOX0.vzTcC8dvx0KUcgMvvyHi4jJyHH84PVJVQNdVtL9Ex9g"
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYxNjUwNjIsImlhdCI6MTc4NjA3ODY2Mn0.kfYYjGF1PurMFfV-GzyAbKaYt2c7pJGTMCg-NhgP3yw"
               },
               "pairedItem": 0
             }
@@ -1728,7 +1711,7 @@
         },
         "isTrigger": false,
         "isFormWait": false,
-        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "executionId": "6a7565c6fda7c8acf1538fa5",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
@@ -1905,13 +1888,12 @@
         },
         "isTrigger": false,
         "isFormWait": false,
-        "executionId": "6a742ad7e0a80cbd972e1d4e",
+        "executionId": "6a7565c6fda7c8acf1538fa5",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
         "isPrimaryTrigger": false,
-        "executionStatus": "skipped",
-        "lastTestOutput": null
+        "executionStatus": "skipped"
       },
       "type": "action",
       "width": 220,

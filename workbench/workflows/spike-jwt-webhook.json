@@ -559,7 +559,7 @@
           "path": "spike-jwt-webhook",
           "method": "GET",
           "authentication": "jwtAuth",
-          "jwtSecret": "aether-dev-secret-change-me",
+          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
           "requireRoleCheck": true,
           "sessionSource": "header",
           "sessionSourceName": "Authorization",

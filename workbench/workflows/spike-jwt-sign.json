@@ -259,7 +259,7 @@
           "useJsonPayload": true,
           "payload": "{\"sub\":\"user-123\",\"org_id\":\"org-abc\",\"role\":\"designer\"}",
           "payload_mode": "fixed",
-          "secret": "aether-dev-secret-change-me"
+          "secret": "REDACTED_SEE_CREDENTIAL_STORE"
         },
         "connectedHandles": [],
         "lastTestOutput": {
