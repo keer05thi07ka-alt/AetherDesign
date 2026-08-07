@@ -115,7 +115,7 @@ export function mapAsset(a: ApiAsset): UiAsset {
     platform: a.category ?? '',
     audience: '',
     style: '',
-    imageUrl: a.storage_path ?? a.thumbnail_path ?? '',
+    imageUrl: resolveAssetUrl(a),
     createdAt: relativeTime(a.created_at),
     isFavorite: false,
     category: a.category ?? 'uncategorised',
@@ -123,6 +123,23 @@ export function mapAsset(a: ApiAsset): UiAsset {
     aspectRatio: w && h ? aspectRatio(w, h) : '1:1',
     tags: [a.status, `v${a.current_version}`],
   };
+}
+
+/**
+ * Resolve an asset's display URL.
+ *
+ * Until Phase 4 uploads real files, storage_path holds a logical path
+ * rather than a URL. Fall back to a deterministic placeholder keyed on
+ * the asset id, so the same asset always renders the same image.
+ */
+function resolveAssetUrl(a: ApiAsset): string {
+  const path = a.storage_path ?? a.thumbnail_path;
+  if (path && /^(https?:|data:)/.test(path)) return path;
+
+  const w = a.width ?? 800;
+  const h = a.height ?? 800;
+  const seed = a.id.replace(/-/g, '').slice(-12);
+  return `https://picsum.photos/seed/${seed}/${w}/${h}`;
 }
 
 function aspectRatio(w: number, h: number): string {
