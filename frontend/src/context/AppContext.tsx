@@ -24,6 +24,9 @@ interface AppContextType {
   signIn: (email: string, password: string) => Promise<WorkspaceRole | null>;
   membershipRole: MembershipRole | null;
 
+  signUp: (input: { fullName: string; email: string; orgName: string; password: string })
+    => Promise<WorkspaceRole | null>;
+
   // data
   brandKit: BrandKit;
   updateBrandKit: (updated: Partial<BrandKit>) => void;
@@ -161,6 +164,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [applySession, refresh]);
 
+  const signUp = useCallback(async (input: {
+    fullName: string; email: string; orgName: string; password: string;
+  }): Promise<WorkspaceRole | null> => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await svc.register(input);
+      applySession(result);
+      toast.success(`Welcome to AetherDesign, ${result.fullName}`);
+      await refresh();
+      return roleToWorkspace(result.role);
+    } catch (e) {
+      const msg = messageFor(e);
+      setError(msg);
+      toast.error(msg);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, [applySession, refresh]);
+
   /** Compatibility shim — switches the workspace view without re-authenticating. */
   const loginAsRole = useCallback((targetRole: WorkspaceRole) => {
     setRoleState(targetRole);
@@ -252,7 +276,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   return (
     <AppContext.Provider value={{
       role, setRole, user, setUser, businessSession, creatorSession,
-      loginAsRole, logout, signIn, membershipRole,
+      loginAsRole, logout, signIn, signUp, membershipRole,
       brandKit, updateBrandKit, campaigns, addCampaign,
       generatedAssets, generateAsset, toggleFavoriteAsset, deleteAsset,
       approvals, handleApproval, addApprovalComment,

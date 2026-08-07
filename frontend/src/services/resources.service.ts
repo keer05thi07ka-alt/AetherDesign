@@ -106,6 +106,29 @@ export async function signIn(email: string, password: string): Promise<LoginResu
   };
 }
 
+export async function register(input: {
+  fullName: string;
+  email: string;
+  orgName: string;
+  password: string;
+}): Promise<LoginResult> {
+  const session = await api.signUp({
+    full_name: input.fullName,
+    email: input.email,
+    org_name: input.orgName,
+    password: input.password,
+  });
+
+  return {
+    userId: session.userId,
+    orgId: session.orgId,
+    role: session.role,
+    email: session.email,
+    fullName: input.fullName,
+    avatarUrl: null,
+  };
+}
+
 export function signOut(): void {
   api.logout();
 }
