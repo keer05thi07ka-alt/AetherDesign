@@ -4,7 +4,7 @@
  */
 
 import * as api from '../lib/apiClient';
-import type { Campaign as ApiCampaign, Member, MembershipRole } from '../types/api';
+import type { Campaign as ApiCampaign, Member } from '../types/api';
 import type { Campaign as UiCampaign, GeneratedAsset, BrandKit as UiBrandKit } from '../types';
 import { mapCampaign, mapAsset, mapBrandKit, toApiStatus } from './mappers';
 
@@ -74,65 +74,26 @@ export async function fetchMembers(): Promise<Member[]> {
 }
 
 // ---------- auth ----------
+//
+// Identity lives in authClient.ts (Supabase + token exchange).
+// Re-exported here so callers have a single import for everything.
 
-export interface LoginResult {
-  userId: string;
-  orgId: string;
-  role: MembershipRole;
-  email: string;
-  fullName: string;
-  avatarUrl: string | null;
-}
+export {
+  signInWithGoogle,
+  signInWithPassword,
+  signUpWithPassword,
+  requestPasswordReset,
+  updatePassword,
+  completeAuth,
+  bootstrapWorkspace,
+  switchOrganization,
+  signOut,
+  hasSupabaseSession,
+} from '../lib/authClient';
 
-export async function signIn(email: string, password: string): Promise<LoginResult> {
-  const session = await api.login(email, password);
+export type { AuthOutcome, Membership } from '../lib/authClient';
 
-  // The token carries identity; members gives us display name and avatar.
-  let me: Member | undefined;
-  try {
-    const members = await api.list('members');
-    me = members.find((m) => m.id === session.userId);
-  } catch {
-    // Non-fatal — fall back to the email local part.
-  }
-
-  return {
-    userId: session.userId,
-    orgId: session.orgId,
-    role: session.role,
-    email: session.email,
-    fullName: me?.full_name ?? session.email.split('@')[0],
-    avatarUrl: me?.avatar_url ?? null,
-  };
-}
-
-export async function register(input: {
-  fullName: string;
-  email: string;
-  orgName: string;
-  password: string;
-}): Promise<LoginResult> {
-  const session = await api.signUp({
-    full_name: input.fullName,
-    email: input.email,
-    org_name: input.orgName,
-    password: input.password,
-  });
-
-  return {
-    userId: session.userId,
-    orgId: session.orgId,
-    role: session.role,
-    email: session.email,
-    fullName: input.fullName,
-    avatarUrl: null,
-  };
-}
-
-export function signOut(): void {
-  api.logout();
-}
-
+/** Synchronous session read from the stored token. Used on first render. */
 export function restore(): ReturnType<typeof api.restoreSession> {
   return api.restoreSession();
 }

@@ -17,7 +17,7 @@ import { useApp } from '../../context/AppContext';
 
 export const AIGeneratorPage: React.FC = () => {
   const navigate = useNavigate();
-  const { generatedAssets, generateAsset, toggleFavoriteAsset, deleteAsset, brandKit } = useApp();
+  const { generatedAssets, generateAsset, toggleFavoriteAsset, deleteAsset, brandKit, can } = useApp();
 
   const [prompt, setPrompt] = useState('');
   const [platform, setPlatform] = useState('Instagram');
@@ -68,7 +68,7 @@ export const AIGeneratorPage: React.FC = () => {
                 <Wand2 className="w-4 h-4 text-[#8B5CF6]" />
                 Describe Your Visual Asset Prompt
               </label>
-              <span className="text-[11px] text-[#8B5CF6] font-semibold">GPT-4 Vision Engine Active</span>
+              <span className="text-[11px] text-[#8B5CF6] font-semibold">FLUX.1 · Cloudflare Workers AI</span>
             </div>
             <textarea
               rows={3}
@@ -133,7 +133,8 @@ export const AIGeneratorPage: React.FC = () => {
 
           </div>
 
-          {/* Color Palette / Brand Kit Toggle */}
+          {/* Brand Kit palette — team plans only */}
+          {can.brandKit && (
           <div className="p-4 rounded-2xl bg-[#F8F7FF] border border-[#E9D5FF] flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-xl bg-[#8B5CF6] text-white flex items-center justify-center shrink-0">
@@ -160,6 +161,7 @@ export const AIGeneratorPage: React.FC = () => {
               <span>Enforce Brand Palette</span>
             </label>
           </div>
+          )}
 
           {/* Generate CTA Button */}
           <button

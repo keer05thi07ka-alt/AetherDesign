@@ -46,6 +46,8 @@ export interface JwtClaims {
   email: string;
   exp: number;
   iat: number;
+  plan?: 'free' | 'pro' | 'enterprise';
+  org_name?: string;
 }
 
 export interface Session {
@@ -53,6 +55,7 @@ export interface Session {
   userId: string;
   orgId: string;
   role: MembershipRole;
+  plan: 'free' | 'pro' | 'enterprise';
   email: string;
   expiresAt: number;
 }

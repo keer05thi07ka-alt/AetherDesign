@@ -41,6 +41,7 @@ export function sessionFromToken(token: string): Session | null {
     role: c.role as MembershipRole,
     email: c.email,
     expiresAt: c.exp * 1000,
+    plan: (c.plan as 'free' | 'pro' | 'enterprise') ?? 'free',
   };
 }
 
@@ -132,48 +133,6 @@ function unwrapWrite<T>(env: { result?: string }): T {
 }
 
 // ---------- public API ----------
-
-export async function login(email: string, password: string): Promise<Session> {
-  const body = await request<{ token?: string }>('/identity/login', {
-    method: 'POST',
-    body: JSON.stringify({ email, password }),
-  });
-  if (!body.token) {
-    throw new ApiRequestError(
-      { error: 'Invalid email or password', code: 'INVALID_CREDENTIALS' });
-  }
-  const session = sessionFromToken(body.token);
-  if (!session) {
-    throw new ApiRequestError(
-      { error: 'Received a malformed token from the server.', code: 'UNKNOWN' });
-  }
-  setToken(body.token);
-  return session;
-}
-
-export async function signUp(input: {
-  full_name: string;
-  email: string;
-  org_name: string;
-  password: string;
-}): Promise<Session> {
-  const body = await request<{ token?: string }>('/identity/signup', {
-    method: 'POST',
-    body: JSON.stringify(input),
-  });
-  if (!body.token) {
-    throw new ApiRequestError(
-      { error: 'Could not create the account. That email may already be registered.',
-        code: 'UNKNOWN' });
-  }
-  const session = sessionFromToken(body.token);
-  if (!session) {
-    throw new ApiRequestError(
-      { error: 'Received a malformed token from the server.', code: 'UNKNOWN' });
-  }
-  setToken(body.token);
-  return session;
-}
 
 export function logout(): void {
   clearToken();

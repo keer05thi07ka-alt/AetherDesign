@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Sparkles, Mail, Lock, User as UserIcon, ArrowRight, Building, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Mail, Lock, User as UserIcon, ArrowRight, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useApp } from '../context/AppContext';
 
 export const SignupPage: React.FC = () => {
   const navigate = useNavigate();
-  const { signUp, loading } = useApp(); 
+  const { signUpWithPassword, signInWithGoogle, loading } = useApp();
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [orgName, setOrgName] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!orgName.trim()) {
-      toast.error('Organisation name is required');
+    if (!fullName.trim()) {
+      toast.error('Please enter your name');
       return;
     }
     if (password.length < 8) {
@@ -25,16 +24,17 @@ export const SignupPage: React.FC = () => {
       return;
     }
 
-    const workspace = await signUp({
-      fullName,
-      email,
-      orgName,
-      password,
-    });
-    if (!workspace) return;
+    const result = await signUpWithPassword(email, password, fullName);
+    if (!result.ok) return;
 
-    // A new signup is always the org owner, so the business workspace.
-    navigate('/business/dashboard');
+    // An email may already map to an existing membership (a seeded or
+    // previously invited user). Only send genuinely new users to onboarding.
+    if (result.needsOnboarding) {
+      navigate('/onboarding');
+      return;
+    }
+
+    navigate(result.workspace === 'business' ? '/business/dashboard' : '/creator/dashboard');
   };
 
   return (
@@ -59,6 +59,27 @@ export const SignupPage: React.FC = () => {
             <p className="text-xs text-[#6B7280] mt-1 mb-6">
               Start generating AI content and managing brand campaigns in minutes.
             </p>
+
+            <button
+              type="button"
+              onClick={() => signInWithGoogle('signup')}
+              disabled={loading}
+              className="w-full py-3 mb-4 border border-[#E9D5FF] rounded-2xl flex items-center justify-center space-x-2 hover:bg-[#F8F7FF] transition-all disabled:opacity-60"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.76h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.76c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1a11 11 0 0 0-9.82 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              <span className="text-xs font-semibold text-[#2D1B69]">Sign up with Google</span>
+            </button>
+
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="flex-1 h-px bg-[#F3F0FF]" />
+              <span className="text-[10px] text-[#9CA3AF] font-medium">or</span>
+              <div className="flex-1 h-px bg-[#F3F0FF]" />
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-3.5">
               <div>
@@ -87,21 +108,6 @@ export const SignupPage: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs font-medium text-[#2D1B69] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
                     placeholder="alex@nexus.ai"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-[#2D1B69] mb-1">Company / Organization</label>
-                <div className="relative">
-                  <Building className="w-4 h-4 text-[#8B5CF6] absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    required
-                    value={orgName}
-                    onChange={(e) => setOrgName(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs font-medium text-[#2D1B69] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
-                    placeholder="Nexus Innovations"
                   />
                 </div>
               </div>

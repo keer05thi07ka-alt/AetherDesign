@@ -4,6 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import { AppProvider } from './context/AppContext';
 import { MainLayout } from './components/layouts/MainLayout';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
+import { AuthCallback } from './pages/AuthCallback';
+import { OnboardingPage } from './pages/OnboardingPage';
 
 // Public & Auth Pages
 import { LandingPage } from './pages/LandingPage';
@@ -47,6 +49,8 @@ export const App: React.FC = () => {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/role-selection" element={<RoleSelectionPage />} />
             <Route path="/access-denied" element={<AccessDeniedPage />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/onboarding" element={<OnboardingPage />} />
 
             {/* Business Workspace Routes (Protected for Business Role Only) */}
             <Route

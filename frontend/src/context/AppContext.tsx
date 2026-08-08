@@ -6,28 +6,47 @@ import type {
 import type { MembershipRole } from '../types/api';
 import { initialApprovals, mockNotifications } from '../data/mockData';
 import * as svc from '../services/resources.service';
-import { roleToWorkspace } from '../services/mappers';
-import { ApiRequestError } from '../lib/apiClient';
+import type { Membership } from '../services/resources.service';
+import { workspaceFor } from '../services/mappers';
+import { ApiRequestError, decodeToken } from '../lib/apiClient';
+import { capabilitiesFor, type Capabilities } from '../lib/capabilities';
+
+/** Where the user is in the authentication lifecycle. */
+export type AuthState = 'loading' | 'signed_out' | 'needs_onboarding' | 'ready';
+
+export interface AuthResult {
+  ok: boolean;
+  needsOnboarding: boolean;
+  workspace: WorkspaceRole | null;
+}
 
 interface AppContextType {
-  // session
+  // ---- auth ----
+  authState: AuthState;
+  membershipRole: MembershipRole | null;
+  plan: 'free' | 'pro' | 'enterprise' | null;
+  can: Capabilities;
+  orgs: Membership[];
+  orgName: string;
+
+  signInWithGoogle: (intent?: 'login' | 'signup') => Promise<void>;
+  signInWithPassword: (email: string, password: string) => Promise<AuthResult>;
+  signUpWithPassword: (email: string, password: string, fullName: string) => Promise<AuthResult>;
+  completeOnboarding: (orgName: string, plan: 'free' | 'enterprise') => Promise<WorkspaceRole | null>;
+  switchOrg: (orgId: string) => Promise<boolean>;
+  completeAuth: () => Promise<AuthResult>;
+  logout: () => Promise<void>;
+
+  // ---- session view ----
   role: WorkspaceRole;
   setRole: (role: WorkspaceRole) => void;
   user: User;
   setUser: (user: User) => void;
   businessSession: User | null;
   creatorSession: User | null;
-  loginAsRole: (targetRole: WorkspaceRole, userDetails?: Partial<User>) => void;
-  logout: () => void;
+  loginAsRole: (targetRole: WorkspaceRole) => void;
 
-  // real auth
-  signIn: (email: string, password: string) => Promise<WorkspaceRole | null>;
-  membershipRole: MembershipRole | null;
-
-  signUp: (input: { fullName: string; email: string; orgName: string; password: string })
-    => Promise<WorkspaceRole | null>;
-
-  // data
+  // ---- data ----
   brandKit: BrandKit;
   updateBrandKit: (updated: Partial<BrandKit>) => void;
   campaigns: Campaign[];
@@ -42,20 +61,15 @@ interface AppContextType {
   notifications: NotificationItem[];
   markNotificationRead: (id: string) => void;
 
-  // request state
+  // ---- request state ----
   loading: boolean;
   error: string | null;
   refresh: () => Promise<void>;
 }
 
 const defaultUser: User = {
-  id: '',
-  name: 'Guest',
-  email: '',
-  avatar: '',
-  role: 'business',
-  company: 'AetherDesign',
-  title: '',
+  id: '', name: 'Guest', email: '', avatar: '',
+  role: 'business', company: 'AetherDesign', title: '',
 };
 
 const emptyBrandKit: BrandKit = {
@@ -73,18 +87,27 @@ function messageFor(e: unknown): string {
   return 'Something went wrong.';
 }
 
+function titleCase(role: string): string {
+  return role.replace(/_/g, ' ').replace(/\b\w/g, (ch: string) => ch.toUpperCase());
+}
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [role, setRoleState] = useState<WorkspaceRole>('business');
+  const [authState, setAuthState] = useState<AuthState>('loading');
   const [membershipRole, setMembershipRole] = useState<MembershipRole | null>(null);
+  const [plan, setPlan] = useState<'free' | 'pro' | 'enterprise' | null>(null);
+  const [orgs, setOrgs] = useState<Membership[]>([]);
+  const [orgName, setOrgName] = useState('');
+
+  const [role, setRoleState] = useState<WorkspaceRole>('business');
+  const [user, setUser] = useState<User>(defaultUser);
   const [businessSession, setBusinessSession] = useState<User | null>(null);
   const [creatorSession, setCreatorSession] = useState<User | null>(null);
-  const [user, setUser] = useState<User>(defaultUser);
 
   const [brandKit, setBrandKitState] = useState<BrandKit>(emptyBrandKit);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [generatedAssets, setGeneratedAssets] = useState<GeneratedAsset[]>([]);
 
-  // Approvals and notifications remain local until Phase 5.
+  // Approvals and notifications stay local until Phase 9.
   const [approvals, setApprovals] = useState<ApprovalItem[]>(initialApprovals);
   const [notifications, setNotifications] = useState<NotificationItem[]>(mockNotifications);
 
@@ -96,13 +119,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setError(null);
     try {
       const [c, a, k] = await Promise.all([
-        svc.fetchCampaigns(),
-        svc.fetchAssets(),
-        svc.fetchBrandKit(),
+        svc.fetchCampaigns(), svc.fetchAssets(), svc.fetchBrandKit(),
       ]);
       setCampaigns(c);
       setGeneratedAssets(a);
-      if (k) setBrandKitState(k);
+      setBrandKitState(k ?? emptyBrandKit);
     } catch (e) {
       const msg = messageFor(e);
       setError(msg);
@@ -112,90 +133,161 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
-  const applySession = useCallback((r: svc.LoginResult) => {
-    const workspace = roleToWorkspace(r.role);
+  const applyOutcome = useCallback((out: svc.AuthOutcome): AuthResult => {
+    if (out.needsOnboarding) {
+      setAuthState('needs_onboarding');
+      setUser({
+        ...defaultUser,
+        id: out.profile.userId,
+        name: out.profile.fullName,
+        email: out.profile.email,
+      });
+      return { ok: true, needsOnboarding: true, workspace: null };
+    }
+
+    const s = out.session!;
+    // The session token is the source of truth for plan. out.orgs arrives
+    // empty because the JWT node drops sibling fields from the response.
+    const activePlan = (s.plan ?? 'free') as 'free' | 'pro' | 'enterprise';
+    const workspace = workspaceFor(s.role, activePlan);
+    const active = out.orgs.find((o) => o.org_id === s.orgId);
+    const tokenOrgName = decodeToken(s.token)?.org_name ?? '';
+
     const u: User = {
-      id: r.userId,
-      name: r.fullName,
-      email: r.email,
-      avatar: r.avatarUrl ??
-        `https://ui-avatars.com/api/?name=${encodeURIComponent(r.fullName)}&background=8B5CF6&color=fff`,
+      id: s.userId,
+      name: out.profile.fullName,
+      email: s.email,
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(out.profile.fullName)}&background=8B5CF6&color=fff`,
       role: workspace,
-      company: 'AetherDesign',
-      title: r.role.replace(/_/g, ' ').replace(/\b\w/g, (ch) => ch.toUpperCase()),
+      company: active?.org_name ?? tokenOrgName ?? 'AetherDesign',
+      title: titleCase(s.role),
     };
+
     setUser(u);
-    setMembershipRole(r.role);
+    setMembershipRole(s.role);
+    setPlan(activePlan);
+    setOrgs(out.orgs);
+    setOrgName(active?.org_name ?? tokenOrgName);
     setRoleState(workspace);
     if (workspace === 'business') setBusinessSession(u); else setCreatorSession(u);
+    setAuthState('ready');
+
+    return { ok: true, needsOnboarding: false, workspace };
   }, []);
 
-  // Restore an existing session on first mount.
+  const completeAuth = useCallback(async (): Promise<AuthResult> => {
+    setLoading(true);
+    setError(null);
+    try {
+      const out = await svc.completeAuth();
+      const result = applyOutcome(out);
+      if (!result.needsOnboarding) await refresh();
+      return result;
+    } catch (e) {
+      setAuthState('signed_out');
+      return { ok: false, needsOnboarding: false, workspace: null };
+    } finally {
+      setLoading(false);
+    }
+  }, [applyOutcome, refresh]);
+
+  // Restore an existing Supabase session on first mount.
   useEffect(() => {
-    const session = svc.restore();
-    if (!session) return;
-    applySession({
-      userId: session.userId,
-      orgId: session.orgId,
-      role: session.role,
-      email: session.email,
-      fullName: session.email.split('@')[0],
-      avatarUrl: null,
-    });
-    void refresh();
-  }, [applySession, refresh]);
-
-  const signIn = useCallback(async (email: string, password: string): Promise<WorkspaceRole | null> => {
-    setLoading(true);
-    setError(null);
-    try {
-      const result = await svc.signIn(email, password);
-      applySession(result);
-      toast.success(`Welcome back, ${result.fullName}`);
-      await refresh();
-      return roleToWorkspace(result.role);
-    } catch (e) {
-      const msg = messageFor(e);
-      setError(msg);
-      toast.error(msg);
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  }, [applySession, refresh]);
-
-  const signUp = useCallback(async (input: {
-    fullName: string; email: string; orgName: string; password: string;
-  }): Promise<WorkspaceRole | null> => {
-    setLoading(true);
-    setError(null);
-    try {
-      const result = await svc.register(input);
-      applySession(result);
-      toast.success(`Welcome to AetherDesign, ${result.fullName}`);
-      await refresh();
-      return roleToWorkspace(result.role);
-    } catch (e) {
-      const msg = messageFor(e);
-      setError(msg);
-      toast.error(msg);
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  }, [applySession, refresh]);
-
-  /** Compatibility shim — switches the workspace view without re-authenticating. */
-  const loginAsRole = useCallback((targetRole: WorkspaceRole) => {
-    setRoleState(targetRole);
+    void (async () => {
+      if (!(await svc.hasSupabaseSession())) {
+        setAuthState('signed_out');
+        return;
+      }
+      await completeAuth();
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setRole = loginAsRole;
+  const signInWithGoogle = useCallback(async (intent: 'login' | 'signup' = 'login') => {
+    try {
+      await svc.signInWithGoogle(intent);   // redirects away
+    } catch (e) {
+      toast.error(messageFor(e));
+    }
+  }, []);
 
-  const logout = useCallback(() => {
-    svc.signOut();
+  const signInWithPassword = useCallback(
+    async (email: string, password: string): Promise<AuthResult> => {
+      setLoading(true);
+      setError(null);
+      try {
+        await svc.signInWithPassword(email, password);
+        const result = await completeAuth();
+        if (result.ok && !result.needsOnboarding) toast.success('Welcome back');
+        return result;
+      } catch (e) {
+        const msg = messageFor(e);
+        setError(msg);
+        toast.error(msg);
+        return { ok: false, needsOnboarding: false, workspace: null };
+      } finally {
+        setLoading(false);
+      }
+    }, [completeAuth]);
+
+  const signUpWithPassword = useCallback(
+    async (email: string, password: string, fullName: string): Promise<AuthResult> => {
+      setLoading(true);
+      setError(null);
+      try {
+        await svc.signUpWithPassword(email, password, fullName);
+        return await completeAuth();
+      } catch (e) {
+        const msg = messageFor(e);
+        setError(msg);
+        toast.error(msg);
+        return { ok: false, needsOnboarding: false, workspace: null };
+      } finally {
+        setLoading(false);
+      }
+    }, [completeAuth]);
+
+  const completeOnboarding = useCallback(
+    async (name: string, chosenPlan: 'free' | 'enterprise'): Promise<WorkspaceRole | null> => {
+      setLoading(true);
+      setError(null);
+      try {
+        await svc.bootstrapWorkspace(name, chosenPlan);
+        const result = await completeAuth();
+        toast.success(`${name} is ready`);
+        return result.workspace;
+      } catch (e) {
+        const msg = messageFor(e);
+        setError(msg);
+        toast.error(msg);
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    }, [completeAuth]);
+
+  const switchOrg = useCallback(async (orgId: string): Promise<boolean> => {
+    setLoading(true);
+    try {
+      await svc.switchOrganization(orgId);
+      const result = await completeAuth();
+      return result.ok;
+    } catch (e) {
+      toast.error(messageFor(e));
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }, [completeAuth]);
+
+  const logout = useCallback(async () => {
+    await svc.signOut();
+    setAuthState('signed_out');
     setUser(defaultUser);
     setMembershipRole(null);
+    setPlan(null);
+    setOrgs([]);
+    setOrgName('');
     setBusinessSession(null);
     setCreatorSession(null);
     setCampaigns([]);
@@ -204,9 +296,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     toast.success('Signed out.');
   }, []);
 
+  /** Switches the workspace view only. Does not change permissions. */
+  const loginAsRole = useCallback((targetRole: WorkspaceRole) => {
+    setRoleState(targetRole);
+  }, []);
+
   const updateBrandKit = useCallback((updated: Partial<BrandKit>) => {
     setBrandKitState((prev) => ({ ...prev, ...updated, updatedAt: 'Just now' }));
-    toast('Brand kit changes are local only until Phase 3.', { icon: 'i' });
+    toast('Brand kit changes are local until Phase 4.', { icon: 'i' });
   }, []);
 
   const addCampaign = useCallback(
@@ -231,9 +328,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })();
     }, []);
 
-  // Real generation arrives in Phase 4.
   const generateAsset = useCallback(() => {
-    toast('AI generation is wired up in Phase 4.', { icon: 'i' });
+    toast('AI generation arrives in Phase 5.', { icon: 'i' });
   }, []);
 
   const toggleFavoriteAsset = useCallback((id: string) => {
@@ -273,10 +369,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, unread: false } : n)));
   }, []);
 
+  // Recomputed whenever role or plan changes — no memo needed, it's a
+  // handful of boolean comparisons.
+  const can = capabilitiesFor(membershipRole ?? 'designer', plan ?? 'free');
+
+
   return (
     <AppContext.Provider value={{
-      role, setRole, user, setUser, businessSession, creatorSession,
-      loginAsRole, logout, signIn, signUp, membershipRole,
+      authState, membershipRole, plan, can, orgs, orgName,
+      signInWithGoogle, signInWithPassword, signUpWithPassword,
+      completeOnboarding, switchOrg, completeAuth, logout,
+      role, setRole: loginAsRole, user, setUser,
+      businessSession, creatorSession, loginAsRole,
       brandKit, updateBrandKit, campaigns, addCampaign,
       generatedAssets, generateAsset, toggleFavoriteAsset, deleteAsset,
       approvals, handleApproval, addApprovalComment,

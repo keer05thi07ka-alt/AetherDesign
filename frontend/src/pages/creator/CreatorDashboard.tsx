@@ -6,7 +6,7 @@ import { mockTemplates } from '../../data/mockData';
 
 export const CreatorDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { user, campaigns, generatedAssets } = useApp();
+  const { user, campaigns, generatedAssets, can } = useApp();
 
   return (
     <div className="space-y-8 text-left">
@@ -85,9 +85,10 @@ export const CreatorDashboard: React.FC = () => {
       </div>
 
       {/* Main Grid: Assigned Campaigns & Recent Assets */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className={`grid grid-cols-1 gap-6 ${can.campaigns ? 'lg:grid-cols-12' : ''}`}>
         
-        {/* Left 7 Cols: Assigned Client Campaigns */}
+        {/* Assigned Client Campaigns — team plans only */}
+        {can.campaigns && (
         <div className="lg:col-span-7 bg-white p-6 rounded-3xl border border-[#E9D5FF] shadow-lavender-sm space-y-4">
           <div className="flex items-center justify-between">
             <div>
@@ -124,9 +125,10 @@ export const CreatorDashboard: React.FC = () => {
             </div>
           )}
         </div>
+        )}
 
-        {/* Right 5 Cols: Recent Generated AI Assets */}
-        <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-[#E9D5FF] shadow-lavender-sm space-y-4">
+        {/* Recent Generated AI Assets */}
+        <div className={`bg-white p-6 rounded-3xl border border-[#E9D5FF] shadow-lavender-sm space-y-4 ${can.campaigns ? 'lg:col-span-5' : ''}`}>
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-sm text-[#2D1B69]">Recent Generated Assets</h3>
             <Link to="/creator/assets" className="text-xs text-[#8B5CF6] font-bold hover:underline">

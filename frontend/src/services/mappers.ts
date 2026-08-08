@@ -174,7 +174,15 @@ export function mapBrandKit(b: ApiBrandKit): UiBrandKit {
 
 // ---------- users ----------
 
-/** Five real roles collapse to two workspace views for the existing UI. */
+export function workspaceFor(
+  role: MembershipRole,
+  plan: 'free' | 'pro' | 'enterprise' = 'free',
+): WorkspaceRole {
+  if (plan === 'free') return 'creator';
+  return role === 'designer' ? 'creator' : 'business';
+}
+
+/** @deprecated Use workspaceFor(role, plan). */
 export function roleToWorkspace(role: MembershipRole): WorkspaceRole {
   return role === 'designer' ? 'creator' : 'business';
 }

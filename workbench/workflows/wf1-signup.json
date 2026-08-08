@@ -1,28 +1,18 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-07T07:06:17.815Z",
-  "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpjb3JlLnNldHxhY3Rpb246Y3J5cHRvfGFj",
+  "_exportedAt": "2026-08-07T07:03:16.189Z",
+  "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpjcnlwdG98YWN0aW9uOmp3dHxhY3Rpb246",
   "nodes": [
     {
-      "id": "webhook-1785920034915",
+      "id": "webhook-1786080601021",
+      "type": "webhook",
+      "position": {
+        "x": 356.09006185039203,
+        "y": 249.85585237601532
+      },
       "data": {
         "label": "Webhook Trigger",
-        "inputs": {
-          "path": "identity/login",
-          "method": "POST",
-          "options": {
-            "allowedOrigins": "*"
-          },
-          "allowedRoles": "admin, staff",
-          "jwtAlgorithm": "HS256",
-          "responseMode": "lastNode",
-          "roleClaimKey": "role",
-          "sessionClaim": "sub",
-          "sessionSource": "none",
-          "authentication": "none",
-          "requireRoleCheck": false
-        },
         "toolId": "webhook",
         "toolData": {
           "id": "webhook",
@@ -564,19 +554,22 @@
           ]
         },
         "isTrigger": true,
-        "isFormWait": false,
-        "executionId": "6a7579f0fda7c8acf1539baf",
-        "isTimerWait": false,
-        "isWebhookWait": false,
-        "connectedHandles": [],
         "isPrimaryTrigger": true,
-        "executionStatus": "success",
+        "inputs": {
+          "path": "identity/signup",
+          "options": {
+            "allowedOrigins": "*"
+          }
+        },
+        "connectedHandles": [],
         "lastTestOutput": {
           "items": [
             {
               "json": {
                 "body": {
-                  "email": "founder@testco.example",
+                  "full_name": "Maya Chen",
+                  "email": "maya@brightfold.example",
+                  "org_name": "Brightfold Studio",
                   "password": "Password123!"
                 },
                 "query": {},
@@ -585,9 +578,10 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a7579f0-5f77519600cee7c02bab0628",
-                  "content-length": "60",
+                  "x-amzn-trace-id": "Root=1-6a7581b4-79b61d421f4da43204b92dd7",
+                  "content-length": "116",
                   "sec-ch-ua-platform": "\"Windows\"",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYxNjY0MzcsImlhdCI6MTc4NjA4MDAzN30.sRVpq0b0VW6-upna_WY2ZCR7EzKwcUPNyNOmuproTak",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
                   "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
                   "content-type": "application/json",
@@ -612,36 +606,35 @@
             "metrics": {
               "durationMs": 0,
               "apiCalls": 1,
-              "payloadSizeBytes": 912
+              "payloadSizeBytes": 1307
             },
             "cost": 2
           }
-        }
+        },
+        "executionStatus": "success",
+        "executionId": "6a7581b4fda7c8acf153a119",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
       },
-      "type": "webhook",
       "width": 220,
       "height": 98,
-      "dragging": false,
-      "position": {
-        "x": 608.2316729372682,
-        "y": 305.26840240472
-      },
       "selected": false,
       "positionAbsolute": {
-        "x": 608.2316729372682,
-        "y": 305.26840240472
-      }
+        "x": 356.09006185039203,
+        "y": 249.85585237601532
+      },
+      "dragging": false
     },
     {
-      "id": "crypto-1785920101280",
+      "id": "crypto-1786080647787",
+      "type": "action",
+      "position": {
+        "x": 639.6027835506763,
+        "y": 249.59988081129103
+      },
       "data": {
         "label": "Crypto Tools",
-        "inputs": {
-          "value": "{{ $json.body.password }}",
-          "action": "Hash",
-          "binaryFile": false,
-          "propertyName": "passwordHash"
-        },
         "toolId": "crypto",
         "toolData": {
           "id": "crypto",
@@ -924,19 +917,21 @@
           }
         },
         "isTrigger": false,
-        "isFormWait": false,
-        "executionId": "6a7579f0fda7c8acf1539baf",
-        "isTimerWait": false,
-        "isWebhookWait": false,
-        "connectedHandles": [],
         "isPrimaryTrigger": false,
-        "executionStatus": "success",
+        "inputs": {
+          "action": "Hash",
+          "propertyName": "passwordHash",
+          "value": "{{ $json.body.password }}"
+        },
+        "connectedHandles": [],
         "lastTestOutput": {
           "items": [
             {
               "json": {
                 "body": {
-                  "email": "founder@testco.example",
+                  "full_name": "Maya Chen",
+                  "email": "maya@brightfold.example",
+                  "org_name": "Brightfold Studio",
                   "password": "Password123!"
                 },
                 "query": {},
@@ -945,9 +940,10 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a7579f0-5f77519600cee7c02bab0628",
-                  "content-length": "60",
+                  "x-amzn-trace-id": "Root=1-6a7581b4-79b61d421f4da43204b92dd7",
+                  "content-length": "116",
                   "sec-ch-ua-platform": "\"Windows\"",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYxNjY0MzcsImlhdCI6MTc4NjA4MDAzN30.sRVpq0b0VW6-upna_WY2ZCR7EzKwcUPNyNOmuproTak",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
                   "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
                   "content-type": "application/json",
@@ -969,42 +965,31 @@
               "pairedItem": 0
             }
           ]
-        }
+        },
+        "executionStatus": "success",
+        "executionId": "6a7581b4fda7c8acf153a119",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
       },
-      "type": "action",
       "width": 220,
       "height": 93,
-      "dragging": false,
-      "position": {
-        "x": 863.9316542963115,
-        "y": 312.1164551293381
-      },
       "selected": false,
       "positionAbsolute": {
-        "x": 863.9316542963115,
-        "y": 312.1164551293381
-      }
+        "x": 639.6027835506763,
+        "y": 249.59988081129103
+      },
+      "dragging": false
     },
     {
-      "id": "postgres.executeQuery-1785921585813",
+      "id": "postgres.executeQuery-1786080701260",
+      "type": "action",
+      "position": {
+        "x": 914.1525894860027,
+        "y": 252.81302025569437
+      },
       "data": {
         "label": "Execute Query",
-        "inputs": {
-          "idleTimeout": 0,
-          "query": "select u.id         as user_id,\r\n       u.email      as email,\r\n       u.full_name  as full_name,\r\n       u.avatar_url as avatar_url,\r\n       m.org_id     as org_id,\r\n       m.role       as role,\r\n       o.name       as org_name\r\nfrom users u\r\njoin memberships m   on m.user_id = u.id\r\njoin organizations o on o.id = m.org_id\r\nwhere u.email = lower($1)\r\n  and u.password_hash = $2\r\nlimit 1;\r\n",
-          "schema": "public",
-          "tableMode": "list",
-          "schemaMode": "list",
-          "columnsMode": "manually",
-          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
-          "queryBatching": "single",
-          "queryParameters": [
-            " {{$node[\"webhook-1785920034915\"].json[\"body\"][\"email\"]}}",
-            " {{$node[\"crypto-1785920101280\"].json[\"passwordHash\"]}}"
-          ],
-          "outputLargeNumbersAsText": false,
-          "replaceEmptyStringsWithNull": false
-        },
         "toolId": "postgres.executeQuery",
         "toolData": {
           "id": "postgres.executeQuery",
@@ -1072,157 +1057,28 @@
           "executionMode": "batch"
         },
         "isTrigger": false,
-        "isFormWait": false,
-        "executionId": "6a7579f0fda7c8acf1539baf",
-        "isTimerWait": false,
-        "isWebhookWait": false,
-        "connectedHandles": [],
         "isPrimaryTrigger": false,
-        "executionStatus": null,
-        "executionError": null,
-        "lastTestOutput": null
-      },
-      "type": "action",
-      "width": 220,
-      "height": 93,
-      "dragging": false,
-      "position": {
-        "x": 1177.4668847623525,
-        "y": 322.5813543330969
-      },
-      "selected": true,
-      "positionAbsolute": {
-        "x": 1177.4668847623525,
-        "y": 322.5813543330969
-      }
-    },
-    {
-      "id": "ifnode-1785924343698",
-      "data": {
-        "label": "IF Condition",
         "inputs": {
-          "conditions": {
-            "combinator": "and",
-            "conditions": [
-              {
-                "id": "f27emp2ea",
-                "operator": {
-                  "type": "string",
-                  "operation": "equals"
-                },
-                "leftValue": "{{ $json.metadata.rowCount }}",
-                "rightValue": "1"
-              }
-            ]
-          }
+          "action": "Hash",
+          "propertyName": "passwordHash",
+          "value": "{{ $json.body.password }}",
+          "schemaMode": "list",
+          "tableMode": "list",
+          "columnsMode": "manually",
+          "schema": "public",
+          "query": "with new_org as (\r\n  insert into organizations (name, slug)\r\n  values ($1, lower(regexp_replace($1, '[^a-zA-Z0-9]+', '-', 'g'))\r\n              || '-' || substr(md5(random()::text), 1, 6))\r\n  returning id, name\r\n), new_user as (\r\n  insert into users (email, full_name, password_hash, auth_provider)\r\n  values (lower($2), $3, $4, 'password')\r\n  returning id, email, full_name, avatar_url\r\n), new_membership as (\r\n  insert into memberships (user_id, org_id, role)\r\n  select new_user.id, new_org.id, 'owner'::membership_role\r\n  from new_user, new_org\r\n  returning role\r\n)\r\nselect new_user.id        as user_id,\r\n       new_user.email     as email,\r\n       new_user.full_name as full_name,\r\n       new_org.id         as org_id,\r\n       new_org.name       as org_name,\r\n       'owner'            as role\r\nfrom new_user, new_org;",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "replaceEmptyStringsWithNull": false,
+          "outputLargeNumbersAsText": false,
+          "queryBatching": "single",
+          "queryParameters": [
+            "{{ $json.body.org_name }}",
+            "{{ $json.body.email }}",
+            "{{ $json.body.full_name }}",
+            "{{ $json.passwordHash }}"
+          ]
         },
-        "toolId": "ifnode",
-        "toolData": {
-          "id": "ifnode",
-          "displayName": "IF Condition",
-          "category": "Logic & Flow Control",
-          "icon": "shuffle",
-          "description": "Conditional workflow branching",
-          "inputSchemaJSON": {
-            "type": "object",
-            "properties": {
-              "conditions": {
-                "type": "object",
-                "properties": {
-                  "conditions": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "leftValue": {
-                          "description": "The value to check (leftValue)"
-                        },
-                        "rightValue": {
-                          "description": "The value to compare against (rightValue)"
-                        },
-                        "operator": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string"
-                            },
-                            "operation": {
-                              "type": "string"
-                            },
-                            "singleValue": {
-                              "type": "boolean"
-                            },
-                            "name": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "type",
-                            "operation"
-                          ],
-                          "additionalProperties": false
-                        }
-                      },
-                      "required": [
-                        "operator"
-                      ],
-                      "additionalProperties": false
-                    }
-                  },
-                  "combinator": {
-                    "type": "string",
-                    "enum": [
-                      "and",
-                      "or"
-                    ],
-                    "default": "and",
-                    "description": "How to combine multiple conditions"
-                  },
-                  "options": {
-                    "type": "object",
-                    "properties": {
-                      "caseSensitive": {
-                        "type": "boolean",
-                        "default": false
-                      },
-                      "leftValue": {
-                        "type": "string"
-                      },
-                      "typeValidation": {
-                        "type": "string"
-                      },
-                      "version": {
-                        "type": "number",
-                        "default": 3
-                      }
-                    },
-                    "additionalProperties": false
-                  }
-                },
-                "required": [
-                  "conditions"
-                ],
-                "additionalProperties": false
-              }
-            },
-            "required": [
-              "conditions"
-            ],
-            "additionalProperties": false,
-            "$schema": "http://json-schema.org/draft-07/schema#"
-          }
-        },
-        "isTrigger": false,
-        "isFormWait": false,
-        "executionId": "6a7579f0fda7c8acf1539baf",
-        "isTimerWait": false,
-        "isWebhookWait": false,
         "connectedHandles": [],
-        "isPrimaryTrigger": false,
-        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -1232,13 +1088,12 @@
                   "items": [
                     {
                       "json": {
-                        "user_id": "abe15d6b-2ef4-48aa-b5d2-46ef048e69d9",
-                        "email": "founder@testco.example",
-                        "full_name": "Test Founder",
-                        "avatar_url": null,
-                        "org_id": "d6f20519-80e8-41d2-ae94-89c4e6c35ee3",
-                        "role": "owner",
-                        "org_name": "Test Co"
+                        "user_id": "f0c9449e-79bd-4c78-aaa3-8a03857b8aed",
+                        "email": "maya@brightfold.example",
+                        "full_name": "Maya Chen",
+                        "org_id": "fccb2f2e-9195-438a-9887-bc0b1e20b0e1",
+                        "org_name": "Brightfold Studio",
+                        "role": "owner"
                       }
                     }
                   ]
@@ -1247,65 +1102,241 @@
                   "rowCount": 1,
                   "command": "SELECT"
                 }
-              },
-              "pairedItem": 0
-            }
-          ],
-          "outputs": {
-            "true": [
-              {
-                "json": {
-                  "status": "success",
-                  "data": {
-                    "items": [
-                      {
-                        "json": {
-                          "user_id": "abe15d6b-2ef4-48aa-b5d2-46ef048e69d9",
-                          "email": "founder@testco.example",
-                          "full_name": "Test Founder",
-                          "avatar_url": null,
-                          "org_id": "d6f20519-80e8-41d2-ae94-89c4e6c35ee3",
-                          "role": "owner",
-                          "org_name": "Test Co"
-                        }
-                      }
-                    ]
-                  },
-                  "metadata": {
-                    "rowCount": 1,
-                    "command": "SELECT"
-                  }
-                },
-                "pairedItem": 0
               }
-            ]
-          }
-        }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a7581b4fda7c8acf153a119",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
       },
-      "type": "action",
       "width": 220,
       "height": 93,
-      "dragging": false,
-      "position": {
-        "x": 1492.8153155895195,
-        "y": 314.8463162202583
-      },
       "selected": false,
       "positionAbsolute": {
-        "x": 1492.8153155895195,
-        "y": 314.8463162202583
-      }
+        "x": 914.1525894860027,
+        "y": 252.81302025569437
+      },
+      "dragging": false
     },
     {
-      "id": "jwt-1785924448742",
+      "id": "core.set-1786080802400",
+      "type": "action",
+      "position": {
+        "x": 1178.3532712334434,
+        "y": 246.77378132985456
+      },
+      "data": {
+        "label": "Set Fields",
+        "toolId": "core.set",
+        "toolData": {
+          "id": "core.set",
+          "displayName": "Set Fields",
+          "category": "Core  Utilities",
+          "provider": "core",
+          "operation": "set",
+          "description": "Set or update fields",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "json"
+                ],
+                "default": "manual",
+                "description": "Select Manual Mapping or JSON Output"
+              },
+              "assignments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Field name"
+                    },
+                    "value": {
+                      "description": "Field value (Fixed or Expression)"
+                    },
+                    "valueType": {
+                      "type": "string",
+                      "enum": [
+                        "fixed",
+                        "expression"
+                      ],
+                      "default": "expression",
+                      "description": "Whether field value is fixed or an expression"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Data type of the field"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "additionalProperties": false
+                },
+                "description": "Fields to set when using Manual Mapping"
+              },
+              "jsonValue": {
+                "type": "string",
+                "description": "JSON to merge into the output when using JSON Output mode"
+              },
+              "includeOtherInputFields": {
+                "type": "boolean",
+                "default": false,
+                "description": "Also include unchanged fields from the input"
+              },
+              "inputFieldsToInclude": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "selected",
+                  "allExcept"
+                ],
+                "default": "all",
+                "description": "Choose which input data to include in the output data"
+              },
+              "fieldsToInclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to include when Input Fields to Include is Selected"
+              },
+              "fieldsToExclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to exclude when Input Fields to Include is All Except"
+              },
+              "includeBinaryData": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include binary data in the output"
+              },
+              "ignoreTypeConversionErrors": {
+                "type": "boolean",
+                "default": false,
+                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
+              },
+              "supportDotNotation": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process (for multi-item execution)"
+              },
+              "$inputItem": {
+                "description": "Single item to process (for backward compatibility)"
+              }
+            },
+            "additionalProperties": true,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "mode": "manual",
+          "includeOtherInputFields": false,
+          "inputFieldsToInclude": "all",
+          "includeBinaryData": true,
+          "ignoreTypeConversionErrors": false,
+          "supportDotNotation": true,
+          "assignments": [
+            {
+              "name": "user_id",
+              "value": "{{ $json.data.items[0].json.user_id }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "email",
+              "value": "{{ $json.data.items[0].json.email }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "full_name",
+              "value": "{{ $json.data.items[0].json.full_name }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "avatar_url",
+              "value": "{{ '' }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "org_id",
+              "value": "{{ $json.data.items[0].json.org_id }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "org_name",
+              "value": "{{ $json.data.items[0].json.org_name }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "role",
+              "value": "{{ $json.data.items[0].json.role }}",
+              "type": "string",
+              "valueType": "expression"
+            }
+          ]
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "user_id": "f0c9449e-79bd-4c78-aaa3-8a03857b8aed",
+                "email": "maya@brightfold.example",
+                "full_name": "Maya Chen",
+                "avatar_url": "",
+                "org_id": "fccb2f2e-9195-438a-9887-bc0b1e20b0e1",
+                "org_name": "Brightfold Studio",
+                "role": "owner"
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a7581b4fda7c8acf153a119",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1178.3532712334434,
+        "y": 246.77378132985456
+      },
+      "dragging": false
+    },
+    {
+      "id": "jwt-1786080953447",
+      "type": "action",
+      "position": {
+        "x": 1455.109562647532,
+        "y": 250.21664495983157
+      },
       "data": {
         "label": "JWT",
-        "inputs": {
-          "secret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
-          "payload": "{\"sub\":\"{{ $json.user_id }}\",\"org_id\":\"{{ $json.org_id }}\",\"role\":\"{{ $json.role }}\",\"email\":\"{{ $json.email }}\",\"exp\":{{ Math.floor(Date.now()/1000) + 86400 }}}",
-          "payload_mode": "expression",
-          "useJsonPayload": true
-        },
         "toolId": "jwt",
         "toolData": {
           "id": "jwt",
@@ -1483,452 +1514,75 @@
           }
         },
         "isTrigger": false,
-        "isFormWait": false,
-        "executionId": "6a7579f0fda7c8acf1539baf",
-        "isTimerWait": false,
-        "isWebhookWait": false,
-        "connectedHandles": [],
         "isPrimaryTrigger": false,
-        "executionStatus": "success",
+        "inputs": {
+          "useJsonPayload": true,
+          "secret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
+          "payload": "{\"sub\":\"{{ $json.user_id }}\",\"org_id\":\"{{ $json.org_id }}\",\"role\":\"{{ $json.role }}\",\"email\":\"{{ $json.email }}\",\"exp\":{{ Math.floor(Date.now()/1000) + 86400 }}}"
+        },
+        "connectedHandles": [],
         "lastTestOutput": {
           "items": [
             {
               "json": {
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmUxNWQ2Yi0yZWY0LTQ4YWEtYjVkMi00NmVmMDQ4ZTY5ZDkiLCJvcmdfaWQiOiJkNmYyMDUxOS04MGU4LTQxZDItYWU5NC04OWM0ZTZjMzVlZTMiLCJyb2xlIjoib3duZXIiLCJlbWFpbCI6ImZvdW5kZXJAdGVzdGNvLmV4YW1wbGUiLCJleHAiOjE3ODYxNzAyMjQsImlhdCI6MTc4NjA4MzgyNH0.ESkDORMEUSrfMdBHghOHuJ1HSFIZZPomfmhtLg5M4as"
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMGM5NDQ5ZS03OWJkLTRjNzgtYWFhMy04YTAzODU3YjhhZWQiLCJvcmdfaWQiOiJmY2NiMmYyZS05MTk1LTQzOGEtOTg4Ny1iYzBiMWUyMGIwZTEiLCJyb2xlIjoib3duZXIiLCJlbWFpbCI6Im1heWFAYnJpZ2h0Zm9sZC5leGFtcGxlIiwiZXhwIjoxNzg2MTcyMjEyLCJpYXQiOjE3ODYwODU4MTJ9.g9Y3fLxiB6YkO-iCoRQ3VfR8Oqyv1CoKjoUWEttPeV4"
               },
               "pairedItem": 0
             }
           ]
-        }
-      },
-      "type": "action",
-      "width": 220,
-      "height": 93,
-      "dragging": false,
-      "position": {
-        "x": 2137.8822380764977,
-        "y": 340.37830525444264
-      },
-      "selected": false,
-      "positionAbsolute": {
-        "x": 2137.8822380764977,
-        "y": 340.37830525444264
-      }
-    },
-    {
-      "id": "core.set-1785924577456",
-      "data": {
-        "label": "Set Fields",
-        "inputs": {
-          "mode": "manual",
-          "assignments": [
-            {
-              "name": "user_id",
-              "type": "string",
-              "value": "{{ $json.data.items[0].json.user_id }}",
-              "valueType": "expression"
-            },
-            {
-              "name": "email",
-              "type": "string",
-              "value": "{{ $json.data.items[0].json.email }}",
-              "valueType": "expression"
-            },
-            {
-              "name": "full_name",
-              "type": "string",
-              "value": "{{ $json.data.items[0].json.full_name }}",
-              "valueType": "expression"
-            },
-            {
-              "name": "avatar_url",
-              "type": "string",
-              "value": "{{ $json.data.items[0].json.avatar_url }}",
-              "valueType": "expression"
-            },
-            {
-              "name": "org_id",
-              "type": "string",
-              "value": "{{ $json.data.items[0].json.org_id }}",
-              "valueType": "expression"
-            },
-            {
-              "name": "org_name",
-              "type": "string",
-              "value": "{{ $json.data.items[0].json.org_name }}",
-              "valueType": "expression"
-            },
-            {
-              "name": "role",
-              "type": "string",
-              "value": "{{ $json.data.items[0].json.role }}",
-              "valueType": "expression"
-            }
-          ],
-          "includeBinaryData": true,
-          "supportDotNotation": true,
-          "inputFieldsToInclude": "all",
-          "includeOtherInputFields": false,
-          "ignoreTypeConversionErrors": false
         },
-        "toolId": "core.set",
-        "toolData": {
-          "id": "core.set",
-          "displayName": "Set Fields",
-          "category": "Core  Utilities",
-          "provider": "core",
-          "operation": "set",
-          "description": "Set or update fields",
-          "inputSchemaJSON": {
-            "type": "object",
-            "properties": {
-              "mode": {
-                "type": "string",
-                "enum": [
-                  "manual",
-                  "json"
-                ],
-                "default": "manual",
-                "description": "Select Manual Mapping or JSON Output"
-              },
-              "assignments": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "Field name"
-                    },
-                    "value": {
-                      "description": "Field value (Fixed or Expression)"
-                    },
-                    "valueType": {
-                      "type": "string",
-                      "enum": [
-                        "fixed",
-                        "expression"
-                      ],
-                      "default": "expression",
-                      "description": "Whether field value is fixed or an expression"
-                    },
-                    "type": {
-                      "type": "string",
-                      "description": "Data type of the field"
-                    }
-                  },
-                  "required": [
-                    "name"
-                  ],
-                  "additionalProperties": false
-                },
-                "description": "Fields to set when using Manual Mapping"
-              },
-              "jsonValue": {
-                "type": "string",
-                "description": "JSON to merge into the output when using JSON Output mode"
-              },
-              "includeOtherInputFields": {
-                "type": "boolean",
-                "default": false,
-                "description": "Also include unchanged fields from the input"
-              },
-              "inputFieldsToInclude": {
-                "type": "string",
-                "enum": [
-                  "all",
-                  "selected",
-                  "allExcept"
-                ],
-                "default": "all",
-                "description": "Choose which input data to include in the output data"
-              },
-              "fieldsToInclude": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "List of input fields to include when Input Fields to Include is Selected"
-              },
-              "fieldsToExclude": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "List of input fields to exclude when Input Fields to Include is All Except"
-              },
-              "includeBinaryData": {
-                "type": "boolean",
-                "default": true,
-                "description": "Include binary data in the output"
-              },
-              "ignoreTypeConversionErrors": {
-                "type": "boolean",
-                "default": false,
-                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
-              },
-              "supportDotNotation": {
-                "type": "boolean",
-                "default": true,
-                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
-              },
-              "items": {
-                "type": "array",
-                "description": "Array of items to process (for multi-item execution)"
-              },
-              "$inputItem": {
-                "description": "Single item to process (for backward compatibility)"
-              }
-            },
-            "additionalProperties": true,
-            "$schema": "http://json-schema.org/draft-07/schema#"
-          }
-        },
-        "isTrigger": false,
-        "isFormWait": false,
-        "executionId": "6a7579f0fda7c8acf1539baf",
-        "isTimerWait": false,
-        "isWebhookWait": false,
-        "connectedHandles": [],
-        "isPrimaryTrigger": false,
         "executionStatus": "success",
-        "lastTestOutput": {
-          "items": [
-            {
-              "json": {
-                "user_id": "abe15d6b-2ef4-48aa-b5d2-46ef048e69d9",
-                "email": "founder@testco.example",
-                "full_name": "Test Founder",
-                "avatar_url": null,
-                "org_id": "d6f20519-80e8-41d2-ae94-89c4e6c35ee3",
-                "org_name": "Test Co",
-                "role": "owner"
-              }
-            }
-          ]
-        }
-      },
-      "type": "action",
-      "width": 220,
-      "height": 93,
-      "dragging": false,
-      "position": {
-        "x": 1850.4892024311914,
-        "y": 311.18907306496436
-      },
-      "selected": false,
-      "positionAbsolute": {
-        "x": 1850.4892024311914,
-        "y": 311.18907306496436
-      }
-    },
-    {
-      "id": "core.set-1785924770324",
-      "data": {
-        "label": "Set Fields",
-        "inputs": {
-          "mode": "manual",
-          "assignments": [
-            {
-              "name": "error",
-              "type": "string",
-              "value": "Invalid email or password",
-              "valueType": "expression"
-            },
-            {
-              "name": "code",
-              "type": "string",
-              "value": "INVALID_CREDENTIALS",
-              "valueType": "expression"
-            }
-          ],
-          "includeBinaryData": true,
-          "supportDotNotation": true,
-          "inputFieldsToInclude": "all",
-          "includeOtherInputFields": false,
-          "ignoreTypeConversionErrors": false
-        },
-        "toolId": "core.set",
-        "toolData": {
-          "id": "core.set",
-          "displayName": "Set Fields",
-          "category": "Core  Utilities",
-          "provider": "core",
-          "operation": "set",
-          "description": "Set or update fields",
-          "inputSchemaJSON": {
-            "type": "object",
-            "properties": {
-              "mode": {
-                "type": "string",
-                "enum": [
-                  "manual",
-                  "json"
-                ],
-                "default": "manual",
-                "description": "Select Manual Mapping or JSON Output"
-              },
-              "assignments": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "Field name"
-                    },
-                    "value": {
-                      "description": "Field value (Fixed or Expression)"
-                    },
-                    "valueType": {
-                      "type": "string",
-                      "enum": [
-                        "fixed",
-                        "expression"
-                      ],
-                      "default": "expression",
-                      "description": "Whether field value is fixed or an expression"
-                    },
-                    "type": {
-                      "type": "string",
-                      "description": "Data type of the field"
-                    }
-                  },
-                  "required": [
-                    "name"
-                  ],
-                  "additionalProperties": false
-                },
-                "description": "Fields to set when using Manual Mapping"
-              },
-              "jsonValue": {
-                "type": "string",
-                "description": "JSON to merge into the output when using JSON Output mode"
-              },
-              "includeOtherInputFields": {
-                "type": "boolean",
-                "default": false,
-                "description": "Also include unchanged fields from the input"
-              },
-              "inputFieldsToInclude": {
-                "type": "string",
-                "enum": [
-                  "all",
-                  "selected",
-                  "allExcept"
-                ],
-                "default": "all",
-                "description": "Choose which input data to include in the output data"
-              },
-              "fieldsToInclude": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "List of input fields to include when Input Fields to Include is Selected"
-              },
-              "fieldsToExclude": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "List of input fields to exclude when Input Fields to Include is All Except"
-              },
-              "includeBinaryData": {
-                "type": "boolean",
-                "default": true,
-                "description": "Include binary data in the output"
-              },
-              "ignoreTypeConversionErrors": {
-                "type": "boolean",
-                "default": false,
-                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
-              },
-              "supportDotNotation": {
-                "type": "boolean",
-                "default": true,
-                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
-              },
-              "items": {
-                "type": "array",
-                "description": "Array of items to process (for multi-item execution)"
-              },
-              "$inputItem": {
-                "description": "Single item to process (for backward compatibility)"
-              }
-            },
-            "additionalProperties": true,
-            "$schema": "http://json-schema.org/draft-07/schema#"
-          }
-        },
-        "isTrigger": false,
+        "executionId": "6a7581b4fda7c8acf153a119",
         "isFormWait": false,
-        "executionId": "6a7579f0fda7c8acf1539baf",
         "isTimerWait": false,
-        "isWebhookWait": false,
-        "connectedHandles": [],
-        "isPrimaryTrigger": false,
-        "executionStatus": "skipped"
+        "isWebhookWait": false
       },
-      "type": "action",
       "width": 220,
       "height": 93,
-      "dragging": false,
-      "position": {
-        "x": 1855.310732891951,
-        "y": 426.8174141963516
-      },
-      "selected": false,
+      "selected": true,
       "positionAbsolute": {
-        "x": 1855.310732891951,
-        "y": 426.8174141963516
-      }
+        "x": 1455.109562647532,
+        "y": 250.21664495983157
+      },
+      "dragging": false
     }
   ],
   "edges": [
     {
-      "id": "reactflow__edge-webhook-1785920034915-crypto-1785920101280",
-      "data": {},
+      "source": "webhook-1786080601021",
+      "sourceHandle": null,
+      "target": "crypto-1786080647787",
+      "targetHandle": null,
       "type": "custom",
-      "source": "webhook-1785920034915",
-      "target": "crypto-1785920101280"
+      "data": {},
+      "id": "reactflow__edge-webhook-1786080601021-crypto-1786080647787"
     },
     {
-      "id": "reactflow__edge-postgres.executeQuery-1785921585813-ifnode-1785924343698",
-      "data": {},
+      "source": "crypto-1786080647787",
+      "sourceHandle": null,
+      "target": "postgres.executeQuery-1786080701260",
+      "targetHandle": null,
       "type": "custom",
-      "source": "postgres.executeQuery-1785921585813",
-      "target": "ifnode-1785924343698"
+      "data": {},
+      "id": "reactflow__edge-crypto-1786080647787-postgres.executeQuery-1786080701260"
     },
     {
-      "id": "reactflow__edge-ifnode-1785924343698false-core.set-1785924770324",
-      "data": {},
+      "source": "postgres.executeQuery-1786080701260",
+      "sourceHandle": null,
+      "target": "core.set-1786080802400",
+      "targetHandle": null,
       "type": "custom",
-      "source": "ifnode-1785924343698",
-      "target": "core.set-1785924770324",
-      "sourceHandle": "false"
+      "data": {},
+      "id": "reactflow__edge-postgres.executeQuery-1786080701260-core.set-1786080802400"
     },
     {
-      "id": "reactflow__edge-ifnode-1785924343698true-core.set-1785924577456",
-      "data": {},
+      "source": "core.set-1786080802400",
+      "sourceHandle": null,
+      "target": "jwt-1786080953447",
+      "targetHandle": null,
       "type": "custom",
-      "source": "ifnode-1785924343698",
-      "target": "core.set-1785924577456",
-      "sourceHandle": "true"
-    },
-    {
-      "id": "reactflow__edge-core.set-1785924577456-jwt-1785924448742",
       "data": {},
-      "type": "custom",
-      "source": "core.set-1785924577456",
-      "target": "jwt-1785924448742"
-    },
-    {
-      "id": "reactflow__edge-crypto-1785920101280-postgres.executeQuery-1785921585813",
-      "data": {},
-      "type": "custom",
-      "source": "crypto-1785920101280",
-      "target": "postgres.executeQuery-1785921585813"
+      "id": "reactflow__edge-core.set-1786080802400-jwt-1786080953447"
     }
   ]
 }

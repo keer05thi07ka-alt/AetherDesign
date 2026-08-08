@@ -6,7 +6,7 @@ import { useApp } from '../context/AppContext';
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn, loading } = useApp();
+  const { signInWithPassword, signInWithGoogle, loading } = useApp();
 
   const isCreatorRoute = location.pathname.includes('creator') || location.search.includes('role=creator');
   const [activeRole, setActiveRole] = useState<'business' | 'creator'>(isCreatorRoute ? 'creator' : 'business');
@@ -24,15 +24,17 @@ export const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const workspace = await signIn(email, password);
-    if (!workspace) return;
+    const result = await signInWithPassword(email, password);
+    if (!result.ok) return;
 
-    // Route by the role the backend returned, not the tab that was clicked.
-    if (workspace === 'business') {
-      navigate('/business/dashboard');
-    } else {
-      navigate('/creator/dashboard');
+    // Signed up but never finished onboarding.
+    if (result.needsOnboarding) {
+      navigate('/onboarding');
+      return;
     }
+
+    // Route by the role the backend returned, not the tab clicked.
+    navigate(result.workspace === 'business' ? '/business/dashboard' : '/creator/dashboard');
   };
 
   return (
@@ -88,6 +90,27 @@ export const LoginPage: React.FC = () => {
                 ? 'Sign in to manage brand kits, campaign governance, and approval workflows.'
                 : 'Sign in to access AI visual generation, template engines, and Canva-style editor.'}
             </p>
+
+            <button
+                type="button"
+                onClick={() => signInWithGoogle('login')}
+                disabled={loading}
+                className="w-full py-3 mb-4 border border-[#E9D5FF] rounded-2xl flex items-center justify-center space-x-2 hover:bg-[#F8F7FF] transition-all disabled:opacity-60"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.76h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.76c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09a6.6 6.6 0 0 1 0-4.18V7.07H2.18a11 11 0 0 0 0 9.86l3.66-2.84z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1a11 11 0 0 0-9.82 6.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                <span className="text-xs font-semibold text-[#2D1B69]">Continue with Google</span>
+              </button>
+
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="flex-1 h-px bg-[#F3F0FF]" />
+                <span className="text-[10px] text-[#9CA3AF] font-medium">or</span>
+                <div className="flex-1 h-px bg-[#F3F0FF]" />
+              </div>
 
             {/* Email / Password Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
