@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-09T06:47:48.372Z",
+  "_exportedAt": "2026-08-09T14:28:40.042Z",
   "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246aHR0cFJlcXVlc3R8YWN0aW9uOnBv",
   "nodes": [
     {
@@ -565,7 +565,7 @@
           "allowedRoles": "admin, staff",
           "path": "rag/retrieve",
           "authentication": "jwtAuth",
-          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "jwtSecret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
           "sessionSource": "header",
           "sessionSourceName": "Authorization",
           "options": {
@@ -587,10 +587,10 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a782225-1ab84bb1352a4384434a70e3",
+                  "x-amzn-trace-id": "Root=1-6a788d36-7015034c3f9915f2705265fa",
                   "content-length": "47",
                   "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "Bearer REDACTED_TOKEN.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzQyNzg1LCJpYXQiOjE3ODYyNTYzODV9.De4DLEs89woQ3B0b6WdDZ4mbkRtz4DnAaDmqRemTVe0",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzcwOTg3LCJpYXQiOjE3ODYyODQ1ODd9.U7dtCiD3NIech82TNI63aPzHjmcze04zqN8MXfd2MuU",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
                   "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
                   "content-type": "application/json",
@@ -613,11 +613,11 @@
                   "role": "owner",
                   "plan": "enterprise",
                   "email": "priya@brightfold.org",
-                  "exp": 1786342785,
-                  "iat": 1786256385
+                  "exp": 1786370987,
+                  "iat": 1786284587
                 },
                 "file": null,
-                "sessionId": "rs_953322d26039070fa9c0a9226b7e3f9fe9f1"
+                "sessionId": "rs_6264d65f69e5fc609fd688f6e79a358e0b6a"
               }
             }
           ],
@@ -632,13 +632,13 @@
           }
         },
         "executionStatus": "success",
-        "executionId": "6a78222553b933eae140b33e",
+        "executionId": "6a788d3653b933eae140b89d",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
       },
       "width": 220,
-      "height": 98,
+      "height": 99,
       "selected": false,
       "positionAbsolute": {
         "x": 207.06306952405123,
@@ -813,7 +813,7 @@
           "outputPropertyName": "data",
           "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
           "headers": {
-            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE",
+            "x-goog-api-key": "REDACTED_GEMINI_KEY",
             "Content-Type": "application/json"
           },
           "body": "{\"model\":\"models/gemini-embedding-001\",\"content\":{\"parts\":[{\"text\":\"{{ $json.body.query }}\"}]},\"outputDimensionality\":128}"
@@ -964,14 +964,14 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a78222553b933eae140b33e",
+        "executionId": "6a788d3653b933eae140b89d",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
       },
       "width": 220,
-      "height": 93,
-      "selected": false,
+      "height": 94,
+      "selected": true,
       "positionAbsolute": {
         "x": 461.07874328824386,
         "y": 233.0141532918226
@@ -1051,12 +1051,12 @@
           "outputPropertyName": "data",
           "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
           "headers": {
-            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE",
+            "x-goog-api-key": "",
             "Content-Type": "application/json"
           },
           "body": "{{ JSON.stringify({ model: \"models/gemini-embedding-001\", content: { parts: [{ text: $json.body.query }] }, outputDimensionality: 256 }) }} ",
           "language": "python",
-          "code": "\"\"\"\nExtract the query embedding and recover org_id.\n\nThe HTTP Request node replaces $json, so the verified JWT claims are gone.\n_node._node_results holds every node's output — that is how org_id is\nrecovered without trusting anything from the request body.\n\"\"\"\n\nresp = _json.get(\"body\", {})\nvalues = resp.get(\"embedding\", {}).get(\"values\", [])\n\norg_id, query_text, limit = \"\", \"\", 5\nprobe = \"not-attempted\"\n\ntry:\n    results = _node._node_results\n    probe = \"keys=\" + str(list(results.keys()))[:200]\n\n    for _, payload in results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"jwt\" in j and isinstance(j[\"jwt\"], dict):\n                org_id = j[\"jwt\"].get(\"org_id\", \"\")\n                body = j.get(\"body\", {})\n                query_text = body.get(\"query\", \"\")\n                limit = int(body.get(\"limit\", 5) or 5)\n                break\n        if org_id:\n            break\nexcept Exception as e:\n    probe = \"error: \" + type(e).__name__ + \": \" + str(e)[:150]\n    \nemb_literal = \",\".join(str(round(v, 6)) for v in values)\nsafe_limit = max(1, min(int(limit), 20))\n\nsql = (\n    \"select rag_retrieve('\" + org_id + \"'::uuid, \"\n    \"'[\" + emb_literal + \"]', \"\n    + str(safe_limit) + \") as result;\"\n)\n\nreturn [{\n    \"json\": {\n        \"org_id\": org_id,\n        \"query\": query_text,\n        \"dims\": len(values),\n        \"sql\": sql,\n        \"probe\": probe,\n    }\n}]"
+          "code": "\nresp = _json.get(\"body\", {})\nvalues = resp.get(\"embedding\", {}).get(\"values\", [])\n\norg_id, query_text, limit = \"\", \"\", 5\nprobe = \"not-attempted\"\n\ntry:\n    results = _node._node_results\n    probe = \"keys=\" + str(list(results.keys()))[:200]\n\n    for _, payload in results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"jwt\" in j and isinstance(j[\"jwt\"], dict):\n                org_id = j[\"jwt\"].get(\"org_id\", \"\")\n                body = j.get(\"body\", {})\n                query_text = body.get(\"query\", \"\")\n                limit = int(body.get(\"limit\", 5) or 5)\n                break\n        if org_id:\n            break\nexcept Exception as e:\n    probe = \"error: \" + type(e).__name__ + \": \" + str(e)[:150]\n    \nemb_literal = \",\".join(str(round(v, 6)) for v in values)\nsafe_limit = max(1, min(int(limit), 20))\n\nsql = (\n    \"select rag_retrieve('\" + org_id + \"'::uuid, \"\n    \"'[\" + emb_literal + \"]', \"\n    + str(safe_limit) + \") as result;\"\n)\n\nreturn [{\n    \"json\": {\n        \"org_id\": org_id,\n        \"query\": query_text,\n        \"dims\": len(values),\n        \"sql\": sql,\n        \"probe\": probe,\n    }\n}]"
         },
         "connectedHandles": [],
         "lastTestOutput": {
@@ -1073,13 +1073,13 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a78222553b933eae140b33e",
+        "executionId": "6a788d3653b933eae140b89d",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
       },
       "width": 220,
-      "height": 93,
+      "height": 94,
       "selected": false,
       "positionAbsolute": {
         "x": 718.4016346876997,
@@ -1181,7 +1181,7 @@
           "outputPropertyName": "data",
           "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
           "headers": {
-            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE",
+            "x-goog-api-key": "",
             "Content-Type": "application/json"
           },
           "body": "{{ JSON.stringify({ model: \"models/gemini-embedding-001\", content: { parts: [{ text: $json.body.query }] }, outputDimensionality: 256 }) }} ",
@@ -1260,14 +1260,14 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a78222553b933eae140b33e",
+        "executionId": "6a788d3653b933eae140b89d",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
       },
       "width": 220,
-      "height": 93,
-      "selected": true,
+      "height": 94,
+      "selected": false,
       "positionAbsolute": {
         "x": 987.985789562463,
         "y": 248.56236971491523
