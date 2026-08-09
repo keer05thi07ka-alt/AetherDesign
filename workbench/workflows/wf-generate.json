@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-09T13:17:20.918Z",
+  "_exportedAt": "2026-08-09T13:38:15.088Z",
   "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246Y29kZS5leGVjdXRlfGFjdGlvbjpj",
   "nodes": [
     {
@@ -603,7 +603,7 @@
                   "x-amzn-trace-id": "Root=1-6a787bfb-622e85e0187004217b56dd04",
                   "content-length": "351",
                   "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "Bearer REDACTED_TOKEN.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzQyNzg1LCJpYXQiOjE3ODYyNTYzODV9.De4DLEs89woQ3B0b6WdDZ4mbkRtz4DnAaDmqRemTVe0",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzQyNzg1LCJpYXQiOjE3ODYyNTYzODV9.De4DLEs89woQ3B0b6WdDZ4mbkRtz4DnAaDmqRemTVe0",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
                   "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
                   "content-type": "application/json",
@@ -988,7 +988,7 @@
       },
       "width": 220,
       "height": 94,
-      "selected": false,
+      "selected": true,
       "positionAbsolute": {
         "x": 658.0165567687579,
         "y": 296.2777794565023
@@ -2919,34 +2919,18 @@
           "url": "https://api.cloudflare.com/client/v4/accounts/fa0c90bf70a788ef12913c5e692b4332/ai/run/@cf/black-forest-labs/flux-1-schnell",
           "body": "{\"prompt\":\"{{ $json.image_prompt }}\",\"steps\":4}",
           "headers": {
-            "Authorization": "Bearer REDACTED_CLOUDFLARE_TOKEN",
+            "Authorization": "Bearer REDACTED_CLOUDFLARE_TOKEN ",
             "Content-Type": "application/json"
           }
         },
         "connectedHandles": [],
-        "lastTestOutput": {
-          "items": [
-            {
-              "json": {
-                "statusCode": 200,
-                "body": {
-                  "result": {
-                    "image": "REDACTED_CACHED_BINARY"
-                  },
-                  "success": true,
-                  "errors": [],
-                  "messages": []
-                }
-              },
-              "pairedItem": 0
-            }
-          ]
-        },
-        "executionStatus": "success",
+        "lastTestOutput": null,
+        "executionStatus": null,
         "executionId": "6a787bfb53b933eae140b6f8",
         "isFormWait": false,
         "isTimerWait": false,
-        "isWebhookWait": false
+        "isWebhookWait": false,
+        "executionError": null
       },
       "width": 220,
       "height": 94,
@@ -3337,7 +3321,7 @@
       },
       "width": 220,
       "height": 94,
-      "selected": true,
+      "selected": false,
       "positionAbsolute": {
         "x": 2849.824076723138,
         "y": 269.84972025334093
@@ -3348,81 +3332,63 @@
   "edges": [
     {
       "source": "webhook-1786279730826",
-      "sourceHandle": null,
       "target": "httpRequest-1786279824383",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-webhook-1786279730826-httpRequest-1786279824383"
     },
     {
       "source": "httpRequest-1786279824383",
-      "sourceHandle": null,
       "target": "code.execute-1786279920209",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-httpRequest-1786279824383-code.execute-1786279920209"
     },
     {
       "source": "code.execute-1786279920209",
-      "sourceHandle": null,
       "target": "postgres.executeQuery-1786279960746",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-code.execute-1786279920209-postgres.executeQuery-1786279960746"
     },
     {
       "source": "postgres.executeQuery-1786279960746",
-      "sourceHandle": null,
       "target": "code.execute-1786279990370",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-postgres.executeQuery-1786279960746-code.execute-1786279990370"
     },
     {
       "source": "code.execute-1786279990370",
-      "sourceHandle": null,
       "target": "gemini-1786280020147",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-code.execute-1786279990370-gemini-1786280020147"
     },
     {
       "source": "gemini-1786280020147",
-      "sourceHandle": null,
       "target": "code.execute-1786280528454",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-gemini-1786280020147-code.execute-1786280528454"
     },
     {
       "source": "code.execute-1786280528454",
-      "sourceHandle": null,
       "target": "httpRequest-1786280553321",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-code.execute-1786280528454-httpRequest-1786280553321"
     },
     {
       "source": "httpRequest-1786280553321",
-      "sourceHandle": null,
       "target": "code.execute-1786280649144",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-httpRequest-1786280553321-code.execute-1786280649144"
     },
     {
       "source": "code.execute-1786280649144",
-      "sourceHandle": null,
       "target": "respondToWebhook-1786280668497",
-      "targetHandle": null,
       "type": "custom",
       "data": {},
       "id": "reactflow__edge-code.execute-1786280649144-respondToWebhook-1786280668497"
