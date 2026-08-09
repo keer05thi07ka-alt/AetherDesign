@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-09T03:25:21.072Z",
+  "_exportedAt": "2026-08-09T17:44:32.352Z",
   "_fingerprint": "YWN0aW9uOnBvc3RncmVzLmV4ZWN1dGVRdWVyeXx3ZWJob29rOndlYmhvb2s6Ondl",
   "nodes": [
     {
@@ -14,7 +14,7 @@
           "options": {
             "allowedOrigins": "*"
           },
-          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "jwtSecret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
           "allowedRoles": "admin, staff",
           "jwtAlgorithm": "HS256",
           "responseMode": "lastNode",
@@ -567,7 +567,7 @@
         },
         "isTrigger": true,
         "isFormWait": false,
-        "executionId": "6a77eb3053b933eae140ae93",
+        "executionId": "6a7899bb53b933eae140ba07",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
@@ -583,9 +583,9 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a77eb30-674463b02329aa1629bcbfb2",
+                  "x-amzn-trace-id": "Root=1-6a7899bb-53bddbe9563d2838453e93c3",
                   "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "REDACTED_SEE_CREDENTIAL_STORE",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2Mzc0OTI5LCJpYXQiOjE3ODYyODg1Mjl9.OfBdKPmoYKkpU7nfTNFqzB735gaNYoVWP_xeq6e9BCo",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
                   "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
                   "content-type": "application/json",
@@ -598,11 +598,11 @@
                   "referer": "http://localhost:5173/",
                   "accept-encoding": "gzip, deflate, br, zstd",
                   "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-                  "if-none-match": "W/\"69-X/XUvKM/HdjIGbs1SQSLgMIPHuY\"",
+                  "if-none-match": "W/\"3bf-CO5BIK/6TtG6N+OCu7QMjxK1HBU\"",
                   "priority": "u=1, i"
                 },
                 "params": {
-                  "resource": "assets"
+                  "resource": "platform_presets"
                 },
                 "jwt": {
                   "sub": "ad234ad1-17e2-4f21-af18-f399be44ff25",
@@ -611,11 +611,11 @@
                   "role": "owner",
                   "plan": "enterprise",
                   "email": "priya@brightfold.org",
-                  "exp": 1786330285,
-                  "iat": 1786243885
+                  "exp": 1786374929,
+                  "iat": 1786288529
                 },
                 "file": null,
-                "sessionId": "rs_708764e46a4c635f7483c3f2a54fd0c8087c"
+                "sessionId": "rs_1dea64064c1b524597cc6442b079d2c506b9"
               }
             }
           ],
@@ -624,7 +624,7 @@
             "metrics": {
               "durationMs": 0,
               "apiCalls": 1,
-              "payloadSizeBytes": 1589
+              "payloadSizeBytes": 1600
             },
             "cost": 2
           }
@@ -632,7 +632,7 @@
       },
       "type": "webhook",
       "width": 220,
-      "height": 98,
+      "height": 99,
       "dragging": false,
       "position": {
         "x": 368.24658203125,
@@ -654,7 +654,7 @@
             " {{$node[\"webhook-1785993024192\"].json[\"params\"][\"resource\"]}}",
             "{{ $json.query.id || '' }}"
           ],
-          "query": "select coalesce(\r\n  case $2::text\r\n\r\n    when 'campaigns' then (\r\n      select json_agg(t) from (\r\n        select id, name, brief, audience, platform, status, deadline,\r\n               brand_kit_id, assigned_to, created_by, created_at\r\n        from campaigns\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'assets' then (\r\n      select json_agg(t) from (\r\n        select id, campaign_id, brand_kit_id, title, description, category,\r\n               status, current_version, width, height, storage_path,\r\n               thumbnail_path, quality_score, created_by, created_at\r\n        from assets\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'asset_versions' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, version_no, storage_path, prompt, negative_prompt,\r\n               model, params, locale, quality_score, created_by, created_at\r\n        from asset_versions\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or asset_id = nullif($3,'')::uuid)\r\n        order by asset_id, version_no desc limit 100\r\n      ) t)\r\n\r\n    when 'brand_kits' then (\r\n      select json_agg(t) from (\r\n        select id, name, tokens, created_by, created_at,\r\n               length(coalesce(guidelines_text,'')) as guidelines_length\r\n        from brand_kits\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'approvals' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, asset_version_id, reviewer_id, decision, comment,\r\n               requested_by, requested_at, decided_at\r\n        from approvals\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or asset_id = nullif($3,'')::uuid)\r\n        order by requested_at desc limit 100\r\n      ) t)\r\n\r\n    when 'generation_jobs' then (\r\n      select json_agg(t) from (\r\n        select id, campaign_id, brand_kit_id, prompt, refined_prompt, status,\r\n               progress, error_message, result_asset_id, created_by, created_at\r\n        from generation_jobs\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'templates' then (\r\n      select json_agg(t) from (\r\n        select id, title, category, spec, preview_path, is_public, created_at\r\n        from templates\r\n        where (org_id = $1 or org_id is null)\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by title limit 100\r\n      ) t)\r\n\r\n    when 'members' then (\r\n      select json_agg(t) from (\r\n        select u.id, u.email, u.full_name, u.avatar_url, m.role\r\n        from memberships m\r\n        join users u on u.id = m.user_id\r\n        where m.org_id = $1\r\n        order by u.full_name limit 100\r\n      ) t)\r\n\r\n  end, '[]'::json) as data;",
+          "query": "select coalesce(\r\n  case $2::text\r\n\r\n    when 'campaigns' then (\r\n      select json_agg(t) from (\r\n        select id, name, brief, audience, platform, status, deadline,\r\n               brand_kit_id, assigned_to, created_by, created_at\r\n        from campaigns\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'assets' then (\r\n      select json_agg(t) from (\r\n        select id, campaign_id, brand_kit_id, title, description, category,\r\n               status, current_version, width, height, storage_path,\r\n               thumbnail_path, quality_score, created_by, created_at\r\n        from assets\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'asset_versions' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, version_no, storage_path, prompt, negative_prompt,\r\n               model, params, locale, quality_score, created_by, created_at\r\n        from asset_versions\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or asset_id = nullif($3,'')::uuid)\r\n        order by asset_id, version_no desc limit 100\r\n      ) t)\r\n    \r\n    when 'brand_kit_detail' then (\r\n      select json_agg(t) from (\r\n        select id, name, tokens, guidelines_text, created_by, created_at\r\n        from brand_kits\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 1\r\n      ) t)\r\n    \r\n    when 'platform_presets' then (\r\n      select json_agg(t) from (\r\n        select key, label, width, height, aspect, description\r\n        from platform_presets order by label\r\n      ) t)\r\n\r\n    when 'brand_kits' then (\r\n      select json_agg(t) from (\r\n        select id, name, tokens, created_by, created_at,\r\n               length(coalesce(guidelines_text,'')) as guidelines_length\r\n        from brand_kits\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'approvals' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, asset_version_id, reviewer_id, decision, comment,\r\n               requested_by, requested_at, decided_at\r\n        from approvals\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or asset_id = nullif($3,'')::uuid)\r\n        order by requested_at desc limit 100\r\n      ) t)\r\n\r\n    when 'generation_jobs' then (\r\n      select json_agg(t) from (\r\n        select id, campaign_id, brand_kit_id, prompt, refined_prompt, status,\r\n               progress, error_message, result_asset_id, created_by, created_at\r\n        from generation_jobs\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'templates' then (\r\n      select json_agg(t) from (\r\n        select id, title, category, spec, preview_path, is_public, created_at\r\n        from templates\r\n        where (org_id = $1 or org_id is null)\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by title limit 100\r\n      ) t)\r\n\r\n    when 'members' then (\r\n      select json_agg(t) from (\r\n        select u.id, u.email, u.full_name, u.avatar_url, m.role\r\n        from memberships m\r\n        join users u on u.id = m.user_id\r\n        where m.org_id = $1\r\n        order by u.full_name limit 100\r\n      ) t)\r\n\r\n  end, '[]'::json) as data;",
           "replaceEmptyStringsWithNull": false,
           "outputLargeNumbersAsText": false,
           "schemaMode": "list",
@@ -732,7 +732,7 @@
         },
         "isTrigger": false,
         "isFormWait": false,
-        "executionId": "6a77eb3053b933eae140ae93",
+        "executionId": "6a7899bb53b933eae140ba07",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
@@ -746,7 +746,64 @@
                   "items": [
                     {
                       "json": {
-                        "data": []
+                        "data": [
+                          {
+                            "key": "email_banner",
+                            "label": "Email Banner",
+                            "width": 1200,
+                            "height": 400,
+                            "aspect": "3:1",
+                            "description": "Newsletter header"
+                          },
+                          {
+                            "key": "facebook_link",
+                            "label": "Facebook Link",
+                            "width": 1200,
+                            "height": 630,
+                            "aspect": "16:9",
+                            "description": "Link preview card"
+                          },
+                          {
+                            "key": "instagram_square",
+                            "label": "Instagram Post",
+                            "width": 1080,
+                            "height": 1080,
+                            "aspect": "1:1",
+                            "description": "Feed post, square"
+                          },
+                          {
+                            "key": "instagram_story",
+                            "label": "Instagram Story",
+                            "width": 1080,
+                            "height": 1920,
+                            "aspect": "9:16",
+                            "description": "Full-screen vertical"
+                          },
+                          {
+                            "key": "linkedin_post",
+                            "label": "LinkedIn Post",
+                            "width": 1200,
+                            "height": 1200,
+                            "aspect": "1:1",
+                            "description": "Feed post"
+                          },
+                          {
+                            "key": "pinterest_pin",
+                            "label": "Pinterest Pin",
+                            "width": 1000,
+                            "height": 1500,
+                            "aspect": "2:3",
+                            "description": "Tall pin"
+                          },
+                          {
+                            "key": "web_hero",
+                            "label": "Website Hero",
+                            "width": 1920,
+                            "height": 720,
+                            "aspect": "8:3",
+                            "description": "Landing page banner"
+                          }
+                        ]
                       }
                     }
                   ]
@@ -763,7 +820,7 @@
       },
       "type": "action",
       "width": 220,
-      "height": 93,
+      "height": 94,
       "dragging": false,
       "position": {
         "x": 630.0874030072343,

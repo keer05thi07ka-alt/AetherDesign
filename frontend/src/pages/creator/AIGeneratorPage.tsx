@@ -105,13 +105,16 @@ export const AIGeneratorPage: React.FC = () => {
     if (!imageB64) return;
     setBusy(true);
     try {
-      const url = await gen.uploadGeneratedImage(imageB64, user.id);
+      const w = active?.width ?? 1024;
+      const h = active?.height ?? 1024;
+      const url = await gen.uploadAtExactSize(imageB64, user.id, w, h);
+
       await gen.saveGeneratedAsset({
         title: understanding?.intent?.slice(0, 80) || prompt.slice(0, 80),
         description: understanding?.image_prompt ?? prompt,
         category: platform,
-        width: active?.width ?? 1024,
-        height: active?.height ?? 1024,
+        width: w,
+        height: h,
         storagePath: url,
       });
       setSaved(true);

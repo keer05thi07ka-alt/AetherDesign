@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-09T06:47:33.051Z",
+  "_exportedAt": "2026-08-09T17:43:41.036Z",
   "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246Y29kZS5leGVjdXRlfGFjdGlvbjpo",
   "nodes": [
     {
@@ -13,7 +13,7 @@
           "options": {
             "allowedOrigins": "*"
           },
-          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "jwtSecret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
           "respondWith": "All Incoming Items",
           "allowedRoles": "owner, brand_admin",
           "sessionSource": "header",
@@ -587,7 +587,7 @@
                   "x-amzn-trace-id": "Root=1-6a78207d-4454731413d0d2f34462ddbf",
                   "content-length": "3355",
                   "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "Bearer REDACTED_TOKEN.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzQyNzg1LCJpYXQiOjE3ODYyNTYzODV9.De4DLEs89woQ3B0b6WdDZ4mbkRtz4DnAaDmqRemTVe0",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzQyNzg1LCJpYXQiOjE3ODYyNTYzODV9.De4DLEs89woQ3B0b6WdDZ4mbkRtz4DnAaDmqRemTVe0",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
                   "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
                   "content-type": "application/json",
@@ -631,7 +631,7 @@
       },
       "type": "webhook",
       "width": 220,
-      "height": 98,
+      "height": 99,
       "dragging": false,
       "position": {
         "x": 243.71275258294514,
@@ -655,7 +655,7 @@
             "allowedOrigins": "*"
           },
           "language": "python",
-          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "jwtSecret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
           "respondWith": "All Incoming Items",
           "allowedRoles": "owner, brand_admin",
           "sessionSource": "header",
@@ -956,13 +956,13 @@
       },
       "type": "action",
       "width": 220,
-      "height": 93,
+      "height": 94,
       "dragging": false,
       "position": {
         "x": 501.032286653106,
         "y": 108.79043762078669
       },
-      "selected": true,
+      "selected": false,
       "positionAbsolute": {
         "x": 501.032286653106,
         "y": 108.79043762078669
@@ -978,7 +978,7 @@
           "method": "POST",
           "headers": {
             "Content-Type": "application/json",
-            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE"
+            "x-goog-api-key": "REDACTED_GEMINI_KEY"
           },
           "timeout": 300000,
           "bodyType": "json",
@@ -3534,7 +3534,7 @@
       },
       "type": "action",
       "width": 220,
-      "height": 93,
+      "height": 94,
       "dragging": false,
       "position": {
         "x": 717.0328275748567,
@@ -3558,7 +3558,7 @@
           "method": "POST",
           "headers": {
             "Content-Type": "application/json",
-            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE"
+            "x-goog-api-key": "REDACTED_GEMINI_KEY"
           },
           "timeout": 300000,
           "bodyType": "json",
@@ -3796,7 +3796,7 @@
       },
       "type": "action",
       "width": 220,
-      "height": 93,
+      "height": 94,
       "dragging": false,
       "position": {
         "x": 956.7550434152478,
@@ -3821,7 +3821,7 @@
           "schema": "public",
           "headers": {
             "Content-Type": "application/json",
-            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE"
+            "x-goog-api-key": "REDACTED_GEMINI_KEY"
           },
           "timeout": 300000,
           "bodyType": "json",
@@ -4308,7 +4308,7 @@
       },
       "type": "action",
       "width": 220,
-      "height": 93,
+      "height": 94,
       "dragging": false,
       "position": {
         "x": 1251.3110483662374,

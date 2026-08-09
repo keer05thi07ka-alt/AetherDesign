@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-09T14:28:40.042Z",
+  "_exportedAt": "2026-08-09T17:43:26.283Z",
   "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246aHR0cFJlcXVlc3R8YWN0aW9uOnBv",
   "nodes": [
     {
@@ -971,7 +971,7 @@
       },
       "width": 220,
       "height": 94,
-      "selected": true,
+      "selected": false,
       "positionAbsolute": {
         "x": 461.07874328824386,
         "y": 233.0141532918226

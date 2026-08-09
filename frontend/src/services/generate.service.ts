@@ -38,6 +38,8 @@ export interface GenerationResult {
   platform: string;
   prompt: string;
   image: string;
+  gen_width?: number;
+  gen_height?: number;
 }
 
 export interface GenerateInput {
@@ -143,4 +145,62 @@ export async function generateAndSave(
   });
 
   return { result, url, assetId: asset.id };
+}
+/**
+ * Resize a generated image to exact platform dimensions.
+ *
+ * FLUX caps near 1 megapixel, so it generates at the correct aspect ratio
+ * but not the exact size. Because the aspect already matches, this is a
+ * pure scale — nothing is cropped or stretched.
+ *
+ * imageSmoothingQuality 'high' uses the browser's best resampling, which
+ * matters for the ~1.9x upscale that story and hero formats require.
+ */
+export async function resizeToExact(
+  base64: string,
+  targetWidth: number,
+  targetHeight: number,
+): Promise<Blob> {
+  const img = new Image();
+  img.src = `data:image/jpeg;base64,${base64}`;
+  await img.decode();
+
+  const canvas = document.createElement('canvas');
+  canvas.width = targetWidth;
+  canvas.height = targetHeight;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas is unavailable in this browser.');
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => (blob ? resolve(blob) : reject(new Error('Could not encode the image.'))),
+      'image/jpeg',
+      0.92,
+    );
+  });
+}
+
+/** Upload at exact platform dimensions and return the public URL. */
+export async function uploadAtExactSize(
+  base64: string,
+  orgId: string,
+  targetWidth: number,
+  targetHeight: number,
+): Promise<string> {
+  const blob = await resizeToExact(base64, targetWidth, targetHeight);
+  const path = `${orgId}/generated/${Date.now()}-${targetWidth}x${targetHeight}.jpg`;
+
+  const { error } = await supabase.storage
+    .from('brand-assets')
+    .upload(path, blob, { contentType: 'image/jpeg', upsert: false });
+
+  if (error) throw new Error(`Could not save the image: ${error.message}`);
+
+  const { data } = supabase.storage.from('brand-assets').getPublicUrl(path);
+  return data.publicUrl;
 }

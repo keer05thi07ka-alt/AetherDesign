@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import type { GeneratedAsset } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Download, Edit3, Trash2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
+import { AssetPreviewModal } from '../../components/common/AssetPreviewModal';
 
 export const AssetLibraryPage: React.FC = () => {
   const navigate = useNavigate();
   const { generatedAssets, deleteAsset } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [preview, setPreview] = useState<GeneratedAsset | null>(null);
 
   const categories = ['All', 'Poster', 'Banner', 'Social Media', 'Presentation', 'Logo'];
 
@@ -92,7 +95,12 @@ export const AssetLibraryPage: React.FC = () => {
                 
                 {/* Image Preview */}
                 <div className="relative aspect-video bg-[#F3F0FF] overflow-hidden">
-                  <img src={asset.imageUrl} alt={asset.title} className="w-full h-full object-cover" />
+                  <img
+                    src={asset.imageUrl}
+                    alt={asset.title}
+                    onClick={() => setPreview(asset)}
+                    className="w-full h-full object-cover cursor-pointer transition-transform hover:scale-[1.03]"
+                  />
                   <span className="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono px-2 py-0.5 rounded-md">
                     {asset.dimensions}
                   </span>
@@ -124,9 +132,9 @@ export const AssetLibraryPage: React.FC = () => {
                 </button>
 
                 <button
-                  onClick={() => alert(`Downloading ${asset.title} in 4K resolution...`)}
+                  onClick={() => setPreview(asset)}
                   className="p-2 bg-white border border-[#E9D5FF] text-[#2D1B69] hover:bg-[#F3F0FF] rounded-xl transition-colors"
-                  title="Download 4K Asset"
+                  title="Preview and download"
                 >
                   <Download className="w-4 h-4" />
                 </button>
@@ -145,6 +153,7 @@ export const AssetLibraryPage: React.FC = () => {
         </div>
       )}
 
+    <AssetPreviewModal asset={preview} onClose={() => setPreview(null)} />
     </div>
   );
 };

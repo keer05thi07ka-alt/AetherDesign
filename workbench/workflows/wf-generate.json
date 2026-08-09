@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-09T14:28:22.243Z",
+  "_exportedAt": "2026-08-09T17:42:50.649Z",
   "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246Y29kZS5leGVjdXRlfGFjdGlvbjpj",
   "nodes": [
     {
@@ -572,7 +572,7 @@
             {
               "json": {
                 "body": {
-                  "prompt": "product launch banner for a new insulated water bottle",
+                  "prompt": "summer sale announcement for our new canvas tote bag",
                   "platform": "instagram_square",
                   "audience": "Small business owners",
                   "style": "editorial photography",
@@ -600,10 +600,10 @@
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a788b27-12fd5f6859b9e5636a14ab34",
-                  "content-length": "353",
+                  "x-amzn-trace-id": "Root=1-6a7894b9-668542830bd8d74e291274c6",
+                  "content-length": "351",
                   "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzcwOTg3LCJpYXQiOjE3ODYyODQ1ODd9.U7dtCiD3NIech82TNI63aPzHjmcze04zqN8MXfd2MuU",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzczNDY0LCJpYXQiOjE3ODYyODcwNjR9.XTUu5mx_U9iNNOe2SuXYeZgeZ_PSxgxeOgcjWTRLl6s",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
                   "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
                   "content-type": "application/json",
@@ -626,11 +626,11 @@
                   "role": "owner",
                   "plan": "enterprise",
                   "email": "priya@brightfold.org",
-                  "exp": 1786370987,
-                  "iat": 1786284587
+                  "exp": 1786373464,
+                  "iat": 1786287064
                 },
                 "file": null,
-                "sessionId": "rs_38f9faf5bd4d399b7fa151f47fbd7a232ee0"
+                "sessionId": "rs_b155fd1fc2e7a59c7cc038aad8d47c0f3feb"
               }
             }
           ],
@@ -639,13 +639,13 @@
             "metrics": {
               "durationMs": 0,
               "apiCalls": 1,
-              "payloadSizeBytes": 1899
+              "payloadSizeBytes": 1897
             },
             "cost": 2
           }
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -844,134 +844,134 @@
                 "body": {
                   "embedding": {
                     "values": [
-                      -0.005568917,
-                      0.007595564,
-                      -0.0061985003,
-                      -0.09184223,
-                      0.0020555132,
-                      0.014880762,
-                      0.02231426,
-                      0.00406412,
-                      -0.0023499734,
-                      -0.015891528,
-                      -0.02114244,
-                      -0.011721147,
-                      0.0102442615,
-                      -0.0080716945,
-                      0.1123407,
-                      0.002397524,
-                      -0.013907168,
-                      -0.013467575,
-                      0.008562959,
-                      0.02536488,
-                      -0.032690167,
-                      -0.0046758964,
-                      0.018976571,
-                      0.014988284,
-                      -0.0058113807,
-                      -0.00514981,
-                      0.02773384,
-                      0.011005124,
-                      0.028712146,
-                      0.021678973,
-                      -0.006119185,
-                      0.012126814,
-                      0.01574776,
-                      0.018228527,
-                      0.019914191,
-                      0.024381965,
-                      0.021006407,
-                      -0.007205649,
-                      -0.0024741646,
-                      0.018404432,
-                      -0.014073565,
-                      0.02035307,
-                      -0.01320567,
-                      -0.012276436,
-                      -0.019806622,
-                      -0.010901471,
-                      -0.012389314,
-                      -0.030830713,
-                      0.018240318,
-                      0.018105725,
-                      0.013613447,
-                      0.008394028,
-                      -0.029471438,
-                      -0.13982093,
-                      -0.0150530115,
-                      0.017526554,
-                      -0.01596012,
-                      0.000664765,
-                      0.009411388,
-                      -0.026932321,
-                      0.0020935894,
-                      0.020216797,
-                      0.000274724,
-                      -0.03618863,
-                      -0.027708232,
-                      -0.035838507,
-                      0.0030166649,
-                      -0.03563208,
-                      0.005041949,
-                      0.0035014825,
-                      0.006499046,
-                      0.01994173,
-                      0.001650404,
-                      0.01879253,
-                      0.0008338278,
-                      -0.019535042,
-                      -0.004905986,
-                      -0.0060912995,
-                      -0.020606777,
-                      0.023074273,
-                      -0.00082050293,
-                      -0.0032995727,
-                      -0.008019089,
-                      -0.017385472,
-                      0.007939454,
-                      -0.0064532906,
-                      0.015211255,
-                      0.0074977633,
-                      -0.0062096906,
-                      -0.022345204,
-                      -0.012718182,
-                      0.005635189,
-                      0.010103174,
-                      0.007904688,
-                      -0.022716321,
-                      0.004634546,
-                      -0.014371723,
-                      -0.015683249,
-                      -0.02898394,
-                      -0.0036748433,
-                      0.0004468203,
-                      -0.0060453634,
-                      0.0027036613,
-                      0.0026664117,
-                      0.0047820313,
-                      -0.004894772,
-                      -0.03909622,
-                      -0.03013837,
-                      0.013640842,
-                      -0.03222071,
-                      0.018297615,
-                      -0.0014421705,
-                      -0.017162127,
-                      0.014787988,
-                      -0.009466257,
-                      -0.13779923,
-                      0.023484642,
-                      -0.0026543522,
-                      -0.0078561315,
-                      0.0046405145,
-                      0.006168205,
-                      0.015676321,
-                      0.00018393884,
-                      0.0042328644,
-                      0.012306927,
-                      0.008728741,
-                      -0.0112073105,
-                      0.00017726088
+                      -0.0073153665,
+                      -0.0019655873,
+                      -0.0021660342,
+                      -0.06955664,
+                      -0.030618396,
+                      0.012147715,
+                      0.0018140791,
+                      0.0034211932,
+                      -0.015133923,
+                      -0.007400008,
+                      -0.024624873,
+                      -0.003689737,
+                      -0.007182327,
+                      -0.034083895,
+                      0.12708895,
+                      0.0050153104,
+                      -0.01075991,
+                      -0.00799997,
+                      0.018794136,
+                      -0.009702151,
+                      -0.043798715,
+                      0.006651995,
+                      0.011617528,
+                      -0.00036488785,
+                      -0.015964806,
+                      0.00665337,
+                      0.04776995,
+                      -0.010324392,
+                      0.005792741,
+                      0.008030115,
+                      0.0028939038,
+                      -0.017906258,
+                      0.0074411244,
+                      0.012498973,
+                      0.03522616,
+                      0.011390237,
+                      0.019818185,
+                      0.0022272163,
+                      0.003908987,
+                      0.010444306,
+                      -0.024605565,
+                      0.014318589,
+                      0.0045667584,
+                      -0.004276074,
+                      -0.032940067,
+                      0.0020227584,
+                      0.0064659757,
+                      -0.051572107,
+                      0.0061191814,
+                      0.019032007,
+                      0.0023779334,
+                      -0.011593066,
+                      -0.0228713,
+                      -0.15253505,
+                      -0.014858521,
+                      0.006087176,
+                      0.010068013,
+                      0.011566841,
+                      -0.010417861,
+                      -0.0131277405,
+                      -0.0030314017,
+                      0.01214628,
+                      0.0052556503,
+                      -0.042397916,
+                      -0.002212286,
+                      -0.020232853,
+                      -0.0037429759,
+                      -0.007757742,
+                      -0.004652457,
+                      -0.00081065163,
+                      0.030986035,
+                      -0.016030809,
+                      -0.0023766889,
+                      0.0078093493,
+                      0.018307501,
+                      -0.02159902,
+                      -0.012307128,
+                      -0.004483632,
+                      -0.0139632495,
+                      0.0069188876,
+                      0.015927227,
+                      -0.0072272057,
+                      -0.009932259,
+                      -0.014619448,
+                      -0.010325689,
+                      0.00349646,
+                      -0.0092782695,
+                      0.0035294653,
+                      -0.035314463,
+                      -0.015399312,
+                      -0.023915164,
+                      0.0025860702,
+                      0.019631686,
+                      0.010492279,
+                      -0.018619746,
+                      0.0023974213,
+                      -0.020283705,
+                      -0.013988244,
+                      -0.034418434,
+                      -0.017754015,
+                      0.0045558056,
+                      -0.009236031,
+                      -0.004106901,
+                      0.001587779,
+                      -0.011424875,
+                      0.014186839,
+                      -0.025188385,
+                      -0.020535385,
+                      0.0164374,
+                      -0.02986055,
+                      0.018389005,
+                      -0.0063530793,
+                      -0.02904928,
+                      0.022141183,
+                      0.008487957,
+                      -0.13154419,
+                      0.036258575,
+                      0.010636599,
+                      -0.038629625,
+                      0.0053501665,
+                      0.002607345,
+                      0.00796302,
+                      -0.0030740658,
+                      0.00724101,
+                      -0.016752418,
+                      0.0029786418,
+                      0.009739807,
+                      0.0005050968
                     ]
                   }
                 }
@@ -981,7 +981,7 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -1081,7 +1081,7 @@
             {
               "json": {
                 "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
-                "prompt": "product launch banner for a new insulated water bottle",
+                "prompt": "summer sale announcement for our new canvas tote bag",
                 "platform": "instagram_square",
                 "audience": "Small business owners",
                 "style": "editorial photography",
@@ -1102,13 +1102,13 @@
                     "unhurried"
                   ]
                 },
-                "sql": "select rag_retrieve('31522872-007e-4165-b899-c941c27eb8bc'::uuid, '[-0.005569,0.007596,-0.006199,-0.091842,0.002056,0.014881,0.022314,0.004064,-0.00235,-0.015892,-0.021142,-0.011721,0.010244,-0.008072,0.112341,0.002398,-0.013907,-0.013468,0.008563,0.025365,-0.03269,-0.004676,0.018977,0.014988,-0.005811,-0.00515,0.027734,0.011005,0.028712,0.021679,-0.006119,0.012127,0.015748,0.018229,0.019914,0.024382,0.021006,-0.007206,-0.002474,0.018404,-0.014074,0.020353,-0.013206,-0.012276,-0.019807,-0.010901,-0.012389,-0.030831,0.01824,0.018106,0.013613,0.008394,-0.029471,-0.139821,-0.015053,0.017527,-0.01596,0.000665,0.009411,-0.026932,0.002094,0.020217,0.000275,-0.036189,-0.027708,-0.035839,0.003017,-0.035632,0.005042,0.003501,0.006499,0.019942,0.00165,0.018793,0.000834,-0.019535,-0.004906,-0.006091,-0.020607,0.023074,-0.000821,-0.0033,-0.008019,-0.017385,0.007939,-0.006453,0.015211,0.007498,-0.00621,-0.022345,-0.012718,0.005635,0.010103,0.007905,-0.022716,0.004635,-0.014372,-0.015683,-0.028984,-0.003675,0.000447,-0.006045,0.002704,0.002666,0.004782,-0.004895,-0.039096,-0.030138,0.013641,-0.032221,0.018298,-0.001442,-0.017162,0.014788,-0.009466,-0.137799,0.023485,-0.002654,-0.007856,0.004641,0.006168,0.015676,0.000184,0.004233,0.012307,0.008729,-0.011207,0.000177]', 6) as result;"
+                "sql": "select rag_retrieve('31522872-007e-4165-b899-c941c27eb8bc'::uuid, '[-0.007315,-0.001966,-0.002166,-0.069557,-0.030618,0.012148,0.001814,0.003421,-0.015134,-0.0074,-0.024625,-0.00369,-0.007182,-0.034084,0.127089,0.005015,-0.01076,-0.008,0.018794,-0.009702,-0.043799,0.006652,0.011618,-0.000365,-0.015965,0.006653,0.04777,-0.010324,0.005793,0.00803,0.002894,-0.017906,0.007441,0.012499,0.035226,0.01139,0.019818,0.002227,0.003909,0.010444,-0.024606,0.014319,0.004567,-0.004276,-0.03294,0.002023,0.006466,-0.051572,0.006119,0.019032,0.002378,-0.011593,-0.022871,-0.152535,-0.014859,0.006087,0.010068,0.011567,-0.010418,-0.013128,-0.003031,0.012146,0.005256,-0.042398,-0.002212,-0.020233,-0.003743,-0.007758,-0.004652,-0.000811,0.030986,-0.016031,-0.002377,0.007809,0.018308,-0.021599,-0.012307,-0.004484,-0.013963,0.006919,0.015927,-0.007227,-0.009932,-0.014619,-0.010326,0.003496,-0.009278,0.003529,-0.035314,-0.015399,-0.023915,0.002586,0.019632,0.010492,-0.01862,0.002397,-0.020284,-0.013988,-0.034418,-0.017754,0.004556,-0.009236,-0.004107,0.001588,-0.011425,0.014187,-0.025188,-0.020535,0.016437,-0.029861,0.018389,-0.006353,-0.029049,0.022141,0.008488,-0.131544,0.036259,0.010637,-0.03863,0.00535,0.002607,0.007963,-0.003074,0.007241,-0.016752,0.002979,0.00974,0.000505]', 6) as result;"
               }
             }
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -1246,47 +1246,47 @@
                               "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
                               "chunk_index": 14,
                               "brand_kit_name": "Brightfold Core Brand",
-                              "similarity": 0.8101
-                            },
-                            {
-                              "id": "34cb366c-d8a3-4ed7-acb1-efec8684f061",
-                              "content": "Photograph products in context — on a desk, in a hand, beside the objects people actually use them with. Never photograph on pure white cyclorama. Never use studio strobes that flatten shadows.",
-                              "chunk_index": 5,
-                              "brand_kit_name": "Brightfold Core Brand",
-                              "similarity": 0.7917
-                            },
-                            {
-                              "id": "6500110c-eb31-4a03-8497-5df24bd15533",
-                              "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
-                              "chunk_index": 13,
-                              "brand_kit_name": "Brightfold Core Brand",
-                              "similarity": 0.7854
+                              "similarity": 0.8013
                             },
                             {
                               "id": "027ed8f9-9148-4b4f-bded-c097eb892e5c",
                               "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
                               "chunk_index": 10,
                               "brand_kit_name": "Brightfold Core Brand",
-                              "similarity": 0.7713
+                              "similarity": 0.7695
+                            },
+                            {
+                              "id": "6500110c-eb31-4a03-8497-5df24bd15533",
+                              "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                              "chunk_index": 13,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7678
                             },
                             {
                               "id": "79ec6333-3b9b-4d6a-91f0-af6967430c8f",
                               "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
                               "chunk_index": 6,
                               "brand_kit_name": "Brightfold Core Brand",
-                              "similarity": 0.7709
+                              "similarity": 0.7609
                             },
                             {
-                              "id": "4b831c64-1ff1-4fbc-9285-a924f59e6444",
-                              "content": "Do not blur backgrounds artificially. If depth is needed, capture it in the photograph. Headings are set in Bitter. Body copy is set in Source Sans 3. No third typeface.",
-                              "chunk_index": 8,
+                              "id": "7d835821-d2d4-45c0-aebc-9e7f6f8d8f3e",
+                              "content": "Secondary sand #D9C7A3 carries background fills and large surfaces. It should feel like paper, not like a highlight. Accent rust #C4622D is reserved for a single emphasis per layout. Two accents in one design is one too many.",
+                              "chunk_index": 1,
                               "brand_kit_name": "Brightfold Core Brand",
-                              "similarity": 0.7707
+                              "similarity": 0.7529
+                            },
+                            {
+                              "id": "04950679-db21-41b1-9fb7-c46845b83d8b",
+                              "content": "Contractions are welcome. Jargon is not. Any claim about materials or sourcing must name the specific supplier or certification.",
+                              "chunk_index": 12,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7489
                             }
                           ],
-                          "top_similarity": 0.8101,
-                          "gap": 0.0184,
-                          "confident": false
+                          "top_similarity": 0.8013,
+                          "gap": 0.0318,
+                          "confident": true
                         }
                       }
                     }
@@ -1301,7 +1301,7 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -1410,13 +1410,30 @@
           "items": [
             {
               "json": {
-                "llm_prompt": "You are a creative director preparing a brief for an image generator.\n\nUSER REQUEST: product launch banner for a new insulated water bottle\nPLATFORM: instagram_square\nAUDIENCE: Small business owners\nSTYLE: editorial photography\nPalette (MANDATORY, use only these): primary #2F5D50, secondary #D9C7A3, accent #C4622D\nBRAND TONE: clear, practical, warm, unhurried\nBRAND TYPEFACE: Bitter\n\nReturn ONLY a JSON object, no markdown fences, with these keys:\n  \"intent\"        one short phrase describing what this asset is for\n  \"subject\"       what should physically appear in the frame\n  \"composition\"   layout and framing guidance\n  \"palette\"       array of hex colours to use\n  \"mood\"          two or three adjectives\n  \"avoid\"         array of things the image must not contain\n  \"image_prompt\"  a single detailed sentence for the image model\n  \"negative_prompt\" comma-separated terms to exclude\n\nDo not put readable text or lettering in the image; typography is added later.",
-                "confident": false,
-                "top_similarity": 0.8101,
-                "sources": [],
+                "llm_prompt": "You are a creative director preparing a brief for an image generator.\n\nUSER REQUEST: summer sale announcement for our new canvas tote bag\nPLATFORM: instagram_square\nAUDIENCE: Small business owners\nSTYLE: editorial photography\nPalette (MANDATORY, use only these): primary #2F5D50, secondary #D9C7A3, accent #C4622D\nBRAND TONE: clear, practical, warm, unhurried\nBRAND TYPEFACE: Bitter\n\nBRAND GUIDELINES retrieved for this request:\n- Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.\n- Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.\n- Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.\n- Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.\n\nReturn ONLY a JSON object, no markdown fences, with these keys:\n  \"intent\"        one short phrase describing what this asset is for\n  \"subject\"       what should physically appear in the frame\n  \"composition\"   layout and framing guidance\n  \"palette\"       array of hex colours to use\n  \"mood\"          two or three adjectives\n  \"avoid\"         array of things the image must not contain\n  \"image_prompt\"  a single detailed sentence for the image model\n  \"negative_prompt\" comma-separated terms to exclude\n\nDo not put readable text or lettering in the image; typography is added later.",
+                "confident": true,
+                "top_similarity": 0.8013,
+                "sources": [
+                  {
+                    "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                    "similarity": 0.8013
+                  },
+                  {
+                    "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                    "similarity": 0.7695
+                  },
+                  {
+                    "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                    "similarity": 0.7678
+                  },
+                  {
+                    "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                    "similarity": 0.7609
+                  }
+                ],
                 "ctx": {
                   "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
-                  "prompt": "product launch banner for a new insulated water bottle",
+                  "prompt": "summer sale announcement for our new canvas tote bag",
                   "platform": "instagram_square",
                   "audience": "Small business owners",
                   "style": "editorial photography",
@@ -1437,14 +1454,14 @@
                       "unhurried"
                     ]
                   },
-                  "sql": "select rag_retrieve('31522872-007e-4165-b899-c941c27eb8bc'::uuid, '[-0.005569,0.007596,-0.006199,-0.091842,0.002056,0.014881,0.022314,0.004064,-0.00235,-0.015892,-0.021142,-0.011721,0.010244,-0.008072,0.112341,0.002398,-0.013907,-0.013468,0.008563,0.025365,-0.03269,-0.004676,0.018977,0.014988,-0.005811,-0.00515,0.027734,0.011005,0.028712,0.021679,-0.006119,0.012127,0.015748,0.018229,0.019914,0.024382,0.021006,-0.007206,-0.002474,0.018404,-0.014074,0.020353,-0.013206,-0.012276,-0.019807,-0.010901,-0.012389,-0.030831,0.01824,0.018106,0.013613,0.008394,-0.029471,-0.139821,-0.015053,0.017527,-0.01596,0.000665,0.009411,-0.026932,0.002094,0.020217,0.000275,-0.036189,-0.027708,-0.035839,0.003017,-0.035632,0.005042,0.003501,0.006499,0.019942,0.00165,0.018793,0.000834,-0.019535,-0.004906,-0.006091,-0.020607,0.023074,-0.000821,-0.0033,-0.008019,-0.017385,0.007939,-0.006453,0.015211,0.007498,-0.00621,-0.022345,-0.012718,0.005635,0.010103,0.007905,-0.022716,0.004635,-0.014372,-0.015683,-0.028984,-0.003675,0.000447,-0.006045,0.002704,0.002666,0.004782,-0.004895,-0.039096,-0.030138,0.013641,-0.032221,0.018298,-0.001442,-0.017162,0.014788,-0.009466,-0.137799,0.023485,-0.002654,-0.007856,0.004641,0.006168,0.015676,0.000184,0.004233,0.012307,0.008729,-0.011207,0.000177]', 6) as result;"
+                  "sql": "select rag_retrieve('31522872-007e-4165-b899-c941c27eb8bc'::uuid, '[-0.007315,-0.001966,-0.002166,-0.069557,-0.030618,0.012148,0.001814,0.003421,-0.015134,-0.0074,-0.024625,-0.00369,-0.007182,-0.034084,0.127089,0.005015,-0.01076,-0.008,0.018794,-0.009702,-0.043799,0.006652,0.011618,-0.000365,-0.015965,0.006653,0.04777,-0.010324,0.005793,0.00803,0.002894,-0.017906,0.007441,0.012499,0.035226,0.01139,0.019818,0.002227,0.003909,0.010444,-0.024606,0.014319,0.004567,-0.004276,-0.03294,0.002023,0.006466,-0.051572,0.006119,0.019032,0.002378,-0.011593,-0.022871,-0.152535,-0.014859,0.006087,0.010068,0.011567,-0.010418,-0.013128,-0.003031,0.012146,0.005256,-0.042398,-0.002212,-0.020233,-0.003743,-0.007758,-0.004652,-0.000811,0.030986,-0.016031,-0.002377,0.007809,0.018308,-0.021599,-0.012307,-0.004484,-0.013963,0.006919,0.015927,-0.007227,-0.009932,-0.014619,-0.010326,0.003496,-0.009278,0.003529,-0.035314,-0.015399,-0.023915,0.002586,0.019632,0.010492,-0.01862,0.002397,-0.020284,-0.013988,-0.034418,-0.017754,0.004556,-0.009236,-0.004107,0.001588,-0.011425,0.014187,-0.025188,-0.020535,0.016437,-0.029861,0.018389,-0.006353,-0.029049,0.022141,0.008488,-0.131544,0.036259,0.010637,-0.03863,0.00535,0.002607,0.007963,-0.003074,0.007241,-0.016752,0.002979,0.00974,0.000505]', 6) as result;"
                 }
               }
             }
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -2541,7 +2558,7 @@
                 "content": {
                   "parts": [
                     {
-                      "text": "{\n  \"intent\": \"Product launch banner for a premium insulated water bottle aimed at mindful small business owners.\",\n  \"subject\": \"A minimalist, matte-finish insulated water bottle in deep forest green with terracotta accents, resting on a warm, sandy-beige workspace table.\",\n  \"composition\": \"Square format, balanced rule-of-thirds composition, medium close-up, soft natural side lighting, shallow depth of field with ample negative space for text overlay.\",\n  \"palette\": [\n    \"#2F5D50\",\n    \"#D9C7A3\",\n    \"#C4622D\"\n  ],\n  \"mood\": \"warm, practical, unhurried\",\n  \"avoid\": [\n    \"text\",\n    \"logos\",\n    \"plastic\",\n    \"clutter\",\n    \"harsh office lighting\",\n    \"laptops\",\n    \"screens\"\n  ],\n  \"image_prompt\": \"An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.\",\n  \"negative_prompt\": \"text, words, typography, logo, watermark, plastic bottle, messy desk, computer screen, harsh studio lighting, high contrast, neon colors\"\n}"
+                      "text": "{\n  \"intent\": \"Summer sale announcement for a durable, practical canvas tote bag designed for small business owners.\",\n  \"subject\": \"A high-quality, structured canvas tote bag in warm sand-colored canvas, styled with practical maker's tools like a notebook and measuring tape neatly tucked inside, placed on a flat surface.\",\n  \"composition\": \"A clean, unhurried editorial still-life shot from a slightly elevated angle. The tote bag is the clear hero, positioned off-center to leave open, balanced negative space for future text overlay, following a structured layout.\",\n  \"palette\": [\n    \"#2F5D50\",\n    \"#D9C7A3\",\n    \"#C4622D\"\n  ],\n  \"mood\": \"Practical, warm, unhurried\",\n  \"avoid\": [\n    \"people looking at the camera\",\n    \"pointing\",\n    \"stock photo gestures\",\n    \"text\",\n    \"lettering\",\n    \"logos\",\n    \"messy backgrounds\"\n  ],\n  \"image_prompt\": \"An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.\",\n  \"negative_prompt\": \"text, words, letters, handwriting, logo, brand mark, watermark, people, human hands, smiling, posing, cluttered background, shiny surfaces, neon colors, plastic\"\n}\n}"
                     }
                   ],
                   "role": "model"
@@ -2558,7 +2575,7 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -2650,7 +2667,7 @@
           },
           "body": "{\"model\":\"models/gemini-embedding-001\",\"content\":{\"parts\":[{\"text\":\"{{ $json.body.prompt }} {{ $json.body.style }} {{ $json.body.audience }}\"}]},\"outputDimensionality\":128}",
           "language": "python",
-          "code": "\"\"\"\nParse the model's JSON and assemble the image request.\n\nModels sometimes wrap JSON in markdown fences despite instructions, so the\ntext is stripped before parsing. A parse failure falls back to the raw user\nprompt rather than aborting — a plain generation beats no generation.\n\"\"\"\n\nraw = \"\"\ntry:\n    raw = _json[\"content\"][\"parts\"][0][\"text\"]\nexcept Exception:\n    raw = _json.get(\"text\", \"\") or \"\"\n\ncleaned = raw.strip()\nif cleaned.startswith(\"```\"):\n    cleaned = cleaned.split(\"```\")[1]\n    if cleaned.startswith(\"json\"):\n        cleaned = cleaned[4:]\ncleaned = cleaned.strip()\n\nunderstanding, parse_error = {}, None\n\ndef _parse(s):\n    \"\"\"Models sometimes emit a stray trailing brace. Retry from the first\n    '{' to each closing brace, longest first, and take the first that parses.\"\"\"\n    try:\n        return json.loads(s)\n    except Exception:\n        pass\n    start = s.find(\"{\")\n    if start == -1:\n        return None\n    ends = [i for i, ch in enumerate(s) if ch == \"}\"]\n    for e in reversed(ends):\n        try:\n            return json.loads(s[start:e + 1])\n        except Exception:\n            continue\n    return None\n\nparsed = _parse(cleaned)\nif parsed is None:\n    parse_error = \"Could not parse model output as JSON\"\nelse:\n    understanding = parsed\n\n# The model returns mood as either a string or an array. Normalise so the\n# frontend can render it without type checks.\nif isinstance(understanding.get(\"mood\"), list):\n    understanding[\"mood\"] = \", \".join(str(m) for m in understanding[\"mood\"])\n\nprev = {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"llm_prompt\" in j:\n                prev = j\n                break\n        if prev:\n            break\nexcept Exception:\n    pass\n\nctx = prev.get(\"ctx\", {}) or {}\n\nimage_prompt = understanding.get(\"image_prompt\") or ctx.get(\"prompt\", \"\")\nnegative = understanding.get(\"negative_prompt\") or \\\n    \"text, letters, words, watermark, logo, blurry, low resolution, distorted\"\n\nreturn [{\"json\": {\n    \"understanding\": understanding,\n    \"parse_error\": parse_error,\n    \"image_prompt\": image_prompt,\n    \"negative_prompt\": negative,\n    \"sources\": prev.get(\"sources\", []),\n    \"confident\": prev.get(\"confident\", False),\n    \"top_similarity\": prev.get(\"top_similarity\"),\n    \"platform\": ctx.get(\"platform\", \"instagram_square\"),\n    \"prompt\": ctx.get(\"prompt\", \"\"),\n    \"org_id\": ctx.get(\"org_id\", \"\"),\n}}]",
+          "code": "\nraw = \"\"\ntry:\n    raw = _json[\"content\"][\"parts\"][0][\"text\"]\nexcept Exception:\n    raw = _json.get(\"text\", \"\") or \"\"\n\ncleaned = raw.strip()\nif cleaned.startswith(\"```\"):\n    cleaned = cleaned.split(\"```\")[1]\n    if cleaned.startswith(\"json\"):\n        cleaned = cleaned[4:]\ncleaned = cleaned.strip()\n\nunderstanding, parse_error = {}, None\n\ndef _parse(s):\n    \"\"\"Models sometimes emit a stray trailing brace. Retry from the first\n    '{' to each closing brace, longest first, and take the first that parses.\"\"\"\n    try:\n        return json.loads(s)\n    except Exception:\n        pass\n    start = s.find(\"{\")\n    if start == -1:\n        return None\n    ends = [i for i, ch in enumerate(s) if ch == \"}\"]\n    for e in reversed(ends):\n        try:\n            return json.loads(s[start:e + 1])\n        except Exception:\n            continue\n    return None\n\nparsed = _parse(cleaned)\nif parsed is None:\n    parse_error = \"Could not parse model output as JSON\"\nelse:\n    understanding = parsed\n\n# The model returns mood as either a string or an array. Normalise so the\n# frontend can render it without type checks.\nif isinstance(understanding.get(\"mood\"), list):\n    understanding[\"mood\"] = \", \".join(str(m) for m in understanding[\"mood\"])\n\nprev = {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"llm_prompt\" in j:\n                prev = j\n                break\n        if prev:\n            break\nexcept Exception:\n    pass\n\nctx = prev.get(\"ctx\", {}) or {}\n\nGEN_SIZES = {\n    \"instagram_square\": (1024, 1024),\n    \"linkedin_post\":    (1024, 1024),\n    \"instagram_story\":  (576, 1024),\n    \"pinterest_pin\":    (640, 960),\n    \"facebook_link\":    (1216, 640),\n    \"web_hero\":         (1024, 384),\n    \"email_banner\":     (1152, 384),\n}\ngen_w, gen_h = GEN_SIZES.get(ctx.get(\"platform\", \"\"), (1024, 1024))\n\nimage_prompt = understanding.get(\"image_prompt\") or ctx.get(\"prompt\", \"\")\nnegative = understanding.get(\"negative_prompt\") or \\\n    \"text, letters, words, watermark, logo, blurry, low resolution, distorted\"\n\nreturn [{\"json\": {\n    \"understanding\": understanding,\n    \"parse_error\": parse_error,\n    \"image_prompt\": image_prompt,\n    \"negative_prompt\": negative,\n    \"sources\": prev.get(\"sources\", []),\n    \"confident\": prev.get(\"confident\", False),\n    \"top_similarity\": prev.get(\"top_similarity\"),\n    \"platform\": ctx.get(\"platform\", \"instagram_square\"),\n    \"prompt\": ctx.get(\"prompt\", \"\"),\n    \"org_id\": ctx.get(\"org_id\", \"\"),\n    \"gen_width\": gen_w,\n    \"gen_height\": gen_h,\n    \"platform\": ctx.get(\"platform\", \"instagram_square\"),\n}}]",
           "schemaMode": "list",
           "tableMode": "list",
           "columnsMode": "manually",
@@ -2668,49 +2685,68 @@
             {
               "json": {
                 "understanding": {
-                  "intent": "Product launch banner for a premium insulated water bottle aimed at mindful small business owners.",
-                  "subject": "A minimalist, matte-finish insulated water bottle in deep forest green with terracotta accents, resting on a warm, sandy-beige workspace table.",
-                  "composition": "Square format, balanced rule-of-thirds composition, medium close-up, soft natural side lighting, shallow depth of field with ample negative space for text overlay.",
+                  "intent": "Summer sale announcement for a durable, practical canvas tote bag designed for small business owners.",
+                  "subject": "A high-quality, structured canvas tote bag in warm sand-colored canvas, styled with practical maker's tools like a notebook and measuring tape neatly tucked inside, placed on a flat surface.",
+                  "composition": "A clean, unhurried editorial still-life shot from a slightly elevated angle. The tote bag is the clear hero, positioned off-center to leave open, balanced negative space for future text overlay, following a structured layout.",
                   "palette": [
                     "#2F5D50",
                     "#D9C7A3",
                     "#C4622D"
                   ],
-                  "mood": "warm, practical, unhurried",
+                  "mood": "Practical, warm, unhurried",
                   "avoid": [
+                    "people looking at the camera",
+                    "pointing",
+                    "stock photo gestures",
                     "text",
+                    "lettering",
                     "logos",
-                    "plastic",
-                    "clutter",
-                    "harsh office lighting",
-                    "laptops",
-                    "screens"
+                    "messy backgrounds"
                   ],
-                  "image_prompt": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
-                  "negative_prompt": "text, words, typography, logo, watermark, plastic bottle, messy desk, computer screen, harsh studio lighting, high contrast, neon colors"
+                  "image_prompt": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
+                  "negative_prompt": "text, words, letters, handwriting, logo, brand mark, watermark, people, human hands, smiling, posing, cluttered background, shiny surfaces, neon colors, plastic"
                 },
                 "parse_error": null,
-                "image_prompt": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
-                "negative_prompt": "text, words, typography, logo, watermark, plastic bottle, messy desk, computer screen, harsh studio lighting, high contrast, neon colors",
-                "sources": [],
-                "confident": false,
-                "top_similarity": 0.8101,
+                "image_prompt": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
+                "negative_prompt": "text, words, letters, handwriting, logo, brand mark, watermark, people, human hands, smiling, posing, cluttered background, shiny surfaces, neon colors, plastic",
+                "sources": [
+                  {
+                    "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                    "similarity": 0.8013
+                  },
+                  {
+                    "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                    "similarity": 0.7695
+                  },
+                  {
+                    "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                    "similarity": 0.7678
+                  },
+                  {
+                    "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                    "similarity": 0.7609
+                  }
+                ],
+                "confident": true,
+                "top_similarity": 0.8013,
                 "platform": "instagram_square",
-                "prompt": "product launch banner for a new insulated water bottle",
-                "org_id": "31522872-007e-4165-b899-c941c27eb8bc"
+                "prompt": "summer sale announcement for our new canvas tote bag",
+                "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                "gen_width": 1024,
+                "gen_height": 1024
               }
             }
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
       },
       "width": 220,
       "height": 94,
-      "selected": true,
+      "selected": false,
       "positionAbsolute": {
         "x": 2040.8596014263621,
         "y": 283.968686531953
@@ -2883,7 +2919,7 @@
           "timeout": 300000,
           "outputPropertyName": "data",
           "url": "https://api.cloudflare.com/client/v4/accounts/fa0c90bf70a788ef12913c5e692b4332/ai/run/@cf/black-forest-labs/flux-1-schnell",
-          "body": "{\"prompt\":\"{{ $json.image_prompt }}\",\"steps\":4}",
+          "body": "{\"prompt\":\"{{ $json.image_prompt }}\",\"steps\":4,\"width\":{{ $json.gen_width }},\"height\":{{ $json.gen_height }}}",
           "headers": {
             "Authorization": "Bearer REDACTED_CLOUDFLARE_TOKEN ",
             "Content-Type": "application/json"
@@ -2909,7 +2945,7 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -2983,6 +3019,7 @@
         "isTrigger": false,
         "isPrimaryTrigger": false,
         "inputs": {
+          "mode": "all",
           "method": "POST",
           "bodyType": "json",
           "contentType": "json",
@@ -3000,7 +3037,7 @@
             "Content-Type": "application/json"
           },
           "language": "python",
-          "code": "\"\"\"\nCombine the understanding with the generated image.\n\nThe HTTP node replaced $json again, so the understanding is recovered from\n_node._node_results. A failed generation still returns the understanding —\nthe user sees what was planned and can retry without losing it.\n\"\"\"\n\nimage_b64 = \"\"\ngen_error = None\ntry:\n    body = _json.get(\"body\", {}) or {}\n    if body.get(\"success\"):\n        image_b64 = body.get(\"result\", {}).get(\"image\", \"\")\n    else:\n        errs = body.get(\"errors\", [])\n        gen_error = errs[0].get(\"message\") if errs else \"Image generation failed\"\nexcept Exception as e:\n    gen_error = str(e)[:120]\n\nprev = {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"understanding\" in j:\n                prev = j\n                break\n        if prev:\n            break\nexcept Exception:\n    pass\n\nreturn [{\"json\": {\n    \"ok\": bool(image_b64),\n    \"error\": gen_error,\n    \"understanding\": prev.get(\"understanding\", {}),\n    \"sources\": prev.get(\"sources\", []),\n    \"confident\": prev.get(\"confident\", False),\n    \"top_similarity\": prev.get(\"top_similarity\"),\n    \"image_prompt\": prev.get(\"image_prompt\", \"\"),\n    \"platform\": prev.get(\"platform\", \"\"),\n    \"prompt\": prev.get(\"prompt\", \"\"),\n    \"image\": image_b64,\n}}]"
+          "code": "\nimage_b64 = \"\"\ngen_error = None\ntry:\n    body = _json.get(\"body\", {}) or {}\n    if body.get(\"success\"):\n        image_b64 = body.get(\"result\", {}).get(\"image\", \"\")\n    else:\n        errs = body.get(\"errors\", [])\n        gen_error = errs[0].get(\"message\") if errs else \"Image generation failed\"\nexcept Exception as e:\n    gen_error = str(e)[:120]\n\nprev = {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"understanding\" in j:\n                prev = j\n                break\n        if prev:\n            break\nexcept Exception:\n    pass\n\nreturn [{\"json\": {\n    \"ok\": bool(image_b64),\n    \"error\": gen_error,\n    \"understanding\": prev.get(\"understanding\", {}),\n    \"sources\": prev.get(\"sources\", []),\n    \"confident\": prev.get(\"confident\", False),\n    \"top_similarity\": prev.get(\"top_similarity\"),\n    \"image_prompt\": prev.get(\"image_prompt\", \"\"),\n    \"platform\": prev.get(\"platform\", \"\"),\n    \"prompt\": prev.get(\"prompt\", \"\"),\n    \"image\": image_b64,\n    \"gen_width\": prev.get(\"gen_width\", 1024),\n    \"gen_height\": prev.get(\"gen_height\", 1024),\n}}]"
         },
         "connectedHandles": [],
         "lastTestOutput": {
@@ -3010,47 +3047,66 @@
                 "ok": true,
                 "error": null,
                 "understanding": {
-                  "intent": "Product launch banner for a premium insulated water bottle aimed at mindful small business owners.",
-                  "subject": "A minimalist, matte-finish insulated water bottle in deep forest green with terracotta accents, resting on a warm, sandy-beige workspace table.",
-                  "composition": "Square format, balanced rule-of-thirds composition, medium close-up, soft natural side lighting, shallow depth of field with ample negative space for text overlay.",
+                  "intent": "Summer sale announcement for a durable, practical canvas tote bag designed for small business owners.",
+                  "subject": "A high-quality, structured canvas tote bag in warm sand-colored canvas, styled with practical maker's tools like a notebook and measuring tape neatly tucked inside, placed on a flat surface.",
+                  "composition": "A clean, unhurried editorial still-life shot from a slightly elevated angle. The tote bag is the clear hero, positioned off-center to leave open, balanced negative space for future text overlay, following a structured layout.",
                   "palette": [
                     "#2F5D50",
                     "#D9C7A3",
                     "#C4622D"
                   ],
-                  "mood": "warm, practical, unhurried",
+                  "mood": "Practical, warm, unhurried",
                   "avoid": [
+                    "people looking at the camera",
+                    "pointing",
+                    "stock photo gestures",
                     "text",
+                    "lettering",
                     "logos",
-                    "plastic",
-                    "clutter",
-                    "harsh office lighting",
-                    "laptops",
-                    "screens"
+                    "messy backgrounds"
                   ],
-                  "image_prompt": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
-                  "negative_prompt": "text, words, typography, logo, watermark, plastic bottle, messy desk, computer screen, harsh studio lighting, high contrast, neon colors"
+                  "image_prompt": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
+                  "negative_prompt": "text, words, letters, handwriting, logo, brand mark, watermark, people, human hands, smiling, posing, cluttered background, shiny surfaces, neon colors, plastic"
                 },
-                "sources": [],
-                "confident": false,
-                "top_similarity": 0.8101,
-                "image_prompt": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
+                "sources": [
+                  {
+                    "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                    "similarity": 0.8013
+                  },
+                  {
+                    "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                    "similarity": 0.7695
+                  },
+                  {
+                    "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                    "similarity": 0.7678
+                  },
+                  {
+                    "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                    "similarity": 0.7609
+                  }
+                ],
+                "confident": true,
+                "top_similarity": 0.8013,
+                "image_prompt": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
                 "platform": "instagram_square",
-                "prompt": "product launch banner for a new insulated water bottle",
-                "image": "REDACTED_CACHED_BINARY"
+                "prompt": "summer sale announcement for our new canvas tote bag",
+                "image": "REDACTED_CACHED_BINARY",
+                "gen_width": 1024,
+                "gen_height": 1024
               }
             }
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
       },
       "width": 220,
       "height": 94,
-      "selected": false,
+      "selected": true,
       "positionAbsolute": {
         "x": 2588.884662907307,
         "y": 263.57462412951327
@@ -3173,34 +3229,53 @@
                   "ok": true,
                   "error": null,
                   "understanding": {
-                    "intent": "Product launch banner for a premium insulated water bottle aimed at mindful small business owners.",
-                    "subject": "A minimalist, matte-finish insulated water bottle in deep forest green with terracotta accents, resting on a warm, sandy-beige workspace table.",
-                    "composition": "Square format, balanced rule-of-thirds composition, medium close-up, soft natural side lighting, shallow depth of field with ample negative space for text overlay.",
+                    "intent": "Summer sale announcement for a durable, practical canvas tote bag designed for small business owners.",
+                    "subject": "A high-quality, structured canvas tote bag in warm sand-colored canvas, styled with practical maker's tools like a notebook and measuring tape neatly tucked inside, placed on a flat surface.",
+                    "composition": "A clean, unhurried editorial still-life shot from a slightly elevated angle. The tote bag is the clear hero, positioned off-center to leave open, balanced negative space for future text overlay, following a structured layout.",
                     "palette": [
                       "#2F5D50",
                       "#D9C7A3",
                       "#C4622D"
                     ],
-                    "mood": "warm, practical, unhurried",
+                    "mood": "Practical, warm, unhurried",
                     "avoid": [
+                      "people looking at the camera",
+                      "pointing",
+                      "stock photo gestures",
                       "text",
+                      "lettering",
                       "logos",
-                      "plastic",
-                      "clutter",
-                      "harsh office lighting",
-                      "laptops",
-                      "screens"
+                      "messy backgrounds"
                     ],
-                    "image_prompt": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
-                    "negative_prompt": "text, words, typography, logo, watermark, plastic bottle, messy desk, computer screen, harsh studio lighting, high contrast, neon colors"
+                    "image_prompt": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
+                    "negative_prompt": "text, words, letters, handwriting, logo, brand mark, watermark, people, human hands, smiling, posing, cluttered background, shiny surfaces, neon colors, plastic"
                   },
-                  "sources": [],
-                  "confident": false,
-                  "top_similarity": 0.8101,
-                  "image_prompt": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
+                  "sources": [
+                    {
+                      "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                      "similarity": 0.8013
+                    },
+                    {
+                      "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                      "similarity": 0.7695
+                    },
+                    {
+                      "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                      "similarity": 0.7678
+                    },
+                    {
+                      "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                      "similarity": 0.7609
+                    }
+                  ],
+                  "confident": true,
+                  "top_similarity": 0.8013,
+                  "image_prompt": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
                   "platform": "instagram_square",
-                  "prompt": "product launch banner for a new insulated water bottle",
-                  "image": "REDACTED_CACHED_BINARY"
+                  "prompt": "summer sale announcement for our new canvas tote bag",
+                  "image": "REDACTED_CACHED_BINARY",
+                  "gen_width": 1024,
+                  "gen_height": 1024
                 },
                 "items": [
                   {
@@ -3208,34 +3283,53 @@
                       "ok": true,
                       "error": null,
                       "understanding": {
-                        "intent": "Product launch banner for a premium insulated water bottle aimed at mindful small business owners.",
-                        "subject": "A minimalist, matte-finish insulated water bottle in deep forest green with terracotta accents, resting on a warm, sandy-beige workspace table.",
-                        "composition": "Square format, balanced rule-of-thirds composition, medium close-up, soft natural side lighting, shallow depth of field with ample negative space for text overlay.",
+                        "intent": "Summer sale announcement for a durable, practical canvas tote bag designed for small business owners.",
+                        "subject": "A high-quality, structured canvas tote bag in warm sand-colored canvas, styled with practical maker's tools like a notebook and measuring tape neatly tucked inside, placed on a flat surface.",
+                        "composition": "A clean, unhurried editorial still-life shot from a slightly elevated angle. The tote bag is the clear hero, positioned off-center to leave open, balanced negative space for future text overlay, following a structured layout.",
                         "palette": [
                           "#2F5D50",
                           "#D9C7A3",
                           "#C4622D"
                         ],
-                        "mood": "warm, practical, unhurried",
+                        "mood": "Practical, warm, unhurried",
                         "avoid": [
+                          "people looking at the camera",
+                          "pointing",
+                          "stock photo gestures",
                           "text",
+                          "lettering",
                           "logos",
-                          "plastic",
-                          "clutter",
-                          "harsh office lighting",
-                          "laptops",
-                          "screens"
+                          "messy backgrounds"
                         ],
-                        "image_prompt": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
-                        "negative_prompt": "text, words, typography, logo, watermark, plastic bottle, messy desk, computer screen, harsh studio lighting, high contrast, neon colors"
+                        "image_prompt": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
+                        "negative_prompt": "text, words, letters, handwriting, logo, brand mark, watermark, people, human hands, smiling, posing, cluttered background, shiny surfaces, neon colors, plastic"
                       },
-                      "sources": [],
-                      "confident": false,
-                      "top_similarity": 0.8101,
-                      "image_prompt": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
+                      "sources": [
+                        {
+                          "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                          "similarity": 0.8013
+                        },
+                        {
+                          "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                          "similarity": 0.7695
+                        },
+                        {
+                          "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                          "similarity": 0.7678
+                        },
+                        {
+                          "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                          "similarity": 0.7609
+                        }
+                      ],
+                      "confident": true,
+                      "top_similarity": 0.8013,
+                      "image_prompt": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
                       "platform": "instagram_square",
-                      "prompt": "product launch banner for a new insulated water bottle",
-                      "image": "REDACTED_CACHED_BINARY"
+                      "prompt": "summer sale announcement for our new canvas tote bag",
+                      "image": "REDACTED_CACHED_BINARY",
+                      "gen_width": 1024,
+                      "gen_height": 1024
                     }
                   }
                 ]
@@ -3245,7 +3339,7 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a788b2753b933eae140b85e",
+        "executionId": "6a7894b953b933eae140b94b",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
