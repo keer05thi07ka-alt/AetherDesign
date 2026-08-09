@@ -1,269 +1,298 @@
-import React, { useState } from 'react';
-import { Save, Eye } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Save, Upload, FileText, Loader2, Palette, Check } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { useApp } from '../../context/AppContext';
+import * as bk from '../../services/brandKit.service';
+import type { BrandTokens } from '../../types/api';
+
+const FONTS = [
+  'Inter', 'Poppins', 'Bitter', 'Playfair Display',
+  'Source Sans 3', 'Space Grotesk', 'IBM Plex Mono',
+];
 
 export const BrandKitPage: React.FC = () => {
-  const { brandKit, updateBrandKit } = useApp();
+  const { can, user, refresh } = useApp();
 
-  const [name, setName] = useState(brandKit.name);
-  const [primaryColor, setPrimaryColor] = useState(brandKit.primaryColor);
-  const [secondaryColor, setSecondaryColor] = useState(brandKit.secondaryColor);
-  const [accentColor, setAccentColor] = useState(brandKit.accentColor);
-  const [typography, setTypography] = useState(brandKit.typography);
-  const [tone, setTone] = useState(brandKit.tone);
-  const logoUrl = brandKit.logoUrl;
-  const [guidelines, setGuidelines] = useState(brandKit.guidelines);
+  const [kitId, setKitId] = useState<string | undefined>();
+  const [name, setName] = useState('');
+  const [primary, setPrimary] = useState('#8B5CF6');
+  const [secondary, setSecondary] = useState('#F5E6DC');
+  const [accent, setAccent] = useState('#C9A227');
+  const [font, setFont] = useState('Inter');
+  const [tone, setTone] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
+  const [guidelines, setGuidelines] = useState('');
+  const [sourceFile, setSourceFile] = useState('');
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    updateBrandKit({
-      name,
-      primaryColor,
-      secondaryColor,
-      accentColor,
-      typography,
-      tone,
-      logoUrl,
-      guidelines,
-    });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [parsing, setParsing] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const logoInput = useRef<HTMLInputElement>(null);
+  const docInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const kit = await bk.fetchBrandKitDetail();
+        if (kit) {
+          const t = kit.tokens ?? {};
+          setKitId(kit.id);
+          setName(kit.name);
+          setPrimary(t.colors?.primary ?? '#8B5CF6');
+          setSecondary(t.colors?.secondary ?? '#F5E6DC');
+          setAccent(t.colors?.accent ?? '#C9A227');
+          setFont(t.fonts?.heading ?? 'Inter');
+          setTone((t.tone ?? []).join(', '));
+          setLogoUrl(t.logos?.light ?? '');
+          setGuidelines(kit.guidelines_text ?? '');
+        }
+      } catch {
+        toast.error('Could not load the brand kit.');
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  const handleLogo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Logo must be under 2MB');
+      return;
+    }
+    setUploading(true);
+    try {
+      const url = await bk.uploadLogo(file, user.id);
+      setLogoUrl(url);
+      toast.success('Logo uploaded');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Upload failed');
+    } finally {
+      setUploading(false);
+    }
   };
 
+  const handleDoc = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setParsing(true);
+    try {
+      const text = await bk.extractGuidelinesText(file);
+      if (text.length < 50) {
+        toast.error('Very little text found. Is this a scanned document?');
+      }
+      setGuidelines(text);
+      setSourceFile(file.name);
+      toast.success(`Extracted ${text.length} characters from ${file.name}`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Could not read that file');
+    } finally {
+      setParsing(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!name.trim()) { toast.error('Brand name is required'); return; }
+
+    setSaving(true);
+    try {
+      const tokens: BrandTokens = {
+        colors: { primary, secondary, accent },
+        fonts: { heading: font, body: font },
+        logos: logoUrl ? { light: logoUrl } : {},
+        tone: tone.split(',').map((s) => s.trim()).filter(Boolean),
+      };
+
+      const saved = await bk.saveBrandKit({
+        id: kitId, name, tokens, guidelines_text: guidelines,
+      });
+      setKitId(saved.id);
+
+      // Guidelines drive retrieval, so the vectors must follow the text.
+      if (guidelines.trim().length > 50) {
+        toast.loading('Indexing guidelines…', { id: 'reindex' });
+        await bk.reindexBrandKit(saved.id, guidelines);
+        toast.success('Brand kit saved and indexed', { id: 'reindex' });
+      } else {
+        toast.success('Brand kit saved');
+      }
+
+      await refresh();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Save failed');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (!can.brandKit) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-sm text-[#6B7280]">Brand kits are available on team plans.</p>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="p-8 flex items-center space-x-2 text-[#6B7280]">
+        <Loader2 className="w-4 h-4 animate-spin" />
+        <span className="text-sm">Loading brand kit…</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6 text-left">
-      
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-6">
+      <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#2D1B69]">Brand Kit Engine</h1>
-          <p className="text-xs text-[#6B7280]">
-            Define exact color palettes, typography, tone of voice, and guidelines to lock brand governance across AI outputs.
+          <p className="text-xs text-[#6B7280] mt-1">
+            Define colours, typography, tone, and guidelines. Saved guidelines are
+            indexed so generation can recall them.
           </p>
         </div>
-
         <button
           onClick={handleSave}
-          className="flex items-center space-x-2 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white px-6 py-2.5 rounded-2xl text-xs font-bold shadow-lg shadow-purple-500/25 transition-all shrink-0"
+          disabled={saving}
+          className="px-5 py-3 bg-[#8B5CF6] hover:bg-[#7C3AED] text-white text-xs font-bold rounded-2xl shadow-lg shadow-purple-500/25 flex items-center space-x-2 disabled:opacity-60"
         >
-          <Save className="w-4 h-4" />
-          <span>Save Brand Kit</span>
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          <span>{saving ? 'Saving…' : 'Save Brand Kit'}</span>
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        {/* Left 7 Cols: Editor Form */}
-        <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-[#E9D5FF] shadow-lavender-sm space-y-6">
-          <form onSubmit={handleSave} className="space-y-5">
-            
-            {/* Brand Name */}
-            <div>
-              <label className="block text-xs font-bold text-[#2D1B69] mb-1.5">Brand Organization Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs font-semibold text-[#2D1B69] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
-              />
-            </div>
-
-            {/* Logo Upload Box */}
-            <div>
-              <label className="block text-xs font-bold text-[#2D1B69] mb-1.5">Official Brand Logo</label>
-              <div className="p-4 rounded-2xl bg-[#F8F7FF] border border-[#E9D5FF] flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <img src={logoUrl} alt="Logo" className="w-12 h-12 rounded-xl object-cover border border-[#C4B5FD]" />
-                  <div>
-                    <p className="text-xs font-bold text-[#2D1B69]">Nexus_Vector_Logo.svg</p>
-                    <p className="text-[10px] text-[#6B7280]">Primary vector asset locked</p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => alert('Simulating logo file upload window...')}
-                  className="px-4 py-2 bg-white text-[#8B5CF6] font-bold text-xs rounded-xl border border-[#E9D5FF] hover:bg-[#F3F0FF]"
-                >
-                  Upload New
-                </button>
-              </div>
-            </div>
-
-            {/* Colors Picker Grid */}
-            <div className="space-y-2">
-              <label className="block text-xs font-bold text-[#2D1B69]">Brand Colors</label>
-              <div className="grid grid-cols-3 gap-4">
-                
-                <div>
-                  <span className="text-[10px] text-[#6B7280] font-semibold block mb-1">Primary Color</span>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="color"
-                      value={primaryColor || '#8B5CF6'}
-                      onChange={(e) => setPrimaryColor(e.target.value)}
-                      className="w-9 h-9 rounded-xl cursor-pointer border border-[#E9D5FF]"
-                    />
-                    <span className="text-xs font-mono font-semibold text-[#2D1B69]">{primaryColor || 'Not Set'}</span>
-                  </div>
-                </div>
-
-                <div>
-                  <span className="text-[10px] text-[#6B7280] font-semibold block mb-1">Secondary Color</span>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="color"
-                      value={secondaryColor || '#C4B5FD'}
-                      onChange={(e) => setSecondaryColor(e.target.value)}
-                      className="w-9 h-9 rounded-xl cursor-pointer border border-[#E9D5FF]"
-                    />
-                    <span className="text-xs font-mono font-semibold text-[#2D1B69]">{secondaryColor || 'Not Set'}</span>
-                  </div>
-                </div>
-
-                <div>
-                  <span className="text-[10px] text-[#6B7280] font-semibold block mb-1">Accent Color</span>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="color"
-                      value={accentColor || '#A78BFA'}
-                      onChange={(e) => setAccentColor(e.target.value)}
-                      className="w-9 h-9 rounded-xl cursor-pointer border border-[#E9D5FF]"
-                    />
-                    <span className="text-xs font-mono font-semibold text-[#2D1B69]">{accentColor || 'Not Set'}</span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Typography */}
-            <div>
-              <label className="block text-xs font-bold text-[#2D1B69] mb-1.5">Primary Typography</label>
-              <select
-                value={typography}
-                onChange={(e) => setTypography(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs font-semibold text-[#2D1B69] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
-              >
-                <option value="Poppins">Poppins (Default)</option>
-                <option value="Inter">Inter Sans</option>
-                <option value="Roboto">Roboto Professional</option>
-                <option value="Outfit">Outfit Modern Display</option>
-                <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
-              </select>
-            </div>
-
-            {/* Tone of Voice */}
-            <div>
-              <label className="block text-xs font-bold text-[#2D1B69] mb-1.5">Brand Tone & Persona</label>
-              <input
-                type="text"
-                value={tone}
-                onChange={(e) => setTone(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs font-semibold text-[#2D1B69] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
-              />
-            </div>
-
-            {/* Brand Guidelines */}
-            <div>
-              <label className="block text-xs font-bold text-[#2D1B69] mb-1.5">Brand Guidelines & Constraints</label>
-              <textarea
-                rows={3}
-                value={guidelines}
-                onChange={(e) => setGuidelines(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs font-medium text-[#2D1B69] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
-              />
-            </div>
-
-          </form>
-        </div>
-
-        {/* Right 5 Cols: Live Preview Card */}
-        <div className="lg:col-span-5 space-y-4">
-          
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#2D1B69] flex items-center gap-1.5">
-              <Eye className="w-4 h-4 text-[#8B5CF6]" />
-              Live Brand Preview Card
-            </span>
-            <span className="text-[10px] text-[#8B5CF6] font-semibold bg-[#F3F0FF] px-2.5 py-0.5 rounded-full">
-              Real-time Render
-            </span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-3xl border border-[#E9D5FF] space-y-5">
+          <div>
+            <label className="block text-xs font-semibold text-[#2D1B69] mb-1">Brand Organization Name</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs text-[#2D1B69] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
+            />
           </div>
 
-          {/* Dynamic Live Preview Card */}
-          <div
-            className="rounded-3xl p-6 shadow-xl border border-[#E9D5FF] space-y-6 transition-all duration-300 relative overflow-hidden"
-            style={{ backgroundColor: '#FFFFFF' }}
-          >
-            
-            {/* Header with Brand Logo */}
-            <div className="flex items-center justify-between pb-4 border-b border-[#F3F0FF]">
-              <div className="flex items-center space-x-3">
-                <img src={logoUrl} alt="" className="w-9 h-9 rounded-xl object-cover border" style={{ borderColor: primaryColor }} />
-                <div>
-                  <h4 className="font-bold text-sm" style={{ color: '#2D1B69', fontFamily: typography }}>
-                    {name}
-                  </h4>
-                  <span className="text-[10px] text-[#6B7280] block font-mono">{typography} Font</span>
+          <div>
+            <label className="block text-xs font-semibold text-[#2D1B69] mb-1">Official Brand Logo</label>
+            <div className="flex items-center space-x-3 p-3 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF]">
+              {logoUrl ? (
+                <img src={logoUrl} alt="Brand logo" className="w-10 h-10 object-contain rounded-lg bg-white" />
+              ) : (
+                <div className="w-10 h-10 rounded-lg bg-[#E9D5FF] flex items-center justify-center">
+                  <Palette className="w-4 h-4 text-[#8B5CF6]" />
                 </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-[#2D1B69] truncate">
+                  {logoUrl ? 'Logo uploaded' : 'No logo yet'}
+                </p>
+                <p className="text-[10px] text-[#6B7280]">SVG, PNG or JPG. Max 2MB.</p>
               </div>
-              <span className="text-[10px] font-bold px-2.5 py-1 rounded-full text-white" style={{ backgroundColor: primaryColor }}>
-                Verified
-              </span>
-            </div>
-
-            {/* Visual Sample Card inside preview */}
-            <div
-              className="p-5 rounded-2xl text-white space-y-3 shadow-md"
-              style={{
-                background: `linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%)`,
-                fontFamily: typography,
-              }}
-            >
-              <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded-full">
-                AI Generated Visual Concept
-              </span>
-              <h3 className="text-lg font-extrabold leading-snug">
-                Building the Future of Enterprise AI Intelligence.
-              </h3>
-              <p className="text-xs opacity-90 leading-relaxed">
-                Tone: {tone}
-              </p>
+              <input ref={logoInput} type="file" accept="image/*" onChange={handleLogo} className="hidden" />
               <button
-                className="px-4 py-2 bg-white font-bold text-xs rounded-xl shadow-md"
-                style={{ color: primaryColor }}
+                onClick={() => logoInput.current?.click()}
+                disabled={uploading}
+                className="px-3 py-2 text-[11px] font-bold text-[#8B5CF6] bg-[#F3F0FF] rounded-xl hover:bg-[#E9D5FF] disabled:opacity-60"
               >
-                Sample Brand CTA
+                {uploading ? 'Uploading…' : 'Upload'}
               </button>
             </div>
-
-            {/* Color Swatches Grid */}
-            <div>
-              <span className="text-[11px] font-bold text-[#6B7280] uppercase tracking-wider block mb-2">
-                Active Palette Breakdown
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="p-2.5 rounded-xl border border-[#E9D5FF] text-center" style={{ backgroundColor: primaryColor }}>
-                  <span className="text-[10px] font-mono font-bold text-white shadow-sm">{primaryColor}</span>
-                </div>
-                <div className="p-2.5 rounded-xl border border-[#E9D5FF] text-center" style={{ backgroundColor: secondaryColor }}>
-                  <span className="text-[10px] font-mono font-bold text-[#2D1B69]">{secondaryColor}</span>
-                </div>
-                <div className="p-2.5 rounded-xl border border-[#E9D5FF] text-center" style={{ backgroundColor: accentColor }}>
-                  <span className="text-[10px] font-mono font-bold text-white">{accentColor}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-3 bg-[#F8F7FF] rounded-2xl border border-[#E9D5FF] text-[11px] text-[#6B7280]">
-              <span className="font-bold text-[#2D1B69]">Guidelines: </span>
-              {guidelines}
-            </div>
-
           </div>
 
+          <div className="grid grid-cols-3 gap-3">
+            {([['Primary', primary, setPrimary],
+               ['Secondary', secondary, setSecondary],
+               ['Accent', accent, setAccent]] as const).map(([label, value, setter]) => (
+              <div key={label}>
+                <label className="block text-[11px] font-semibold text-[#2D1B69] mb-1">{label}</label>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="color"
+                    value={value}
+                    onChange={(e) => setter(e.target.value)}
+                    className="w-9 h-9 rounded-lg border border-[#E9D5FF] cursor-pointer"
+                  />
+                  <input
+                    value={value}
+                    onChange={(e) => setter(e.target.value)}
+                    className="w-full px-2 py-1.5 rounded-lg border border-[#E9D5FF] bg-[#F8F7FF] text-[11px] font-mono text-[#2D1B69]"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-[#2D1B69] mb-1">Primary Typography</label>
+            <select
+              value={font}
+              onChange={(e) => setFont(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs text-[#2D1B69]"
+            >
+              {FONTS.map((f) => <option key={f} value={f}>{f}</option>)}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-[#2D1B69] mb-1">Brand Tone &amp; Persona</label>
+            <input
+              value={tone}
+              onChange={(e) => setTone(e.target.value)}
+              placeholder="clear, practical, warm"
+              className="w-full px-4 py-2.5 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs text-[#2D1B69]"
+            />
+            <p className="text-[10px] text-[#6B7280] mt-1">Comma separated.</p>
+          </div>
         </div>
 
-      </div>
+        <div className="bg-white p-6 rounded-3xl border border-[#E9D5FF] space-y-4">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-semibold text-[#2D1B69]">Brand Guidelines &amp; Constraints</label>
+            <input
+              ref={docInput}
+              type="file"
+              accept=".txt,.md,.pdf,.docx"
+              onChange={handleDoc}
+              className="hidden"
+            />
+            <button
+              onClick={() => docInput.current?.click()}
+              disabled={parsing}
+              className="px-3 py-2 text-[11px] font-bold text-[#8B5CF6] bg-[#F3F0FF] rounded-xl hover:bg-[#E9D5FF] flex items-center space-x-1.5 disabled:opacity-60"
+            >
+              {parsing
+                ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                : <Upload className="w-3.5 h-3.5" />}
+              <span>{parsing ? 'Reading…' : 'Upload document'}</span>
+            </button>
+          </div>
 
+          {sourceFile && (
+            <div className="flex items-center space-x-2 px-3 py-2 rounded-xl bg-[#F8F7FF] border border-[#E9D5FF]">
+              <FileText className="w-3.5 h-3.5 text-[#8B5CF6]" />
+              <span className="text-[11px] text-[#2D1B69] truncate">{sourceFile}</span>
+              <Check className="w-3.5 h-3.5 text-green-600 ml-auto" />
+            </div>
+          )}
+
+          <textarea
+            value={guidelines}
+            onChange={(e) => setGuidelines(e.target.value)}
+            rows={16}
+            placeholder="Upload a document, or write your guidelines here. Be specific — these rules are what generation recalls."
+            className="w-full px-4 py-3 rounded-2xl border border-[#E9D5FF] bg-[#F8F7FF] text-xs text-[#2D1B69] leading-relaxed focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] resize-none"
+          />
+
+          <div className="flex items-center justify-between text-[10px] text-[#6B7280]">
+            <span>{guidelines.length} characters</span>
+            <span>{guidelines.length > 50 ? 'Will be indexed on save' : 'Too short to index'}</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

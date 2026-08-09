@@ -285,3 +285,14 @@ for a trivial length($3) query. There is an undocumented size cap.
 RULE: pass bulk data one row at a time using Query Batching Mode =
 "Each Item Independently", with the Code node emitting one item per row.
 Embeddings use 256 dimensions to keep each payload near 3.5 KB.
+
+### Code node output cap: 25 items
+Returning more than 25 items fails with "Code output too large".
+
+Consequence for RAG: chunk size must adapt to document length rather than
+being fixed. Chunk size is derived as max(220, len(text)/24 + 60), with a
+merge pass as a safety net.
+
+Practical ceiling: a document is represented by at most 24 chunks. For very
+long guidelines this coarsens retrieval. A future fix would split ingestion
+across multiple calls with a page or section offset.
