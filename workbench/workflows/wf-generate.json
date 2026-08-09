@@ -1,0 +1,3431 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-09T13:17:20.918Z",
+  "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246Y29kZS5leGVjdXRlfGFjdGlvbjpj",
+  "nodes": [
+    {
+      "id": "webhook-1786279730826",
+      "type": "webhook",
+      "position": {
+        "x": 392.388916015625,
+        "y": 293.1666564941406
+      },
+      "data": {
+        "label": "Webhook Trigger",
+        "toolId": "webhook",
+        "toolData": {
+          "id": "webhook",
+          "displayName": "Webhook Trigger",
+          "category": "Input /  Output",
+          "icon": "webhook",
+          "description": "Trigger workflow via webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to listen on (e.g. \"my-hook\")"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD"
+                ],
+                "default": "POST",
+                "description": "HTTP Method"
+              },
+              "responseMode": {
+                "type": "string",
+                "enum": [
+                  "onReceived",
+                  "lastNode",
+                  "respondWithNode",
+                  "streaming"
+                ],
+                "default": "lastNode",
+                "description": "When to respond"
+              },
+              "authentication": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "basicAuth",
+                  "headerAuth",
+                  "jwtAuth"
+                ],
+                "default": "none",
+                "description": "Authentication"
+              },
+              "basicAuthUser": {
+                "type": "string",
+                "description": "Username"
+              },
+              "basicAuthPassword": {
+                "type": "string",
+                "description": "Password"
+              },
+              "headerAuthName": {
+                "type": "string",
+                "description": "Name"
+              },
+              "headerAuthValue": {
+                "type": "string",
+                "description": "Value"
+              },
+              "jwtSecret": {
+                "type": "string",
+                "description": "Secret"
+              },
+              "jwtAlgorithm": {
+                "type": "string",
+                "enum": [
+                  "HS256",
+                  "HS384",
+                  "HS512"
+                ],
+                "default": "HS256",
+                "description": "Algorithm"
+              },
+              "sessionClaim": {
+                "type": "string",
+                "default": "sub",
+                "description": "JWT claim used to identify the session"
+              },
+              "requireRoleCheck": {
+                "type": "boolean",
+                "default": false,
+                "description": "Require Role Check (RBAC)"
+              },
+              "roleClaimKey": {
+                "type": "string",
+                "default": "role",
+                "description": "Role Claim Key"
+              },
+              "allowedRoles": {
+                "type": "string",
+                "default": "admin, staff",
+                "description": "Allowed Roles (comma separated)"
+              },
+              "sessionSource": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "auto",
+                  "header",
+                  "cookie",
+                  "body"
+                ],
+                "default": "none",
+                "description": "Session Source"
+              },
+              "sessionSourceName": {
+                "type": "string",
+                "description": "Session Source Name (header / cookie / body field)"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "allowedOrigins": {
+                    "type": "string",
+                    "description": "Allowed Origins (CORS)"
+                  },
+                  "binaryDataFieldName": {
+                    "type": "string",
+                    "description": "Field Name for Binary Data"
+                  },
+                  "ignoreBots": {
+                    "type": "boolean",
+                    "description": "Ignore Bots"
+                  },
+                  "ipAllowlist": {
+                    "type": "string",
+                    "description": "IP(s) Allowlist"
+                  },
+                  "noResponseBody": {
+                    "type": "boolean",
+                    "description": "No Response Body"
+                  },
+                  "rawBody": {
+                    "type": "boolean",
+                    "description": "Raw Body"
+                  },
+                  "responseCode": {
+                    "type": "number",
+                    "description": "Response Code"
+                  },
+                  "responseData": {
+                    "type": "string",
+                    "description": "Response Data"
+                  }
+                },
+                "additionalProperties": false,
+                "default": {},
+                "description": "Options"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "name": "path",
+              "displayName": "Path",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The path to listen on (e.g. \"my-hook\")"
+            },
+            {
+              "name": "method",
+              "displayName": "HTTP Method",
+              "type": "options",
+              "default": "POST",
+              "required": true,
+              "options": [
+                {
+                  "name": "GET",
+                  "value": "GET"
+                },
+                {
+                  "name": "POST",
+                  "value": "POST"
+                },
+                {
+                  "name": "PUT",
+                  "value": "PUT"
+                },
+                {
+                  "name": "DELETE",
+                  "value": "DELETE"
+                },
+                {
+                  "name": "PATCH",
+                  "value": "PATCH"
+                },
+                {
+                  "name": "HEAD",
+                  "value": "HEAD"
+                }
+              ],
+              "description": "HTTP Method to listen for"
+            },
+            {
+              "name": "responseMode",
+              "displayName": "Respond",
+              "type": "options",
+              "default": "lastNode",
+              "required": true,
+              "options": [
+                {
+                  "name": "Immediately",
+                  "value": "onReceived"
+                },
+                {
+                  "name": "When Last Node Finishes",
+                  "value": "lastNode"
+                },
+                {
+                  "name": "Using 'Respond to Webhook' Node",
+                  "value": "respondWithNode"
+                },
+                {
+                  "name": "Streaming",
+                  "value": "streaming"
+                }
+              ],
+              "description": "When to respond to the webhook request"
+            },
+            {
+              "name": "authentication",
+              "displayName": "Authentication",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "Basic Auth",
+                  "value": "basicAuth"
+                },
+                {
+                  "name": "Header Auth",
+                  "value": "headerAuth"
+                },
+                {
+                  "name": "JWT Auth",
+                  "value": "jwtAuth"
+                },
+                {
+                  "name": "None",
+                  "value": "none"
+                }
+              ],
+              "description": "The type of authentication to use for incoming webhook requests"
+            },
+            {
+              "name": "sessionSource",
+              "displayName": "Session Source",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "None (legacy, no session)",
+                  "value": "none"
+                },
+                {
+                  "name": "Auto (platform issues a session id)",
+                  "value": "auto"
+                },
+                {
+                  "name": "From Header",
+                  "value": "header"
+                },
+                {
+                  "name": "From Cookie",
+                  "value": "cookie"
+                },
+                {
+                  "name": "From Body Field",
+                  "value": "body"
+                }
+              ],
+              "description": "How the platform identifies the caller for per-user session continuity. Required when memory or loops should partition by caller."
+            },
+            {
+              "name": "sessionSourceName",
+              "displayName": "Session Source Name",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. X-Caller-Id (header), userId (body field), session_id (cookie)",
+              "description": "Header name, body field path, or cookie name used as the caller id.",
+              "displayOptions": {
+                "show": {
+                  "sessionSource": [
+                    "header",
+                    "cookie",
+                    "body"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthUser",
+              "displayName": "User",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The username for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthPassword",
+              "displayName": "Password",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The password for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthName",
+              "displayName": "Name",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The header name to check for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthValue",
+              "displayName": "Value",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The expected header value for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtSecret",
+              "displayName": "Secret",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The secret key used to verify the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtAlgorithm",
+              "displayName": "Algorithm",
+              "type": "options",
+              "default": "HS256",
+              "options": [
+                {
+                  "name": "HS256",
+                  "value": "HS256"
+                },
+                {
+                  "name": "HS384",
+                  "value": "HS384"
+                },
+                {
+                  "name": "HS512",
+                  "value": "HS512"
+                }
+              ],
+              "description": "The algorithm used to sign the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "sessionClaim",
+              "displayName": "Session Claim",
+              "type": "string",
+              "default": "sub",
+              "description": "The claim in the JWT payload that identifies the user (e.g. sub, email, userId). Leave blank to skip session tracking.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "requireRoleCheck",
+              "displayName": "Require Role Check (RBAC)",
+              "type": "boolean",
+              "default": false,
+              "description": "If enabled, the incoming JWT must contain an authorized role claim to execute the workflow.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "roleClaimKey",
+              "displayName": "Role Claim Key",
+              "type": "string",
+              "default": "role",
+              "description": "The field name inside the JWT payload that contains the user's role (e.g., \"role\", \"groups\").",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "allowedRoles",
+              "displayName": "Allowed Roles",
+              "type": "string",
+              "default": "admin, staff",
+              "description": "A comma-separated list of roles that are allowed to trigger this workflow. If empty, all roles pass.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "options",
+              "displayName": "Options",
+              "type": "collection",
+              "default": {},
+              "placeholder": "Add option",
+              "fields": [
+                {
+                  "name": "allowedOrigins",
+                  "displayName": "Allowed Origins (CORS)",
+                  "type": "string",
+                  "default": "*",
+                  "placeholder": "*",
+                  "description": "Comma-separated list of allowed origins for CORS. Use * to allow all origins."
+                },
+                {
+                  "name": "binaryDataFieldName",
+                  "displayName": "Field Name for Binary Data",
+                  "type": "string",
+                  "default": "data",
+                  "placeholder": "data",
+                  "description": "The name of the field in the request that contains binary data (for file uploads)."
+                },
+                {
+                  "name": "ignoreBots",
+                  "displayName": "Ignore Bots",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, requests from known bots (crawlers, spiders) will be ignored."
+                },
+                {
+                  "name": "ipAllowlist",
+                  "displayName": "IP(s) Allowlist",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "e.g. 127.0.0.1, 192.168.1.0/24",
+                  "description": "Comma-separated list of IPs or CIDR ranges. Only these IPs can trigger the webhook."
+                },
+                {
+                  "name": "noResponseBody",
+                  "displayName": "No Response Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the webhook will respond with an empty body (only status code)."
+                },
+                {
+                  "name": "rawBody",
+                  "displayName": "Raw Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the raw request body will be passed as-is without parsing."
+                },
+                {
+                  "name": "responseData",
+                  "displayName": "Response Data",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "Response body content",
+                  "description": "Custom response data to return when the webhook is triggered (JSON or text)."
+                }
+              ]
+            }
+          ]
+        },
+        "isTrigger": true,
+        "isPrimaryTrigger": true,
+        "inputs": {
+          "path": "generate",
+          "responseMode": "respondWithNode",
+          "authentication": "jwtAuth",
+          "jwtSecret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
+          "sessionSource": "header",
+          "sessionSourceName": "Authorization",
+          "options": {
+            "allowedOrigins": "*"
+          }
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "body": {
+                  "prompt": "summer sale announcement for our new canvas tote bag",
+                  "platform": "instagram_square",
+                  "audience": "Small business owners",
+                  "style": "editorial photography",
+                  "enforce_palette": true,
+                  "brand_tokens": {
+                    "colors": {
+                      "primary": "#2F5D50",
+                      "secondary": "#D9C7A3",
+                      "accent": "#C4622D"
+                    },
+                    "fonts": {
+                      "heading": "Bitter"
+                    },
+                    "tone": [
+                      "clear",
+                      "practical",
+                      "warm",
+                      "unhurried"
+                    ]
+                  }
+                },
+                "query": {},
+                "headers": {
+                  "x-forwarded-for": "103.224.35.25",
+                  "x-forwarded-proto": "https",
+                  "x-forwarded-port": "443",
+                  "host": "api.agents.snsihub.ai",
+                  "x-amzn-trace-id": "Root=1-6a787bfb-622e85e0187004217b56dd04",
+                  "content-length": "351",
+                  "sec-ch-ua-platform": "\"Windows\"",
+                  "authorization": "Bearer REDACTED_TOKEN.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzQyNzg1LCJpYXQiOjE3ODYyNTYzODV9.De4DLEs89woQ3B0b6WdDZ4mbkRtz4DnAaDmqRemTVe0",
+                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+                  "content-type": "application/json",
+                  "sec-ch-ua-mobile": "?0",
+                  "accept": "*/*",
+                  "origin": "http://localhost:5173",
+                  "sec-fetch-site": "cross-site",
+                  "sec-fetch-mode": "cors",
+                  "sec-fetch-dest": "empty",
+                  "referer": "http://localhost:5173/",
+                  "accept-encoding": "gzip, deflate, br, zstd",
+                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+                  "priority": "u=1, i"
+                },
+                "params": {},
+                "jwt": {
+                  "sub": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                  "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                  "org_name": "Brightfold Studio",
+                  "role": "owner",
+                  "plan": "enterprise",
+                  "email": "priya@brightfold.org",
+                  "exp": 1786342785,
+                  "iat": 1786256385
+                },
+                "file": null,
+                "sessionId": "rs_3fd87bc89fa0897b7285b20f20fd0df9a71a"
+              }
+            }
+          ],
+          "usage": {
+            "category": "INTEGRATION",
+            "metrics": {
+              "durationMs": 0,
+              "apiCalls": 1,
+              "payloadSizeBytes": 1897
+            },
+            "cost": 2
+          }
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 99,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 392.388916015625,
+        "y": 293.1666564941406
+      },
+      "dragging": false
+    },
+    {
+      "id": "httpRequest-1786279824383",
+      "type": "action",
+      "position": {
+        "x": 658.0165567687579,
+        "y": 296.2777794565023
+      },
+      "data": {
+        "label": "Http Request",
+        "toolId": "httpRequest",
+        "toolData": {
+          "id": "httpRequest",
+          "displayName": "Http Request",
+          "category": "API & HTTP",
+          "icon": "Globe",
+          "description": "Make HTTP API requests to external services.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS"
+                ],
+                "default": "GET",
+                "description": "HTTP method to use"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to send the request to"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Headers to include in the request"
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query parameters to append to the URL"
+              },
+              "body": {
+                "description": "Request body"
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "fields"
+                ],
+                "default": "json",
+                "description": "How the body is defined"
+              },
+              "bodyFields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Body fields for key-value input"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "form-urlencoded",
+                  "raw"
+                ],
+                "default": "json",
+                "description": "Content type of the request body"
+              },
+              "responseFormat": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "text",
+                  "binary"
+                ],
+                "default": "auto",
+                "description": "Format of the response data"
+              },
+              "authentication": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "header",
+                      "query",
+                      "basic",
+                      "bearer"
+                    ],
+                    "default": "none"
+                  },
+                  "config": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Authentication configuration"
+              },
+              "ignoreResponseCode": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, the node will not fail on non-2xx status codes"
+              },
+              "includeHeaders": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, response headers will be included in the output"
+              },
+              "allowUnauthorized": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, SSL certificate verification will be skipped"
+              },
+              "lowercaseHeaders": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, all header keys will be converted to lowercase"
+              },
+              "timeout": {
+                "type": "number",
+                "default": 300000,
+                "description": "Request timeout in milliseconds"
+              },
+              "outputPropertyName": {
+                "type": "string",
+                "default": "data",
+                "description": "The name of the property to store binary data in"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": false,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
+          "headers": {
+            "x-goog-api-key": "REDACTED_GEMINI_KEY",
+            "Content-Type": "application/json"
+          },
+          "body": "{\"model\":\"models/gemini-embedding-001\",\"content\":{\"parts\":[{\"text\":\"{{ $json.body.prompt }} {{ $json.body.style }} {{ $json.body.audience }}\"}]},\"outputDimensionality\":128}",
+          "authentication": {
+            "type": "none",
+            "config": {}
+          }
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "statusCode": 200,
+                "body": {
+                  "embedding": {
+                    "values": [
+                      -0.0073153665,
+                      -0.0019655873,
+                      -0.0021660342,
+                      -0.06955664,
+                      -0.030618396,
+                      0.012147715,
+                      0.0018140791,
+                      0.0034211932,
+                      -0.015133923,
+                      -0.007400008,
+                      -0.024624873,
+                      -0.003689737,
+                      -0.007182327,
+                      -0.034083895,
+                      0.12708895,
+                      0.0050153104,
+                      -0.01075991,
+                      -0.00799997,
+                      0.018794136,
+                      -0.009702151,
+                      -0.043798715,
+                      0.006651995,
+                      0.011617528,
+                      -0.00036488785,
+                      -0.015964806,
+                      0.00665337,
+                      0.04776995,
+                      -0.010324392,
+                      0.005792741,
+                      0.008030115,
+                      0.0028939038,
+                      -0.017906258,
+                      0.0074411244,
+                      0.012498973,
+                      0.03522616,
+                      0.011390237,
+                      0.019818185,
+                      0.0022272163,
+                      0.003908987,
+                      0.010444306,
+                      -0.024605565,
+                      0.014318589,
+                      0.0045667584,
+                      -0.004276074,
+                      -0.032940067,
+                      0.0020227584,
+                      0.0064659757,
+                      -0.051572107,
+                      0.0061191814,
+                      0.019032007,
+                      0.0023779334,
+                      -0.011593066,
+                      -0.0228713,
+                      -0.15253505,
+                      -0.014858521,
+                      0.006087176,
+                      0.010068013,
+                      0.011566841,
+                      -0.010417861,
+                      -0.0131277405,
+                      -0.0030314017,
+                      0.01214628,
+                      0.0052556503,
+                      -0.042397916,
+                      -0.002212286,
+                      -0.020232853,
+                      -0.0037429759,
+                      -0.007757742,
+                      -0.004652457,
+                      -0.00081065163,
+                      0.030986035,
+                      -0.016030809,
+                      -0.0023766889,
+                      0.0078093493,
+                      0.018307501,
+                      -0.02159902,
+                      -0.012307128,
+                      -0.004483632,
+                      -0.0139632495,
+                      0.0069188876,
+                      0.015927227,
+                      -0.0072272057,
+                      -0.009932259,
+                      -0.014619448,
+                      -0.010325689,
+                      0.00349646,
+                      -0.0092782695,
+                      0.0035294653,
+                      -0.035314463,
+                      -0.015399312,
+                      -0.023915164,
+                      0.0025860702,
+                      0.019631686,
+                      0.010492279,
+                      -0.018619746,
+                      0.0023974213,
+                      -0.020283705,
+                      -0.013988244,
+                      -0.034418434,
+                      -0.017754015,
+                      0.0045558056,
+                      -0.009236031,
+                      -0.004106901,
+                      0.001587779,
+                      -0.011424875,
+                      0.014186839,
+                      -0.025188385,
+                      -0.020535385,
+                      0.0164374,
+                      -0.02986055,
+                      0.018389005,
+                      -0.0063530793,
+                      -0.02904928,
+                      0.022141183,
+                      0.008487957,
+                      -0.13154419,
+                      0.036258575,
+                      0.010636599,
+                      -0.038629625,
+                      0.0053501665,
+                      0.002607345,
+                      0.00796302,
+                      -0.0030740658,
+                      0.00724101,
+                      -0.016752418,
+                      0.0029786418,
+                      0.009739807,
+                      0.0005050968
+                    ]
+                  }
+                }
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 658.0165567687579,
+        "y": 296.2777794565023
+      },
+      "dragging": false
+    },
+    {
+      "id": "code.execute-1786279920209",
+      "type": "action",
+      "position": {
+        "x": 919.709330004465,
+        "y": 293.43329279089676
+      },
+      "data": {
+        "label": "Code",
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "mode": "all",
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": false,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
+          "headers": {
+            "x-goog-api-key": "REDACTED_GEMINI_KEY",
+            "Content-Type": "application/json"
+          },
+          "body": "{\"model\":\"models/gemini-embedding-001\",\"content\":{\"parts\":[{\"text\":\"{{ $json.body.prompt }} {{ $json.body.style }} {{ $json.body.audience }}\"}]},\"outputDimensionality\":128}",
+          "language": "python",
+          "code": "values = _json.get(\"body\", {}).get(\"embedding\", {}).get(\"values\", [])\n\norg_id, body = \"\", {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"jwt\" in j and isinstance(j[\"jwt\"], dict):\n                org_id = j[\"jwt\"].get(\"org_id\", \"\")\n                body = j.get(\"body\", {}) or {}\n                break\n        if org_id:\n            break\nexcept Exception:\n    pass\n\nemb = \",\".join(str(round(v, 6)) for v in values)\n\n# No embedding, or a solo user with no brand kit: return an empty result set\n# rather than skipping the node, so the chain stays uniform.\nsql = (\n    \"select rag_retrieve('\" + org_id + \"'::uuid, '[\" + emb + \"]', 6) as result;\"\n    if emb and org_id\n    else \"select json_build_object('chunks', '[]'::json, 'confident', false) as result;\"\n)\n\nreturn [{\"json\": {\n    \"org_id\": org_id,\n    \"prompt\": body.get(\"prompt\", \"\"),\n    \"platform\": body.get(\"platform\", \"instagram_square\"),\n    \"audience\": body.get(\"audience\", \"\"),\n    \"style\": body.get(\"style\", \"\"),\n    \"enforce_palette\": bool(body.get(\"enforce_palette\", False)),\n    \"brand_tokens\": body.get(\"brand_tokens\", {}) or {},\n    \"sql\": sql,\n}}]"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                "prompt": "summer sale announcement for our new canvas tote bag",
+                "platform": "instagram_square",
+                "audience": "Small business owners",
+                "style": "editorial photography",
+                "enforce_palette": true,
+                "brand_tokens": {
+                  "colors": {
+                    "primary": "#2F5D50",
+                    "secondary": "#D9C7A3",
+                    "accent": "#C4622D"
+                  },
+                  "fonts": {
+                    "heading": "Bitter"
+                  },
+                  "tone": [
+                    "clear",
+                    "practical",
+                    "warm",
+                    "unhurried"
+                  ]
+                },
+                "sql": "select rag_retrieve('31522872-007e-4165-b899-c941c27eb8bc'::uuid, '[-0.007315,-0.001966,-0.002166,-0.069557,-0.030618,0.012148,0.001814,0.003421,-0.015134,-0.0074,-0.024625,-0.00369,-0.007182,-0.034084,0.127089,0.005015,-0.01076,-0.008,0.018794,-0.009702,-0.043799,0.006652,0.011618,-0.000365,-0.015965,0.006653,0.04777,-0.010324,0.005793,0.00803,0.002894,-0.017906,0.007441,0.012499,0.035226,0.01139,0.019818,0.002227,0.003909,0.010444,-0.024606,0.014319,0.004567,-0.004276,-0.03294,0.002023,0.006466,-0.051572,0.006119,0.019032,0.002378,-0.011593,-0.022871,-0.152535,-0.014859,0.006087,0.010068,0.011567,-0.010418,-0.013128,-0.003031,0.012146,0.005256,-0.042398,-0.002212,-0.020233,-0.003743,-0.007758,-0.004652,-0.000811,0.030986,-0.016031,-0.002377,0.007809,0.018308,-0.021599,-0.012307,-0.004484,-0.013963,0.006919,0.015927,-0.007227,-0.009932,-0.014619,-0.010326,0.003496,-0.009278,0.003529,-0.035314,-0.015399,-0.023915,0.002586,0.019632,0.010492,-0.01862,0.002397,-0.020284,-0.013988,-0.034418,-0.017754,0.004556,-0.009236,-0.004107,0.001588,-0.011425,0.014187,-0.025188,-0.020535,0.016437,-0.029861,0.018389,-0.006353,-0.029049,0.022141,0.008488,-0.131544,0.036259,0.010637,-0.03863,0.00535,0.002607,0.007963,-0.003074,0.007241,-0.016752,0.002979,0.00974,0.000505]', 6) as result;"
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 919.709330004465,
+        "y": 293.43329279089676
+      },
+      "dragging": false
+    },
+    {
+      "id": "postgres.executeQuery-1786279960746",
+      "type": "action",
+      "position": {
+        "x": 1199.7332395296298,
+        "y": 291.5369683471597
+      },
+      "data": {
+        "label": "Execute Query",
+        "toolId": "postgres.executeQuery",
+        "toolData": {
+          "id": "postgres.executeQuery",
+          "displayName": "Execute Query",
+          "category": "Memory & State",
+          "provider": "postgres",
+          "operation": "executeQuery",
+          "icon": "Database",
+          "description": "Execute a raw SQL query",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "credentialId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "queryTimeout": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "description": "Connection timeout in seconds"
+              },
+              "idleTimeout": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0,
+                "description": "Delay closing idle connection in seconds"
+              },
+              "replaceEmptyStringsWithNull": {
+                "type": "boolean",
+                "default": false,
+                "description": "Replace empty string values with NULL"
+              },
+              "outputLargeNumbersAsText": {
+                "type": "boolean",
+                "default": false,
+                "description": "Output BIGINT/NUMERIC as text"
+              },
+              "queryBatching": {
+                "type": "string",
+                "enum": [
+                  "single",
+                  "independently",
+                  "transaction"
+                ],
+                "default": "single",
+                "description": "Query Batching"
+              },
+              "query": {
+                "type": "string",
+                "description": "SQL query to execute"
+              },
+              "queryParameters": {
+                "type": "array",
+                "default": [],
+                "description": "Parameters for prepared statements"
+              }
+            },
+            "required": [
+              "credentialId",
+              "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "executionMode": "batch"
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": false,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
+          "headers": {
+            "x-goog-api-key": "REDACTED_GEMINI_KEY",
+            "Content-Type": "application/json"
+          },
+          "body": "{\"model\":\"models/gemini-embedding-001\",\"content\":{\"parts\":[{\"text\":\"{{ $json.body.prompt }} {{ $json.body.style }} {{ $json.body.audience }}\"}]},\"outputDimensionality\":128}",
+          "language": "python",
+          "code": "values = _json.get(\"body\", {}).get(\"embedding\", {}).get(\"values\", [])\n\norg_id, body = \"\", {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"jwt\" in j and isinstance(j[\"jwt\"], dict):\n                org_id = j[\"jwt\"].get(\"org_id\", \"\")\n                body = j.get(\"body\", {}) or {}\n                break\n        if org_id:\n            break\nexcept Exception:\n    pass\n\nemb = \",\".join(str(round(v, 6)) for v in values)\n\n# No embedding, or a solo user with no brand kit: return an empty result set\n# rather than skipping the node, so the chain stays uniform.\nsql = (\n    \"select rag_retrieve('\" + org_id + \"'::uuid, '[\" + emb + \"]', 6) as result;\"\n    if emb and org_id\n    else \"select json_build_object('chunks', '[]'::json, 'confident', false) as result;\"\n)\n\nreturn [{\"json\": {\n    \"org_id\": org_id,\n    \"prompt\": body.get(\"prompt\", \"\"),\n    \"platform\": body.get(\"platform\", \"instagram_square\"),\n    \"audience\": body.get(\"audience\", \"\"),\n    \"style\": body.get(\"style\", \"\"),\n    \"enforce_palette\": bool(body.get(\"enforce_palette\", False)),\n    \"brand_tokens\": body.get(\"brand_tokens\", {}) or {},\n    \"sql\": sql,\n}}]",
+          "schemaMode": "list",
+          "tableMode": "list",
+          "columnsMode": "manually",
+          "schema": "public",
+          "query": "{{ $json.sql }}",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "replaceEmptyStringsWithNull": false,
+          "outputLargeNumbersAsText": false,
+          "queryBatching": "single",
+          "queryParameters": []
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "status": "success",
+                "data": {
+                  "items": [
+                    {
+                      "json": {
+                        "result": {
+                          "chunks": [
+                            {
+                              "id": "f3dfa73d-5db7-4ae3-baa4-4986c998ef2a",
+                              "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                              "chunk_index": 14,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.8013
+                            },
+                            {
+                              "id": "027ed8f9-9148-4b4f-bded-c097eb892e5c",
+                              "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                              "chunk_index": 10,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7695
+                            },
+                            {
+                              "id": "6500110c-eb31-4a03-8497-5df24bd15533",
+                              "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                              "chunk_index": 13,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7678
+                            },
+                            {
+                              "id": "79ec6333-3b9b-4d6a-91f0-af6967430c8f",
+                              "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                              "chunk_index": 6,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7609
+                            },
+                            {
+                              "id": "7d835821-d2d4-45c0-aebc-9e7f6f8d8f3e",
+                              "content": "Secondary sand #D9C7A3 carries background fills and large surfaces. It should feel like paper, not like a highlight. Accent rust #C4622D is reserved for a single emphasis per layout. Two accents in one design is one too many.",
+                              "chunk_index": 1,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7529
+                            },
+                            {
+                              "id": "04950679-db21-41b1-9fb7-c46845b83d8b",
+                              "content": "Contractions are welcome. Jargon is not. Any claim about materials or sourcing must name the specific supplier or certification.",
+                              "chunk_index": 12,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7489
+                            }
+                          ],
+                          "top_similarity": 0.8013,
+                          "gap": 0.0318,
+                          "confident": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                "metadata": {
+                  "rowCount": 1,
+                  "command": "SELECT"
+                }
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1199.7332395296298,
+        "y": 291.5369683471597
+      },
+      "dragging": false
+    },
+    {
+      "id": "code.execute-1786279990370",
+      "type": "action",
+      "position": {
+        "x": 1481.3374194245753,
+        "y": 288.6924816815542
+      },
+      "data": {
+        "label": "Code",
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "mode": "all",
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": false,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
+          "headers": {
+            "x-goog-api-key": "REDACTED_GEMINI_KEY",
+            "Content-Type": "application/json"
+          },
+          "body": "{\"model\":\"models/gemini-embedding-001\",\"content\":{\"parts\":[{\"text\":\"{{ $json.body.prompt }} {{ $json.body.style }} {{ $json.body.audience }}\"}]},\"outputDimensionality\":128}",
+          "language": "python",
+          "code": "\"\"\"\nBuild the instruction for the language model.\n\nRetrieved guidelines are included only when retrieval was confident. An\nunconfident match means the corpus has no relevant rule, and injecting the\nnearest chunk anyway would actively misdirect generation.\n\"\"\"\n\nresult = {}\ntry:\n    result = _json[\"data\"][\"items\"][0][\"json\"][\"result\"] or {}\nexcept Exception:\n    pass\n\nchunks = result.get(\"chunks\", []) or []\nconfident = bool(result.get(\"confident\", False))\ntop_sim = result.get(\"top_similarity\")\n\nctx = {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"sql\" in j and \"prompt\" in j:\n                ctx = j\n                break\n        if ctx:\n            break\nexcept Exception:\n    pass\n\ntokens = ctx.get(\"brand_tokens\", {}) or {}\ncolors = tokens.get(\"colors\", {}) or {}\nfonts = tokens.get(\"fonts\", {}) or {}\ntone = tokens.get(\"tone\", []) or []\n\nguideline_lines = []\nif confident and chunks:\n    for c in chunks[:4]:\n        guideline_lines.append(\"- \" + c.get(\"content\", \"\").strip())\n\npalette_line = \"\"\nif ctx.get(\"enforce_palette\") and colors:\n    palette_line = (\"Palette (MANDATORY, use only these): \"\n                    + \", \".join(f\"{k} {v}\" for k, v in colors.items()))\nelif colors:\n    palette_line = (\"Palette (preferred, may be varied): \"\n                    + \", \".join(f\"{k} {v}\" for k, v in colors.items()))\n\nparts = [\n    \"You are a creative director preparing a brief for an image generator.\",\n    \"\",\n    \"USER REQUEST: \" + ctx.get(\"prompt\", \"\"),\n    \"PLATFORM: \" + ctx.get(\"platform\", \"\"),\n    \"AUDIENCE: \" + (ctx.get(\"audience\") or \"not specified\"),\n    \"STYLE: \" + (ctx.get(\"style\") or \"not specified\"),\n]\nif palette_line:\n    parts.append(palette_line)\nif tone:\n    parts.append(\"BRAND TONE: \" + \", \".join(tone))\nif fonts.get(\"heading\"):\n    parts.append(\"BRAND TYPEFACE: \" + fonts[\"heading\"])\nif guideline_lines:\n    parts.append(\"\")\n    parts.append(\"BRAND GUIDELINES retrieved for this request:\")\n    parts.extend(guideline_lines)\n\nparts += [\n    \"\",\n    \"Return ONLY a JSON object, no markdown fences, with these keys:\",\n    '  \"intent\"        one short phrase describing what this asset is for',\n    '  \"subject\"       what should physically appear in the frame',\n    '  \"composition\"   layout and framing guidance',\n    '  \"palette\"       array of hex colours to use',\n    '  \"mood\"          two or three adjectives',\n    '  \"avoid\"         array of things the image must not contain',\n    '  \"image_prompt\"  a single detailed sentence for the image model',\n    '  \"negative_prompt\" comma-separated terms to exclude',\n    \"\",\n    \"Do not put readable text or lettering in the image; typography is added later.\",\n]\n\nreturn [{\"json\": {\n    \"llm_prompt\": \"\\n\".join(parts),\n    \"confident\": confident,\n    \"top_similarity\": top_sim,\n    \"sources\": [\n        {\"content\": c.get(\"content\", \"\"), \"similarity\": c.get(\"similarity\")}\n        for c in chunks[:4]\n    ] if confident else [],\n    \"ctx\": ctx,\n}}]",
+          "schemaMode": "list",
+          "tableMode": "list",
+          "columnsMode": "manually",
+          "schema": "public",
+          "query": "{{ $json.sql }}",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "replaceEmptyStringsWithNull": false,
+          "outputLargeNumbersAsText": false,
+          "queryBatching": "single",
+          "queryParameters": []
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "llm_prompt": "You are a creative director preparing a brief for an image generator.\n\nUSER REQUEST: summer sale announcement for our new canvas tote bag\nPLATFORM: instagram_square\nAUDIENCE: Small business owners\nSTYLE: editorial photography\nPalette (MANDATORY, use only these): primary #2F5D50, secondary #D9C7A3, accent #C4622D\nBRAND TONE: clear, practical, warm, unhurried\nBRAND TYPEFACE: Bitter\n\nBRAND GUIDELINES retrieved for this request:\n- Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.\n- Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.\n- Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.\n- Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.\n\nReturn ONLY a JSON object, no markdown fences, with these keys:\n  \"intent\"        one short phrase describing what this asset is for\n  \"subject\"       what should physically appear in the frame\n  \"composition\"   layout and framing guidance\n  \"palette\"       array of hex colours to use\n  \"mood\"          two or three adjectives\n  \"avoid\"         array of things the image must not contain\n  \"image_prompt\"  a single detailed sentence for the image model\n  \"negative_prompt\" comma-separated terms to exclude\n\nDo not put readable text or lettering in the image; typography is added later.",
+                "confident": true,
+                "top_similarity": 0.8013,
+                "sources": [
+                  {
+                    "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                    "similarity": 0.8013
+                  },
+                  {
+                    "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                    "similarity": 0.7695
+                  },
+                  {
+                    "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                    "similarity": 0.7678
+                  },
+                  {
+                    "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                    "similarity": 0.7609
+                  }
+                ],
+                "ctx": {
+                  "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                  "prompt": "summer sale announcement for our new canvas tote bag",
+                  "platform": "instagram_square",
+                  "audience": "Small business owners",
+                  "style": "editorial photography",
+                  "enforce_palette": true,
+                  "brand_tokens": {
+                    "colors": {
+                      "primary": "#2F5D50",
+                      "secondary": "#D9C7A3",
+                      "accent": "#C4622D"
+                    },
+                    "fonts": {
+                      "heading": "Bitter"
+                    },
+                    "tone": [
+                      "clear",
+                      "practical",
+                      "warm",
+                      "unhurried"
+                    ]
+                  },
+                  "sql": "select rag_retrieve('31522872-007e-4165-b899-c941c27eb8bc'::uuid, '[-0.007315,-0.001966,-0.002166,-0.069557,-0.030618,0.012148,0.001814,0.003421,-0.015134,-0.0074,-0.024625,-0.00369,-0.007182,-0.034084,0.127089,0.005015,-0.01076,-0.008,0.018794,-0.009702,-0.043799,0.006652,0.011618,-0.000365,-0.015965,0.006653,0.04777,-0.010324,0.005793,0.00803,0.002894,-0.017906,0.007441,0.012499,0.035226,0.01139,0.019818,0.002227,0.003909,0.010444,-0.024606,0.014319,0.004567,-0.004276,-0.03294,0.002023,0.006466,-0.051572,0.006119,0.019032,0.002378,-0.011593,-0.022871,-0.152535,-0.014859,0.006087,0.010068,0.011567,-0.010418,-0.013128,-0.003031,0.012146,0.005256,-0.042398,-0.002212,-0.020233,-0.003743,-0.007758,-0.004652,-0.000811,0.030986,-0.016031,-0.002377,0.007809,0.018308,-0.021599,-0.012307,-0.004484,-0.013963,0.006919,0.015927,-0.007227,-0.009932,-0.014619,-0.010326,0.003496,-0.009278,0.003529,-0.035314,-0.015399,-0.023915,0.002586,0.019632,0.010492,-0.01862,0.002397,-0.020284,-0.013988,-0.034418,-0.017754,0.004556,-0.009236,-0.004107,0.001588,-0.011425,0.014187,-0.025188,-0.020535,0.016437,-0.029861,0.018389,-0.006353,-0.029049,0.022141,0.008488,-0.131544,0.036259,0.010637,-0.03863,0.00535,0.002607,0.007963,-0.003074,0.007241,-0.016752,0.002979,0.00974,0.000505]', 6) as result;"
+                }
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1481.3374194245753,
+        "y": 288.6924816815542
+      },
+      "dragging": false
+    },
+    {
+      "id": "gemini-1786280020147",
+      "type": "action",
+      "position": {
+        "x": 1756.304463766441,
+        "y": 293.4332927908968
+      },
+      "data": {
+        "label": "Message a Model Text",
+        "toolId": "gemini",
+        "toolData": {
+          "id": "gemini",
+          "displayName": "Google Gemini",
+          "type": "chat model",
+          "category": "AI / LLM",
+          "provider": "LLM Models",
+          "operation": "execute",
+          "icon": "api",
+          "description": "Interact with Google Gemini AI models for audio, vision, and language processing.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "resource": {
+                "type": "string",
+                "enum": [
+                  "Text",
+                  "Audio",
+                  "Document",
+                  "Media File",
+                  "File Search"
+                ],
+                "default": "Audio"
+              },
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "Message a Model",
+                  "Analyze Audio",
+                  "Transcribe a Recording",
+                  "Analyze Document",
+                  "Upload Media File",
+                  "Create File Search Store",
+                  "Delete File Search Store",
+                  "List File Search Stores",
+                  "Upload to File Search Store"
+                ]
+              },
+              "model": {
+                "type": "string",
+                "default": "gemini-2.5-flash"
+              },
+              "textInput": {
+                "type": "string"
+              },
+              "messages": {
+                "type": "object",
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "prompt": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "user",
+                            "model"
+                          ],
+                          "default": "user"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "inputType": {
+                "type": "string",
+                "enum": [
+                  "Binary File(s)",
+                  "Audio URL",
+                  "Document URL",
+                  "Binary File",
+                  "File URL"
+                ],
+                "default": "Binary File(s)"
+              },
+              "audioUrl": {
+                "type": "string"
+              },
+              "documentUrl": {
+                "type": "string"
+              },
+              "fileUrl": {
+                "type": "string"
+              },
+              "outputContentAsJson": {
+                "type": "boolean",
+                "default": false
+              },
+              "builtInTools": {
+                "type": "object",
+                "properties": {
+                  "googleSearch": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "default": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "googleMaps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "latitude": {
+                          "type": "number"
+                        },
+                        "longitude": {
+                          "type": "number"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "urlContext": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "default": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "fileSearch": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "default": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "codeExecution": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "default": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "fileSearchStoreName": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "fileDisplayName": {
+                "type": "string"
+              },
+              "pageSize": {
+                "type": "number"
+              },
+              "pageToken": {
+                "type": "string"
+              },
+              "forceDelete": {
+                "type": "boolean"
+              },
+              "inputDataFieldName": {
+                "type": "string",
+                "default": "data"
+              },
+              "simplify": {
+                "type": "boolean",
+                "default": true
+              },
+              "options": {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              "credentialId": {
+                "type": "string"
+              },
+              "credentials": {}
+            },
+            "required": [
+              "operation"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "displayName": "Resource",
+              "name": "resource",
+              "type": "options",
+              "noDataExpression": true,
+              "options": [
+                {
+                  "name": "Text",
+                  "value": "Text"
+                },
+                {
+                  "name": "Audio",
+                  "value": "Audio"
+                },
+                {
+                  "name": "Document",
+                  "value": "Document"
+                },
+                {
+                  "name": "Media File",
+                  "value": "Media File"
+                },
+                {
+                  "name": "File Search",
+                  "value": "File Search"
+                }
+              ],
+              "default": "Audio"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Message a Model",
+                  "value": "Message a Model"
+                }
+              ],
+              "default": "Message a Model"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Audio"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Analyze Audio",
+                  "value": "Analyze Audio"
+                },
+                {
+                  "name": "Transcribe a Recording",
+                  "value": "Transcribe a Recording"
+                }
+              ],
+              "default": "Analyze Audio"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Document"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Analyze Document",
+                  "value": "Analyze Document"
+                }
+              ],
+              "default": "Analyze Document"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Media File"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Upload Media File",
+                  "value": "Upload Media File"
+                }
+              ],
+              "default": "Upload Media File"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Create File Search Store",
+                  "value": "Create File Search Store"
+                },
+                {
+                  "name": "Delete File Search Store",
+                  "value": "Delete File Search Store"
+                },
+                {
+                  "name": "List File Search Stores",
+                  "value": "List File Search Stores"
+                },
+                {
+                  "name": "Upload to File Search Store",
+                  "value": "Upload to File Search Store"
+                }
+              ],
+              "default": "List File Search Stores"
+            },
+            {
+              "displayName": "Model",
+              "name": "model",
+              "type": "options",
+              "fetchEndpoint": "/api/tools/gemini/list-models",
+              "dependsOn": [
+                "credentials"
+              ],
+              "labelKey": "name",
+              "valueKey": "id",
+              "default": "gemini-2.5-flash",
+              "description": "Select the Gemini model to use.",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text",
+                    "Audio",
+                    "Document"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Prompt (User Message)",
+              "name": "prompt",
+              "type": "string",
+              "format": "text",
+              "typeOptions": {
+                "rows": 4
+              },
+              "default": "",
+              "placeholder": "e.g. Hello, how can you help me?",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ],
+                  "operation": [
+                    "Message a Model"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Text Input",
+              "name": "textInput",
+              "type": "string",
+              "format": "text",
+              "typeOptions": {
+                "rows": 4
+              },
+              "default": "",
+              "placeholder": "What's in this audio?",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Audio"
+                  ],
+                  "operation": [
+                    "Analyze Audio"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Text Input",
+              "name": "textInput",
+              "type": "string",
+              "format": "text",
+              "typeOptions": {
+                "rows": 4
+              },
+              "default": "",
+              "placeholder": "What's in this document?",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Document"
+                  ],
+                  "operation": [
+                    "Analyze Document"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Input Type",
+              "name": "inputType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Audio"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Binary File(s)",
+                  "value": "Binary File(s)"
+                },
+                {
+                  "name": "Audio URL",
+                  "value": "Audio URL"
+                }
+              ],
+              "default": "Binary File(s)"
+            },
+            {
+              "displayName": "Input Type",
+              "name": "inputType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Document"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Binary File(s)",
+                  "value": "Binary File(s)"
+                },
+                {
+                  "name": "Document URL",
+                  "value": "Document URL"
+                }
+              ],
+              "default": "Binary File(s)"
+            },
+            {
+              "displayName": "Input Type",
+              "name": "inputType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Media File"
+                  ],
+                  "operation": [
+                    "Upload Media File"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Binary File",
+                  "value": "Binary File"
+                },
+                {
+                  "name": "File URL",
+                  "value": "File URL"
+                }
+              ],
+              "default": "Binary File"
+            },
+            {
+              "displayName": "Audio URL",
+              "name": "audioUrl",
+              "type": "string",
+              "default": "",
+              "placeholder": "https://example.com/audio.mp3",
+              "description": "Publicly accessible URL of the audio file to process",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Audio"
+                  ],
+                  "inputType": [
+                    "Audio URL"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Document URL",
+              "name": "documentUrl",
+              "type": "string",
+              "default": "",
+              "placeholder": "https://example.com/file.pdf",
+              "description": "Publicly accessible URL of the document file to process",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Document"
+                  ],
+                  "inputType": [
+                    "Document URL"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "File URL",
+              "name": "fileUrl",
+              "type": "string",
+              "default": "",
+              "placeholder": "https://example.com/file.pdf",
+              "description": "Publicly accessible URL of the file to upload",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Media File"
+                  ],
+                  "operation": [
+                    "Upload Media File"
+                  ],
+                  "inputType": [
+                    "File URL"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "File Search Store Name",
+              "name": "fileSearchStoreName",
+              "type": "string",
+              "default": "",
+              "placeholder": "fileSearchStores/my-file-search-store-123",
+              "description": "The File Search store resource name (for example: fileSearchStores/my-store-id)",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Delete File Search Store",
+                    "Upload to File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Display Name",
+              "name": "displayName",
+              "type": "string",
+              "default": "",
+              "placeholder": "Testing",
+              "description": "Display name for the new File Search store",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Create File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "File Display Name",
+              "name": "fileDisplayName",
+              "type": "string",
+              "default": "",
+              "placeholder": "AWS",
+              "description": "Display name for the uploaded document in the File Search store",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Upload to File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Input Type",
+              "name": "inputType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Upload to File Search Store"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Binary File",
+                  "value": "Binary File"
+                }
+              ],
+              "default": "Binary File"
+            },
+            {
+              "displayName": "Page Size",
+              "name": "pageSize",
+              "type": "number",
+              "default": 10,
+              "description": "Maximum number of stores to return per page (1 to 20)",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "List File Search Stores"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Page Token",
+              "name": "pageToken",
+              "type": "string",
+              "default": "",
+              "description": "Pagination token from a previous list response",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "List File Search Stores"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Force Delete",
+              "name": "forceDelete",
+              "type": "boolean",
+              "default": false,
+              "description": "Delete all related documents in the store as well",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Delete File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Input Data Field Name(s)",
+              "name": "inputDataFieldName",
+              "type": "string",
+              "default": "data",
+              "description": "The name of the input binary field to process. Leave as data, or use your form file field name such as image.",
+              "displayOptions": {
+                "show": {
+                  "operation": [
+                    "Analyze Audio",
+                    "Transcribe a Recording",
+                    "Analyze Document",
+                    "Upload Media File",
+                    "Upload to File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Simplify Output",
+              "name": "simplify",
+              "type": "boolean",
+              "default": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text",
+                    "Audio",
+                    "Document"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Output Content as JSON",
+              "name": "outputContentAsJson",
+              "type": "boolean",
+              "default": false,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ],
+                  "operation": [
+                    "Message a Model"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Built-in Tools",
+              "name": "builtInTools",
+              "type": "fixedCollection",
+              "typeOptions": {
+                "multipleValues": true,
+                "buttonLabel": "Add Built-in Tool"
+              },
+              "default": {},
+              "displayOptions": {
+                "hide": {
+                  "operation": [
+                    "Message a Model"
+                  ]
+                },
+                "show": {
+                  "resource": [
+                    "Text"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "displayName": "Google Search",
+                  "name": "googleSearch",
+                  "values": [
+                    {
+                      "name": "enabled",
+                      "type": "boolean",
+                      "default": true
+                    }
+                  ]
+                },
+                {
+                  "displayName": "Google Maps",
+                  "name": "googleMaps",
+                  "values": [
+                    {
+                      "displayName": "Latitude",
+                      "name": "latitude",
+                      "type": "number",
+                      "default": 0
+                    },
+                    {
+                      "displayName": "Longitude",
+                      "name": "longitude",
+                      "type": "number",
+                      "default": 0
+                    }
+                  ]
+                },
+                {
+                  "displayName": "URL Context",
+                  "name": "urlContext",
+                  "values": [
+                    {
+                      "name": "enabled",
+                      "type": "boolean",
+                      "default": true
+                    }
+                  ]
+                },
+                {
+                  "displayName": "Code Execution",
+                  "name": "codeExecution",
+                  "values": [
+                    {
+                      "name": "enabled",
+                      "type": "boolean",
+                      "default": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "displayName": "Options",
+              "name": "options",
+              "type": "collection",
+              "displayOptions": {
+                "show": {
+                  "/operation": [
+                    "Analyze Audio",
+                    "Transcribe a Recording",
+                    "Analyze Document",
+                    "Message a Model"
+                  ]
+                }
+              },
+              "placeholder": "Add Option",
+              "default": {},
+              "fields": [
+                {
+                  "name": "maxTokens",
+                  "displayName": "Length of Description (Max Tokens)",
+                  "type": "number",
+                  "default": 1000,
+                  "description": "The maximum number of tokens to generate for Analyze Audio and Analyze Document.",
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Analyze Audio",
+                        "Analyze Document",
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "includeMergedResponse",
+                  "displayName": "Include Merged Response",
+                  "type": "boolean",
+                  "default": true,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "systemMessage",
+                  "displayName": "System Message",
+                  "type": "string",
+                  "format": "text",
+                  "default": "",
+                  "typeOptions": {
+                    "rows": 3
+                  },
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "frequencyPenalty",
+                  "displayName": "Frequency Penalty",
+                  "type": "number",
+                  "default": 0,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "numberOfCompletions",
+                  "displayName": "Number of Completions",
+                  "type": "number",
+                  "default": 1,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "presencePenalty",
+                  "displayName": "Presence Penalty",
+                  "type": "number",
+                  "default": 0,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "temperature",
+                  "displayName": "Output Randomness (Temperature)",
+                  "type": "number",
+                  "default": 0.7,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "topP",
+                  "displayName": "Output Randomness (Top P)",
+                  "type": "number",
+                  "default": 0.95,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "topK",
+                  "displayName": "Output Randomness (Top K)",
+                  "type": "number",
+                  "default": 40,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "thinkingBudget",
+                  "displayName": "Thinking Budget",
+                  "type": "number",
+                  "default": 0,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "maxToolCallsIterations",
+                  "displayName": "Max Tool Calls Iterations",
+                  "type": "number",
+                  "default": 1,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "startTime",
+                  "displayName": "Start Time",
+                  "type": "string",
+                  "default": "",
+                  "description": "Start timestamp for transcription range. Example: 00:00:30 or 30s.",
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Transcribe a Recording"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "endTime",
+                  "displayName": "End Time",
+                  "type": "string",
+                  "default": "",
+                  "description": "End timestamp for transcription range. Example: 00:02:00 or 120s.",
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Transcribe a Recording"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "initialData": {
+            "resource": "Text",
+            "operation": "Message a Model",
+            "model": "gemini-2.5-flash",
+            "inputType": "Binary File(s)",
+            "prompt": "",
+            "audioUrl": "",
+            "documentUrl": "",
+            "fileUrl": "",
+            "fileSearchStoreName": "",
+            "displayName": "",
+            "fileDisplayName": "",
+            "pageSize": 10,
+            "pageToken": "",
+            "forceDelete": false,
+            "inputDataFieldName": "data",
+            "simplify": true,
+            "outputContentAsJson": false,
+            "builtInTools": {},
+            "credentialId": "",
+            "options": {}
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "resource": "Text",
+          "operation": "Message a Model",
+          "model": "gemini-3.6-flash",
+          "inputType": "Binary File(s)",
+          "prompt": "{{ $json.llm_prompt }}",
+          "audioUrl": "",
+          "documentUrl": "",
+          "fileUrl": "",
+          "fileSearchStoreName": "",
+          "displayName": "",
+          "fileDisplayName": "",
+          "pageSize": 10,
+          "pageToken": "",
+          "forceDelete": false,
+          "inputDataFieldName": "data",
+          "simplify": true,
+          "outputContentAsJson": true,
+          "builtInTools": {},
+          "credentialId": "9e2f94b5-e83d-40bc-86d2-9f9e83d09fd3",
+          "options": {}
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "content": {
+                  "parts": [
+                    {
+                      "text": "{\n  \"intent\": \"Summer sale announcement asset showcasing a new canvas tote bag\",\n  \"subject\": \"A structured natural canvas tote bag resting neatly on a sun-dappled wooden workbench alongside subtle artisan tools\",\n  \"composition\": \"Square 1:1 framing, eye-level still life, balanced composition with generous negative space for future text placement\",\n  \"palette\": [\n    \"#2F5D50\",\n    \"#D9C7A3\",\n    \"#C4622D\"\n  ],\n  \"mood\": \"Warm, practical, unhurried\",\n  \"avoid\": [\n    \"readable text\",\n    \"lettering\",\n    \"brand logos\",\n    \"stock photo gestures\",\n    \"pointing\",\n    \"overly posed models\",\n    \"clutter\"\n  ],\n  \"image_prompt\": \"Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.\",\n  \"negative_prompt\": \"text, lettering, typography, watermark, logo, stock photo gestures, forced smiles, high contrast neon, harsh flash, clutter, disorganization\"\n}"
+                    }
+                  ],
+                  "role": "model"
+                },
+                "finishReason": "STOP",
+                "index": 0,
+                "groundingMetadata": {},
+                "groundingChunks": [],
+                "groundingSupports": [],
+                "webSearchQueries": []
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1756.304463766441,
+        "y": 293.4332927908968
+      },
+      "dragging": false
+    },
+    {
+      "id": "code.execute-1786280528454",
+      "type": "action",
+      "position": {
+        "x": 2040.8596014263621,
+        "y": 283.968686531953
+      },
+      "data": {
+        "label": "Code",
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "mode": "all",
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": false,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
+          "headers": {
+            "x-goog-api-key": "REDACTED_GEMINI_KEY",
+            "Content-Type": "application/json"
+          },
+          "body": "{\"model\":\"models/gemini-embedding-001\",\"content\":{\"parts\":[{\"text\":\"{{ $json.body.prompt }} {{ $json.body.style }} {{ $json.body.audience }}\"}]},\"outputDimensionality\":128}",
+          "language": "python",
+          "code": "\"\"\"\nParse the model's JSON and assemble the image request.\n\nModels sometimes wrap JSON in markdown fences despite instructions, so the\ntext is stripped before parsing. A parse failure falls back to the raw user\nprompt rather than aborting — a plain generation beats no generation.\n\"\"\"\n\nraw = \"\"\ntry:\n    raw = _json[\"content\"][\"parts\"][0][\"text\"]\nexcept Exception:\n    raw = _json.get(\"text\", \"\") or \"\"\n\ncleaned = raw.strip()\nif cleaned.startswith(\"```\"):\n    cleaned = cleaned.split(\"```\")[1]\n    if cleaned.startswith(\"json\"):\n        cleaned = cleaned[4:]\ncleaned = cleaned.strip()\n\nunderstanding, parse_error = {}, None\ntry:\n    understanding = json.loads(cleaned)\nexcept Exception as e:\n    parse_error = str(e)[:120]\n\nprev = {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"llm_prompt\" in j:\n                prev = j\n                break\n        if prev:\n            break\nexcept Exception:\n    pass\n\nctx = prev.get(\"ctx\", {}) or {}\n\nimage_prompt = understanding.get(\"image_prompt\") or ctx.get(\"prompt\", \"\")\nnegative = understanding.get(\"negative_prompt\") or \\\n    \"text, letters, words, watermark, logo, blurry, low resolution, distorted\"\n\nreturn [{\"json\": {\n    \"understanding\": understanding,\n    \"parse_error\": parse_error,\n    \"image_prompt\": image_prompt,\n    \"negative_prompt\": negative,\n    \"sources\": prev.get(\"sources\", []),\n    \"confident\": prev.get(\"confident\", False),\n    \"top_similarity\": prev.get(\"top_similarity\"),\n    \"platform\": ctx.get(\"platform\", \"instagram_square\"),\n    \"prompt\": ctx.get(\"prompt\", \"\"),\n    \"org_id\": ctx.get(\"org_id\", \"\"),\n}}]",
+          "schemaMode": "list",
+          "tableMode": "list",
+          "columnsMode": "manually",
+          "schema": "public",
+          "query": "{{ $json.sql }}",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "replaceEmptyStringsWithNull": false,
+          "outputLargeNumbersAsText": false,
+          "queryBatching": "single",
+          "queryParameters": []
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "understanding": {
+                  "intent": "Summer sale announcement asset showcasing a new canvas tote bag",
+                  "subject": "A structured natural canvas tote bag resting neatly on a sun-dappled wooden workbench alongside subtle artisan tools",
+                  "composition": "Square 1:1 framing, eye-level still life, balanced composition with generous negative space for future text placement",
+                  "palette": [
+                    "#2F5D50",
+                    "#D9C7A3",
+                    "#C4622D"
+                  ],
+                  "mood": "Warm, practical, unhurried",
+                  "avoid": [
+                    "readable text",
+                    "lettering",
+                    "brand logos",
+                    "stock photo gestures",
+                    "pointing",
+                    "overly posed models",
+                    "clutter"
+                  ],
+                  "image_prompt": "Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.",
+                  "negative_prompt": "text, lettering, typography, watermark, logo, stock photo gestures, forced smiles, high contrast neon, harsh flash, clutter, disorganization"
+                },
+                "parse_error": null,
+                "image_prompt": "Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.",
+                "negative_prompt": "text, lettering, typography, watermark, logo, stock photo gestures, forced smiles, high contrast neon, harsh flash, clutter, disorganization",
+                "sources": [
+                  {
+                    "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                    "similarity": 0.8013
+                  },
+                  {
+                    "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                    "similarity": 0.7695
+                  },
+                  {
+                    "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                    "similarity": 0.7678
+                  },
+                  {
+                    "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                    "similarity": 0.7609
+                  }
+                ],
+                "confident": true,
+                "top_similarity": 0.8013,
+                "platform": "instagram_square",
+                "prompt": "summer sale announcement for our new canvas tote bag",
+                "org_id": "31522872-007e-4165-b899-c941c27eb8bc"
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2040.8596014263621,
+        "y": 283.968686531953
+      },
+      "dragging": false
+    },
+    {
+      "id": "httpRequest-1786280553321",
+      "type": "action",
+      "position": {
+        "x": 2310.165810073964,
+        "y": 271.4184942842978
+      },
+      "data": {
+        "label": "Http Request",
+        "toolId": "httpRequest",
+        "toolData": {
+          "id": "httpRequest",
+          "displayName": "Http Request",
+          "category": "API & HTTP",
+          "icon": "Globe",
+          "description": "Make HTTP API requests to external services.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS"
+                ],
+                "default": "GET",
+                "description": "HTTP method to use"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to send the request to"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Headers to include in the request"
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query parameters to append to the URL"
+              },
+              "body": {
+                "description": "Request body"
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "fields"
+                ],
+                "default": "json",
+                "description": "How the body is defined"
+              },
+              "bodyFields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Body fields for key-value input"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "form-urlencoded",
+                  "raw"
+                ],
+                "default": "json",
+                "description": "Content type of the request body"
+              },
+              "responseFormat": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "text",
+                  "binary"
+                ],
+                "default": "auto",
+                "description": "Format of the response data"
+              },
+              "authentication": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "header",
+                      "query",
+                      "basic",
+                      "bearer"
+                    ],
+                    "default": "none"
+                  },
+                  "config": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Authentication configuration"
+              },
+              "ignoreResponseCode": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, the node will not fail on non-2xx status codes"
+              },
+              "includeHeaders": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, response headers will be included in the output"
+              },
+              "allowUnauthorized": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, SSL certificate verification will be skipped"
+              },
+              "lowercaseHeaders": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, all header keys will be converted to lowercase"
+              },
+              "timeout": {
+                "type": "number",
+                "default": 300000,
+                "description": "Request timeout in milliseconds"
+              },
+              "outputPropertyName": {
+                "type": "string",
+                "default": "data",
+                "description": "The name of the property to store binary data in"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": true,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://api.cloudflare.com/client/v4/accounts/fa0c90bf70a788ef12913c5e692b4332/ai/run/@cf/black-forest-labs/flux-1-schnell",
+          "body": "{\"prompt\":\"{{ $json.image_prompt }}\",\"steps\":4}",
+          "headers": {
+            "Authorization": "Bearer REDACTED_CLOUDFLARE_TOKEN",
+            "Content-Type": "application/json"
+          }
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "statusCode": 200,
+                "body": {
+                  "result": {
+                    "image": "REDACTED_CACHED_BINARY"
+                  },
+                  "success": true,
+                  "errors": [],
+                  "messages": []
+                }
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2310.165810073964,
+        "y": 271.4184942842978
+      },
+      "dragging": false
+    },
+    {
+      "id": "code.execute-1786280649144",
+      "type": "action",
+      "position": {
+        "x": 2588.884662907307,
+        "y": 263.57462412951327
+      },
+      "data": {
+        "label": "Code",
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": true,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://api.cloudflare.com/client/v4/accounts/fa0c90bf70a788ef12913c5e692b4332/ai/run/@cf/black-forest-labs/flux-1-schnell",
+          "body": "{\"prompt\":\"{{ $json.image_prompt }}\",\"steps\":4}",
+          "headers": {
+            "Authorization": "Bearer REDACTED_CLOUDFLARE_TOKEN",
+            "Content-Type": "application/json"
+          },
+          "language": "python",
+          "code": "\"\"\"\nCombine the understanding with the generated image.\n\nThe HTTP node replaced $json again, so the understanding is recovered from\n_node._node_results. A failed generation still returns the understanding —\nthe user sees what was planned and can retry without losing it.\n\"\"\"\n\nimage_b64 = \"\"\ngen_error = None\ntry:\n    body = _json.get(\"body\", {}) or {}\n    if body.get(\"success\"):\n        image_b64 = body.get(\"result\", {}).get(\"image\", \"\")\n    else:\n        errs = body.get(\"errors\", [])\n        gen_error = errs[0].get(\"message\") if errs else \"Image generation failed\"\nexcept Exception as e:\n    gen_error = str(e)[:120]\n\nprev = {}\ntry:\n    for _, payload in _node._node_results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"understanding\" in j:\n                prev = j\n                break\n        if prev:\n            break\nexcept Exception:\n    pass\n\nreturn [{\"json\": {\n    \"ok\": bool(image_b64),\n    \"error\": gen_error,\n    \"understanding\": prev.get(\"understanding\", {}),\n    \"sources\": prev.get(\"sources\", []),\n    \"confident\": prev.get(\"confident\", False),\n    \"top_similarity\": prev.get(\"top_similarity\"),\n    \"image_prompt\": prev.get(\"image_prompt\", \"\"),\n    \"platform\": prev.get(\"platform\", \"\"),\n    \"prompt\": prev.get(\"prompt\", \"\"),\n    \"image\": image_b64,\n}}]"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "ok": true,
+                "error": null,
+                "understanding": {
+                  "intent": "Summer sale announcement asset showcasing a new canvas tote bag",
+                  "subject": "A structured natural canvas tote bag resting neatly on a sun-dappled wooden workbench alongside subtle artisan tools",
+                  "composition": "Square 1:1 framing, eye-level still life, balanced composition with generous negative space for future text placement",
+                  "palette": [
+                    "#2F5D50",
+                    "#D9C7A3",
+                    "#C4622D"
+                  ],
+                  "mood": "Warm, practical, unhurried",
+                  "avoid": [
+                    "readable text",
+                    "lettering",
+                    "brand logos",
+                    "stock photo gestures",
+                    "pointing",
+                    "overly posed models",
+                    "clutter"
+                  ],
+                  "image_prompt": "Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.",
+                  "negative_prompt": "text, lettering, typography, watermark, logo, stock photo gestures, forced smiles, high contrast neon, harsh flash, clutter, disorganization"
+                },
+                "sources": [
+                  {
+                    "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                    "similarity": 0.8013
+                  },
+                  {
+                    "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                    "similarity": 0.7695
+                  },
+                  {
+                    "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                    "similarity": 0.7678
+                  },
+                  {
+                    "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                    "similarity": 0.7609
+                  }
+                ],
+                "confident": true,
+                "top_similarity": 0.8013,
+                "image_prompt": "Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.",
+                "platform": "instagram_square",
+                "prompt": "summer sale announcement for our new canvas tote bag",
+                "image": "REDACTED_CACHED_BINARY"
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2588.884662907307,
+        "y": 263.57462412951327
+      },
+      "dragging": false
+    },
+    {
+      "id": "respondToWebhook-1786280668497",
+      "type": "action",
+      "position": {
+        "x": 2849.824076723138,
+        "y": 269.84972025334093
+      },
+      "data": {
+        "label": "Webhook Response",
+        "toolId": "respondToWebhook",
+        "toolData": {
+          "id": "respondToWebhook",
+          "displayName": "Webhook Response",
+          "category": "Input /  Output",
+          "icon": "reply",
+          "description": "Send response to webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "respondWith": {
+                "type": "string",
+                "enum": [
+                  "All Incoming Items",
+                  "First Incoming Item",
+                  "JSON",
+                  "Binary File",
+                  "JWT Token",
+                  "Text",
+                  "Redirect",
+                  "No Data"
+                ],
+                "default": "All Incoming Items",
+                "description": "What to respond with."
+              },
+              "responseBody": {
+                "type": "string",
+                "description": "The body of the response (can be an expression)"
+              },
+              "credentialId": {
+                "type": "string",
+                "description": "JWT credential ID"
+              },
+              "payload": {
+                "type": "string",
+                "description": "JWT Token Payload (JSON string or expression)"
+              },
+              "redirectUrl": {
+                "type": "string",
+                "description": "Redirect URL"
+              },
+              "inputFieldName": {
+                "type": "string",
+                "default": "data",
+                "description": "Input Field Name containing the binary file"
+              },
+              "responseCode": {
+                "type": "number",
+                "description": "HTTP Response Code"
+              },
+              "putResponseInField": {
+                "type": "string",
+                "description": "If set, put the response into this field instead of the default output"
+              },
+              "enableStreaming": {
+                "type": "boolean",
+                "description": "Stream the response back to the caller when supported"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "headers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "respondWith": "JSON",
+          "inputFieldName": "data",
+          "responseCode": 200,
+          "responseBody": "{{ $json }}"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "_respondWith": "JSON",
+                "_responseCode": 200,
+                "_responseData": {
+                  "ok": true,
+                  "error": null,
+                  "understanding": {
+                    "intent": "Summer sale announcement asset showcasing a new canvas tote bag",
+                    "subject": "A structured natural canvas tote bag resting neatly on a sun-dappled wooden workbench alongside subtle artisan tools",
+                    "composition": "Square 1:1 framing, eye-level still life, balanced composition with generous negative space for future text placement",
+                    "palette": [
+                      "#2F5D50",
+                      "#D9C7A3",
+                      "#C4622D"
+                    ],
+                    "mood": "Warm, practical, unhurried",
+                    "avoid": [
+                      "readable text",
+                      "lettering",
+                      "brand logos",
+                      "stock photo gestures",
+                      "pointing",
+                      "overly posed models",
+                      "clutter"
+                    ],
+                    "image_prompt": "Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.",
+                    "negative_prompt": "text, lettering, typography, watermark, logo, stock photo gestures, forced smiles, high contrast neon, harsh flash, clutter, disorganization"
+                  },
+                  "sources": [
+                    {
+                      "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                      "similarity": 0.8013
+                    },
+                    {
+                      "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                      "similarity": 0.7695
+                    },
+                    {
+                      "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                      "similarity": 0.7678
+                    },
+                    {
+                      "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                      "similarity": 0.7609
+                    }
+                  ],
+                  "confident": true,
+                  "top_similarity": 0.8013,
+                  "image_prompt": "Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.",
+                  "platform": "instagram_square",
+                  "prompt": "summer sale announcement for our new canvas tote bag",
+                  "image": "REDACTED_CACHED_BINARY"
+                },
+                "items": [
+                  {
+                    "json": {
+                      "ok": true,
+                      "error": null,
+                      "understanding": {
+                        "intent": "Summer sale announcement asset showcasing a new canvas tote bag",
+                        "subject": "A structured natural canvas tote bag resting neatly on a sun-dappled wooden workbench alongside subtle artisan tools",
+                        "composition": "Square 1:1 framing, eye-level still life, balanced composition with generous negative space for future text placement",
+                        "palette": [
+                          "#2F5D50",
+                          "#D9C7A3",
+                          "#C4622D"
+                        ],
+                        "mood": "Warm, practical, unhurried",
+                        "avoid": [
+                          "readable text",
+                          "lettering",
+                          "brand logos",
+                          "stock photo gestures",
+                          "pointing",
+                          "overly posed models",
+                          "clutter"
+                        ],
+                        "image_prompt": "Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.",
+                        "negative_prompt": "text, lettering, typography, watermark, logo, stock photo gestures, forced smiles, high contrast neon, harsh flash, clutter, disorganization"
+                      },
+                      "sources": [
+                        {
+                          "content": "Comparative claims must reference the specific competitor product and the date of comparison. The base spacing unit is 8 pixels. All margins and padding are multiples of it.",
+                          "similarity": 0.8013
+                        },
+                        {
+                          "content": "Never set body copy below 14 pixels or in all capitals. The voice is direct and unhurried. State the benefit and stop.",
+                          "similarity": 0.7695
+                        },
+                        {
+                          "content": "Never use the word premium without stating what makes it so. Sustainability claims require a measurable figure and a source. \"Eco-friendly\" alone is not acceptable.",
+                          "similarity": 0.7678
+                        },
+                        {
+                          "content": "Avoid stock-photo gestures: pointing at laptops, laughing at salads, handshakes over conference tables. People may appear in photographs, but they are never the subject. The work is the subject.",
+                          "similarity": 0.7609
+                        }
+                      ],
+                      "confident": true,
+                      "top_similarity": 0.8013,
+                      "image_prompt": "Editorial still life photography of a durable canvas tote bag resting on a sand-beige surface with subtle deep green foliage shadows and warm terracotta ceramic accents in soft, direct summer morning sunlight.",
+                      "platform": "instagram_square",
+                      "prompt": "summer sale announcement for our new canvas tote bag",
+                      "image": "REDACTED_CACHED_BINARY"
+                    }
+                  }
+                ]
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a787bfb53b933eae140b6f8",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": true,
+      "positionAbsolute": {
+        "x": 2849.824076723138,
+        "y": 269.84972025334093
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "webhook-1786279730826",
+      "sourceHandle": null,
+      "target": "httpRequest-1786279824383",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-webhook-1786279730826-httpRequest-1786279824383"
+    },
+    {
+      "source": "httpRequest-1786279824383",
+      "sourceHandle": null,
+      "target": "code.execute-1786279920209",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-httpRequest-1786279824383-code.execute-1786279920209"
+    },
+    {
+      "source": "code.execute-1786279920209",
+      "sourceHandle": null,
+      "target": "postgres.executeQuery-1786279960746",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-code.execute-1786279920209-postgres.executeQuery-1786279960746"
+    },
+    {
+      "source": "postgres.executeQuery-1786279960746",
+      "sourceHandle": null,
+      "target": "code.execute-1786279990370",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-postgres.executeQuery-1786279960746-code.execute-1786279990370"
+    },
+    {
+      "source": "code.execute-1786279990370",
+      "sourceHandle": null,
+      "target": "gemini-1786280020147",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-code.execute-1786279990370-gemini-1786280020147"
+    },
+    {
+      "source": "gemini-1786280020147",
+      "sourceHandle": null,
+      "target": "code.execute-1786280528454",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-gemini-1786280020147-code.execute-1786280528454"
+    },
+    {
+      "source": "code.execute-1786280528454",
+      "sourceHandle": null,
+      "target": "httpRequest-1786280553321",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-code.execute-1786280528454-httpRequest-1786280553321"
+    },
+    {
+      "source": "httpRequest-1786280553321",
+      "sourceHandle": null,
+      "target": "code.execute-1786280649144",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-httpRequest-1786280553321-code.execute-1786280649144"
+    },
+    {
+      "source": "code.execute-1786280649144",
+      "sourceHandle": null,
+      "target": "respondToWebhook-1786280668497",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-code.execute-1786280649144-respondToWebhook-1786280668497"
+    }
+  ]
+}
