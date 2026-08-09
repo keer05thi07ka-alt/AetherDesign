@@ -1,0 +1,1283 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-09T03:24:38.372Z",
+  "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246aHR0cFJlcXVlc3R8YWN0aW9uOnBv",
+  "nodes": [
+    {
+      "id": "webhook-1786231262853",
+      "type": "webhook",
+      "position": {
+        "x": 207.06306952405123,
+        "y": 230.27846293486482
+      },
+      "data": {
+        "label": "Webhook Trigger",
+        "toolId": "webhook",
+        "toolData": {
+          "id": "webhook",
+          "displayName": "Webhook Trigger",
+          "category": "Input /  Output",
+          "icon": "webhook",
+          "description": "Trigger workflow via webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to listen on (e.g. \"my-hook\")"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD"
+                ],
+                "default": "POST",
+                "description": "HTTP Method"
+              },
+              "responseMode": {
+                "type": "string",
+                "enum": [
+                  "onReceived",
+                  "lastNode",
+                  "respondWithNode",
+                  "streaming"
+                ],
+                "default": "lastNode",
+                "description": "When to respond"
+              },
+              "authentication": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "basicAuth",
+                  "headerAuth",
+                  "jwtAuth"
+                ],
+                "default": "none",
+                "description": "Authentication"
+              },
+              "basicAuthUser": {
+                "type": "string",
+                "description": "Username"
+              },
+              "basicAuthPassword": {
+                "type": "string",
+                "description": "Password"
+              },
+              "headerAuthName": {
+                "type": "string",
+                "description": "Name"
+              },
+              "headerAuthValue": {
+                "type": "string",
+                "description": "Value"
+              },
+              "jwtSecret": {
+                "type": "string",
+                "description": "Secret"
+              },
+              "jwtAlgorithm": {
+                "type": "string",
+                "enum": [
+                  "HS256",
+                  "HS384",
+                  "HS512"
+                ],
+                "default": "HS256",
+                "description": "Algorithm"
+              },
+              "sessionClaim": {
+                "type": "string",
+                "default": "sub",
+                "description": "JWT claim used to identify the session"
+              },
+              "requireRoleCheck": {
+                "type": "boolean",
+                "default": false,
+                "description": "Require Role Check (RBAC)"
+              },
+              "roleClaimKey": {
+                "type": "string",
+                "default": "role",
+                "description": "Role Claim Key"
+              },
+              "allowedRoles": {
+                "type": "string",
+                "default": "admin, staff",
+                "description": "Allowed Roles (comma separated)"
+              },
+              "sessionSource": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "auto",
+                  "header",
+                  "cookie",
+                  "body"
+                ],
+                "default": "none",
+                "description": "Session Source"
+              },
+              "sessionSourceName": {
+                "type": "string",
+                "description": "Session Source Name (header / cookie / body field)"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "allowedOrigins": {
+                    "type": "string",
+                    "description": "Allowed Origins (CORS)"
+                  },
+                  "binaryDataFieldName": {
+                    "type": "string",
+                    "description": "Field Name for Binary Data"
+                  },
+                  "ignoreBots": {
+                    "type": "boolean",
+                    "description": "Ignore Bots"
+                  },
+                  "ipAllowlist": {
+                    "type": "string",
+                    "description": "IP(s) Allowlist"
+                  },
+                  "noResponseBody": {
+                    "type": "boolean",
+                    "description": "No Response Body"
+                  },
+                  "rawBody": {
+                    "type": "boolean",
+                    "description": "Raw Body"
+                  },
+                  "responseCode": {
+                    "type": "number",
+                    "description": "Response Code"
+                  },
+                  "responseData": {
+                    "type": "string",
+                    "description": "Response Data"
+                  }
+                },
+                "additionalProperties": false,
+                "default": {},
+                "description": "Options"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "name": "path",
+              "displayName": "Path",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The path to listen on (e.g. \"my-hook\")"
+            },
+            {
+              "name": "method",
+              "displayName": "HTTP Method",
+              "type": "options",
+              "default": "POST",
+              "required": true,
+              "options": [
+                {
+                  "name": "GET",
+                  "value": "GET"
+                },
+                {
+                  "name": "POST",
+                  "value": "POST"
+                },
+                {
+                  "name": "PUT",
+                  "value": "PUT"
+                },
+                {
+                  "name": "DELETE",
+                  "value": "DELETE"
+                },
+                {
+                  "name": "PATCH",
+                  "value": "PATCH"
+                },
+                {
+                  "name": "HEAD",
+                  "value": "HEAD"
+                }
+              ],
+              "description": "HTTP Method to listen for"
+            },
+            {
+              "name": "responseMode",
+              "displayName": "Respond",
+              "type": "options",
+              "default": "lastNode",
+              "required": true,
+              "options": [
+                {
+                  "name": "Immediately",
+                  "value": "onReceived"
+                },
+                {
+                  "name": "When Last Node Finishes",
+                  "value": "lastNode"
+                },
+                {
+                  "name": "Using 'Respond to Webhook' Node",
+                  "value": "respondWithNode"
+                },
+                {
+                  "name": "Streaming",
+                  "value": "streaming"
+                }
+              ],
+              "description": "When to respond to the webhook request"
+            },
+            {
+              "name": "authentication",
+              "displayName": "Authentication",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "Basic Auth",
+                  "value": "basicAuth"
+                },
+                {
+                  "name": "Header Auth",
+                  "value": "headerAuth"
+                },
+                {
+                  "name": "JWT Auth",
+                  "value": "jwtAuth"
+                },
+                {
+                  "name": "None",
+                  "value": "none"
+                }
+              ],
+              "description": "The type of authentication to use for incoming webhook requests"
+            },
+            {
+              "name": "sessionSource",
+              "displayName": "Session Source",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "None (legacy, no session)",
+                  "value": "none"
+                },
+                {
+                  "name": "Auto (platform issues a session id)",
+                  "value": "auto"
+                },
+                {
+                  "name": "From Header",
+                  "value": "header"
+                },
+                {
+                  "name": "From Cookie",
+                  "value": "cookie"
+                },
+                {
+                  "name": "From Body Field",
+                  "value": "body"
+                }
+              ],
+              "description": "How the platform identifies the caller for per-user session continuity. Required when memory or loops should partition by caller."
+            },
+            {
+              "name": "sessionSourceName",
+              "displayName": "Session Source Name",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. X-Caller-Id (header), userId (body field), session_id (cookie)",
+              "description": "Header name, body field path, or cookie name used as the caller id.",
+              "displayOptions": {
+                "show": {
+                  "sessionSource": [
+                    "header",
+                    "cookie",
+                    "body"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthUser",
+              "displayName": "User",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The username for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthPassword",
+              "displayName": "Password",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The password for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthName",
+              "displayName": "Name",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The header name to check for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthValue",
+              "displayName": "Value",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The expected header value for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtSecret",
+              "displayName": "Secret",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The secret key used to verify the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtAlgorithm",
+              "displayName": "Algorithm",
+              "type": "options",
+              "default": "HS256",
+              "options": [
+                {
+                  "name": "HS256",
+                  "value": "HS256"
+                },
+                {
+                  "name": "HS384",
+                  "value": "HS384"
+                },
+                {
+                  "name": "HS512",
+                  "value": "HS512"
+                }
+              ],
+              "description": "The algorithm used to sign the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "sessionClaim",
+              "displayName": "Session Claim",
+              "type": "string",
+              "default": "sub",
+              "description": "The claim in the JWT payload that identifies the user (e.g. sub, email, userId). Leave blank to skip session tracking.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "requireRoleCheck",
+              "displayName": "Require Role Check (RBAC)",
+              "type": "boolean",
+              "default": false,
+              "description": "If enabled, the incoming JWT must contain an authorized role claim to execute the workflow.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "roleClaimKey",
+              "displayName": "Role Claim Key",
+              "type": "string",
+              "default": "role",
+              "description": "The field name inside the JWT payload that contains the user's role (e.g., \"role\", \"groups\").",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "allowedRoles",
+              "displayName": "Allowed Roles",
+              "type": "string",
+              "default": "admin, staff",
+              "description": "A comma-separated list of roles that are allowed to trigger this workflow. If empty, all roles pass.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "options",
+              "displayName": "Options",
+              "type": "collection",
+              "default": {},
+              "placeholder": "Add option",
+              "fields": [
+                {
+                  "name": "allowedOrigins",
+                  "displayName": "Allowed Origins (CORS)",
+                  "type": "string",
+                  "default": "*",
+                  "placeholder": "*",
+                  "description": "Comma-separated list of allowed origins for CORS. Use * to allow all origins."
+                },
+                {
+                  "name": "binaryDataFieldName",
+                  "displayName": "Field Name for Binary Data",
+                  "type": "string",
+                  "default": "data",
+                  "placeholder": "data",
+                  "description": "The name of the field in the request that contains binary data (for file uploads)."
+                },
+                {
+                  "name": "ignoreBots",
+                  "displayName": "Ignore Bots",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, requests from known bots (crawlers, spiders) will be ignored."
+                },
+                {
+                  "name": "ipAllowlist",
+                  "displayName": "IP(s) Allowlist",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "e.g. 127.0.0.1, 192.168.1.0/24",
+                  "description": "Comma-separated list of IPs or CIDR ranges. Only these IPs can trigger the webhook."
+                },
+                {
+                  "name": "noResponseBody",
+                  "displayName": "No Response Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the webhook will respond with an empty body (only status code)."
+                },
+                {
+                  "name": "rawBody",
+                  "displayName": "Raw Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the raw request body will be passed as-is without parsing."
+                },
+                {
+                  "name": "responseData",
+                  "displayName": "Response Data",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "Response body content",
+                  "description": "Custom response data to return when the webhook is triggered (JSON or text)."
+                }
+              ]
+            }
+          ]
+        },
+        "isTrigger": true,
+        "isPrimaryTrigger": true,
+        "inputs": {
+          "method": "POST",
+          "responseMode": "lastNode",
+          "jwtAlgorithm": "HS256",
+          "sessionClaim": "sub",
+          "requireRoleCheck": false,
+          "roleClaimKey": "role",
+          "allowedRoles": "admin, staff",
+          "path": "rag/retrieve",
+          "authentication": "jwtAuth",
+          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "sessionSource": "header",
+          "sessionSourceName": "Authorization",
+          "options": {
+            "allowedOrigins": "*"
+          }
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "body": {
+                  "query": "can I photograph products on a white background",
+                  "limit": 5
+                },
+                "query": {},
+                "headers": {
+                  "x-forwarded-for": "103.224.35.25",
+                  "x-forwarded-proto": "https",
+                  "x-forwarded-port": "443",
+                  "host": "api.agents.snsihub.ai",
+                  "x-amzn-trace-id": "Root=1-6a77f10a-2e0ac99e53e03c627cdde769",
+                  "content-length": "69",
+                  "sec-ch-ua-platform": "\"Windows\"",
+                  "authorization": "REDACTED_SEE_CREDENTIAL_STORE",
+                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+                  "content-type": "application/json",
+                  "sec-ch-ua-mobile": "?0",
+                  "accept": "*/*",
+                  "origin": "http://localhost:5173",
+                  "sec-fetch-site": "cross-site",
+                  "sec-fetch-mode": "cors",
+                  "sec-fetch-dest": "empty",
+                  "referer": "http://localhost:5173/",
+                  "accept-encoding": "gzip, deflate, br, zstd",
+                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+                  "priority": "u=1, i"
+                },
+                "params": {},
+                "jwt": {
+                  "sub": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                  "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                  "org_name": "Brightfold Studio",
+                  "role": "owner",
+                  "plan": "enterprise",
+                  "email": "priya@brightfold.org",
+                  "exp": 1786330285,
+                  "iat": 1786243885
+                },
+                "file": null,
+                "sessionId": "rs_78972390eae692ed8e09f30f5d38a0f920de"
+              }
+            }
+          ],
+          "usage": {
+            "category": "INTEGRATION",
+            "metrics": {
+              "durationMs": 0,
+              "apiCalls": 1,
+              "payloadSizeBytes": 1614
+            },
+            "cost": 2
+          }
+        },
+        "executionStatus": "success",
+        "executionId": "6a77f10a53b933eae140aeeb",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 98,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 207.06306952405123,
+        "y": 230.27846293486482
+      },
+      "dragging": false
+    },
+    {
+      "id": "httpRequest-1786231407766",
+      "type": "action",
+      "position": {
+        "x": 461.07874328824386,
+        "y": 233.0141532918226
+      },
+      "data": {
+        "label": "Http Request",
+        "toolId": "httpRequest",
+        "toolData": {
+          "id": "httpRequest",
+          "displayName": "Http Request",
+          "category": "API & HTTP",
+          "icon": "Globe",
+          "description": "Make HTTP API requests to external services.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS"
+                ],
+                "default": "GET",
+                "description": "HTTP method to use"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to send the request to"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Headers to include in the request"
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query parameters to append to the URL"
+              },
+              "body": {
+                "description": "Request body"
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "fields"
+                ],
+                "default": "json",
+                "description": "How the body is defined"
+              },
+              "bodyFields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Body fields for key-value input"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "form-urlencoded",
+                  "raw"
+                ],
+                "default": "json",
+                "description": "Content type of the request body"
+              },
+              "responseFormat": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "text",
+                  "binary"
+                ],
+                "default": "auto",
+                "description": "Format of the response data"
+              },
+              "authentication": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "header",
+                      "query",
+                      "basic",
+                      "bearer"
+                    ],
+                    "default": "none"
+                  },
+                  "config": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Authentication configuration"
+              },
+              "ignoreResponseCode": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, the node will not fail on non-2xx status codes"
+              },
+              "includeHeaders": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, response headers will be included in the output"
+              },
+              "allowUnauthorized": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, SSL certificate verification will be skipped"
+              },
+              "lowercaseHeaders": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, all header keys will be converted to lowercase"
+              },
+              "timeout": {
+                "type": "number",
+                "default": 300000,
+                "description": "Request timeout in milliseconds"
+              },
+              "outputPropertyName": {
+                "type": "string",
+                "default": "data",
+                "description": "The name of the property to store binary data in"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": true,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
+          "headers": {
+            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE",
+            "Content-Type": "application/json"
+          },
+          "body": "{\"model\":\"models/gemini-embedding-001\",\"content\":{\"parts\":[{\"text\":\"{{ $json.body.query }}\"}]},\"outputDimensionality\":128}"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "statusCode": 200,
+                "body": {
+                  "embedding": {
+                    "values": [
+                      0.013935263,
+                      0.021006254,
+                      0.0003090775,
+                      -0.08314147,
+                      -0.0010308138,
+                      0.018107783,
+                      0.023676706,
+                      -0.01007479,
+                      -0.020519251,
+                      -0.009279001,
+                      -0.005917726,
+                      0.006444886,
+                      -0.0029107025,
+                      0.015287486,
+                      0.12426726,
+                      -0.006868382,
+                      -0.0064648283,
+                      0.0011040275,
+                      -0.0031211884,
+                      -0.008294933,
+                      -0.0074579115,
+                      -0.00018901427,
+                      0.023955336,
+                      0.028900726,
+                      0.0027108404,
+                      -0.021192988,
+                      0.01762889,
+                      -0.013863489,
+                      0.037062183,
+                      0.014569812,
+                      -0.004932371,
+                      0.003570181,
+                      0.0087805595,
+                      0.012594584,
+                      0.019585118,
+                      0.030996498,
+                      0.008634869,
+                      -0.024631802,
+                      -0.00039582993,
+                      0.014603779,
+                      -0.029259324,
+                      0.027745368,
+                      -0.0035042907,
+                      -0.030907193,
+                      0.020792728,
+                      -0.021387095,
+                      0.0008207188,
+                      -0.020117996,
+                      0.0006563827,
+                      0.0028521267,
+                      0.0017985529,
+                      -0.009562064,
+                      -0.0059413384,
+                      -0.16450769,
+                      0.014459113,
+                      0.029156718,
+                      0.004320869,
+                      -0.0009309413,
+                      0.0045047975,
+                      -0.029868953,
+                      0.0110271545,
+                      0.019477628,
+                      0.005390928,
+                      -0.025996717,
+                      -0.0010479946,
+                      -0.01699874,
+                      -0.018463522,
+                      -0.008801305,
+                      0.028599054,
+                      0.015927732,
+                      0.019738274,
+                      0.006343419,
+                      0.004701894,
+                      0.03530263,
+                      0.008394096,
+                      -0.021546908,
+                      0.0016430141,
+                      0.007510034,
+                      -0.024051975,
+                      0.025534688,
+                      -0.0020220003,
+                      -0.021655547,
+                      -0.014050841,
+                      -0.015672436,
+                      -0.0026422539,
+                      -0.0068628206,
+                      0.016369017,
+                      0.014596361,
+                      -0.02273953,
+                      -0.009575857,
+                      -0.008185654,
+                      0.0023945272,
+                      0.021440871,
+                      -0.015872829,
+                      -0.012674587,
+                      0.0050490475,
+                      -0.0015796757,
+                      0.0124179395,
+                      -0.030502636,
+                      0.006848308,
+                      -0.0017003419,
+                      -0.02575679,
+                      0.015488017,
+                      -0.012825072,
+                      -0.0011748456,
+                      0.00403739,
+                      -0.025958741,
+                      -0.020311816,
+                      0.016245611,
+                      0.0133032985,
+                      0.014600749,
+                      0.0061876555,
+                      -0.0033743856,
+                      -0.0040541976,
+                      0.012215543,
+                      -0.13873912,
+                      0.019508233,
+                      0.01091109,
+                      0.006613937,
+                      0.012900966,
+                      -0.007452272,
+                      0.010619759,
+                      0.017596958,
+                      -0.0035372656,
+                      -0.009170944,
+                      -0.0019476614,
+                      -0.014708462,
+                      0.0057829604
+                    ]
+                  }
+                }
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a77f10a53b933eae140aeeb",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 461.07874328824386,
+        "y": 233.0141532918226
+      },
+      "dragging": false
+    },
+    {
+      "id": "code.execute-1786231656890",
+      "type": "action",
+      "position": {
+        "x": 718.4016346876997,
+        "y": 235.7810661025694
+      },
+      "data": {
+        "label": "Code",
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "mode": "all",
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": true,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
+          "headers": {
+            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE",
+            "Content-Type": "application/json"
+          },
+          "body": "{{ JSON.stringify({ model: \"models/gemini-embedding-001\", content: { parts: [{ text: $json.body.query }] }, outputDimensionality: 256 }) }} ",
+          "language": "python",
+          "code": "\"\"\"\nExtract the query embedding and recover org_id.\n\nThe HTTP Request node replaces $json, so the verified JWT claims are gone.\n_node._node_results holds every node's output — that is how org_id is\nrecovered without trusting anything from the request body.\n\"\"\"\n\nresp = _json.get(\"body\", {})\nvalues = resp.get(\"embedding\", {}).get(\"values\", [])\n\norg_id, query_text, limit = \"\", \"\", 5\nprobe = \"not-attempted\"\n\ntry:\n    results = _node._node_results\n    probe = \"keys=\" + str(list(results.keys()))[:200]\n\n    for _, payload in results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"jwt\" in j and isinstance(j[\"jwt\"], dict):\n                org_id = j[\"jwt\"].get(\"org_id\", \"\")\n                body = j.get(\"body\", {})\n                query_text = body.get(\"query\", \"\")\n                limit = int(body.get(\"limit\", 5) or 5)\n                break\n        if org_id:\n            break\nexcept Exception as e:\n    probe = \"error: \" + type(e).__name__ + \": \" + str(e)[:150]\n    \nemb_literal = \",\".join(str(round(v, 6)) for v in values)\nsafe_limit = max(1, min(int(limit), 20))\n\nsql = (\n    \"select rag_retrieve('\" + org_id + \"'::uuid, \"\n    \"'[\" + emb_literal + \"]', \"\n    + str(safe_limit) + \") as result;\"\n)\n\nreturn [{\n    \"json\": {\n        \"org_id\": org_id,\n        \"query\": query_text,\n        \"dims\": len(values),\n        \"sql\": sql,\n        \"probe\": probe,\n    }\n}]"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                "query": "can I photograph products on a white background",
+                "dims": 128,
+                "sql": "select rag_retrieve('31522872-007e-4165-b899-c941c27eb8bc'::uuid, '[0.013935,0.021006,0.000309,-0.083141,-0.001031,0.018108,0.023677,-0.010075,-0.020519,-0.009279,-0.005918,0.006445,-0.002911,0.015287,0.124267,-0.006868,-0.006465,0.001104,-0.003121,-0.008295,-0.007458,-0.000189,0.023955,0.028901,0.002711,-0.021193,0.017629,-0.013863,0.037062,0.01457,-0.004932,0.00357,0.008781,0.012595,0.019585,0.030996,0.008635,-0.024632,-0.000396,0.014604,-0.029259,0.027745,-0.003504,-0.030907,0.020793,-0.021387,0.000821,-0.020118,0.000656,0.002852,0.001799,-0.009562,-0.005941,-0.164508,0.014459,0.029157,0.004321,-0.000931,0.004505,-0.029869,0.011027,0.019478,0.005391,-0.025997,-0.001048,-0.016999,-0.018464,-0.008801,0.028599,0.015928,0.019738,0.006343,0.004702,0.035303,0.008394,-0.021547,0.001643,0.00751,-0.024052,0.025535,-0.002022,-0.021656,-0.014051,-0.015672,-0.002642,-0.006863,0.016369,0.014596,-0.02274,-0.009576,-0.008186,0.002395,0.021441,-0.015873,-0.012675,0.005049,-0.00158,0.012418,-0.030503,0.006848,-0.0017,-0.025757,0.015488,-0.012825,-0.001175,0.004037,-0.025959,-0.020312,0.016246,0.013303,0.014601,0.006188,-0.003374,-0.004054,0.012216,-0.138739,0.019508,0.010911,0.006614,0.012901,-0.007452,0.01062,0.017597,-0.003537,-0.009171,-0.001948,-0.014708,0.005783]', 5) as result;",
+                "probe": "keys=['webhook-1786231262853', 'httpRequest-1786231407766']"
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a77f10a53b933eae140aeeb",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 718.4016346876997,
+        "y": 235.7810661025694
+      },
+      "dragging": false
+    },
+    {
+      "id": "postgres.executeQuery-1786231699148",
+      "type": "action",
+      "position": {
+        "x": 987.985789562463,
+        "y": 248.56236971491523
+      },
+      "data": {
+        "label": "Execute Query",
+        "toolId": "postgres.executeQuery",
+        "toolData": {
+          "id": "postgres.executeQuery",
+          "displayName": "Execute Query",
+          "category": "Memory & State",
+          "provider": "postgres",
+          "operation": "executeQuery",
+          "icon": "Database",
+          "description": "Execute a raw SQL query",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "credentialId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "queryTimeout": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "description": "Connection timeout in seconds"
+              },
+              "idleTimeout": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0,
+                "description": "Delay closing idle connection in seconds"
+              },
+              "replaceEmptyStringsWithNull": {
+                "type": "boolean",
+                "default": false,
+                "description": "Replace empty string values with NULL"
+              },
+              "outputLargeNumbersAsText": {
+                "type": "boolean",
+                "default": false,
+                "description": "Output BIGINT/NUMERIC as text"
+              },
+              "queryBatching": {
+                "type": "string",
+                "enum": [
+                  "single",
+                  "independently",
+                  "transaction"
+                ],
+                "default": "single",
+                "description": "Query Batching"
+              },
+              "query": {
+                "type": "string",
+                "description": "SQL query to execute"
+              },
+              "queryParameters": {
+                "type": "array",
+                "default": [],
+                "description": "Parameters for prepared statements"
+              }
+            },
+            "required": [
+              "credentialId",
+              "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "executionMode": "batch"
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "idleTimeout": 0,
+          "replaceEmptyStringsWithNull": false,
+          "outputLargeNumbersAsText": false,
+          "queryBatching": "single",
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": true,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
+          "headers": {
+            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE",
+            "Content-Type": "application/json"
+          },
+          "body": "{{ JSON.stringify({ model: \"models/gemini-embedding-001\", content: { parts: [{ text: $json.body.query }] }, outputDimensionality: 256 }) }} ",
+          "language": "python",
+          "code": "\"\"\"\nExtract the query embedding and recover org_id.\n\nThe HTTP Request node replaces $json, so the verified JWT claims are gone.\n_node._node_results holds every node's output — that is how org_id is\nrecovered without trusting anything from the request body.\n\"\"\"\n\nresp = _json.get(\"body\", {})\nvalues = resp.get(\"embedding\", {}).get(\"values\", [])\n\norg_id, query_text, limit = \"\", \"\", 5\nprobe = \"not-attempted\"\n\ntry:\n    results = _node._node_results\n    probe = \"keys=\" + str(list(results.keys()))[:200]\n\n    for _, payload in results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"jwt\" in j and isinstance(j[\"jwt\"], dict):\n                org_id = j[\"jwt\"].get(\"org_id\", \"\")\n                body = j.get(\"body\", {})\n                query_text = body.get(\"query\", \"\")\n                limit = int(body.get(\"limit\", 5) or 5)\n                break\n        if org_id:\n            break\nexcept Exception as e:\n    probe = \"error: \" + type(e).__name__ + \": \" + str(e)[:150]\n\nreturn [{\n    \"json\": {\n        \"org_id\": org_id,\n        \"query\": query_text,\n        \"limit\": max(1, min(limit, 20)),\n        \"dims\": len(values),\n        \"embedding_json\": json.dumps(values),\n        \"probe\": probe,\n    }\n}]",
+          "schemaMode": "list",
+          "tableMode": "list",
+          "columnsMode": "manually",
+          "schema": "public",
+          "query": "{{ $json.sql }}",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "queryParameters": []
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "status": "success",
+                "data": {
+                  "items": [
+                    {
+                      "json": {
+                        "result": {
+                          "chunks": [
+                            {
+                              "id": "683c2089-8719-4887-963e-2d60a3a742dd",
+                              "content": "Brightfold is a studio brand built on clarity. Visual language favours generous white space, muted greens, and honest photography. The primary green anchors headers and calls to action but should never dominate more than a quarter of a composition. Imagery is candid and unstyled, shot in daylight, never on seamless backdrops. Avoid stock-photo gestures, heavy drop shadows, and gradient overlays. Voice is direct and unhurried. Headlines run three to six words.",
+                              "chunk_index": 0,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7923
+                            },
+                            {
+                              "id": "7b6a3771-930b-4f69-a254-71f9ec326b8d",
+                              "content": "Headlines run three to six words. Body copy explains rather than persuades. Any claim about materials or sourcing must name the specific supplier or certification. Never use the word premium without stating what makes it so.",
+                              "chunk_index": 1,
+                              "brand_kit_name": "Brightfold Core Brand",
+                              "similarity": 0.7705
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "metadata": {
+                  "rowCount": 1,
+                  "command": "SELECT"
+                }
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a77f10a53b933eae140aeeb",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": true,
+      "positionAbsolute": {
+        "x": 987.985789562463,
+        "y": 248.56236971491523
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "webhook-1786231262853",
+      "sourceHandle": null,
+      "target": "httpRequest-1786231407766",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-webhook-1786231262853-httpRequest-1786231407766"
+    },
+    {
+      "source": "httpRequest-1786231407766",
+      "sourceHandle": null,
+      "target": "code.execute-1786231656890",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-httpRequest-1786231407766-code.execute-1786231656890"
+    },
+    {
+      "source": "code.execute-1786231656890",
+      "sourceHandle": null,
+      "target": "postgres.executeQuery-1786231699148",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-code.execute-1786231656890-postgres.executeQuery-1786231699148"
+    }
+  ]
+}

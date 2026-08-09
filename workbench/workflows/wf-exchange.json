@@ -1,0 +1,2604 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-09T03:25:58.981Z",
+  "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpjb3JlLnNldHxhY3Rpb246Y29yZS5zZXR8",
+  "nodes": [
+    {
+      "id": "webhook-1786146288663",
+      "type": "webhook",
+      "position": {
+        "x": 223.26677538999985,
+        "y": 234.84066790913238
+      },
+      "data": {
+        "label": "Webhook Trigger",
+        "toolId": "webhook",
+        "toolData": {
+          "id": "webhook",
+          "displayName": "Webhook Trigger",
+          "category": "Input /  Output",
+          "icon": "webhook",
+          "description": "Trigger workflow via webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to listen on (e.g. \"my-hook\")"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD"
+                ],
+                "default": "POST",
+                "description": "HTTP Method"
+              },
+              "responseMode": {
+                "type": "string",
+                "enum": [
+                  "onReceived",
+                  "lastNode",
+                  "respondWithNode",
+                  "streaming"
+                ],
+                "default": "lastNode",
+                "description": "When to respond"
+              },
+              "authentication": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "basicAuth",
+                  "headerAuth",
+                  "jwtAuth"
+                ],
+                "default": "none",
+                "description": "Authentication"
+              },
+              "basicAuthUser": {
+                "type": "string",
+                "description": "Username"
+              },
+              "basicAuthPassword": {
+                "type": "string",
+                "description": "Password"
+              },
+              "headerAuthName": {
+                "type": "string",
+                "description": "Name"
+              },
+              "headerAuthValue": {
+                "type": "string",
+                "description": "Value"
+              },
+              "jwtSecret": {
+                "type": "string",
+                "description": "Secret"
+              },
+              "jwtAlgorithm": {
+                "type": "string",
+                "enum": [
+                  "HS256",
+                  "HS384",
+                  "HS512"
+                ],
+                "default": "HS256",
+                "description": "Algorithm"
+              },
+              "sessionClaim": {
+                "type": "string",
+                "default": "sub",
+                "description": "JWT claim used to identify the session"
+              },
+              "requireRoleCheck": {
+                "type": "boolean",
+                "default": false,
+                "description": "Require Role Check (RBAC)"
+              },
+              "roleClaimKey": {
+                "type": "string",
+                "default": "role",
+                "description": "Role Claim Key"
+              },
+              "allowedRoles": {
+                "type": "string",
+                "default": "admin, staff",
+                "description": "Allowed Roles (comma separated)"
+              },
+              "sessionSource": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "auto",
+                  "header",
+                  "cookie",
+                  "body"
+                ],
+                "default": "none",
+                "description": "Session Source"
+              },
+              "sessionSourceName": {
+                "type": "string",
+                "description": "Session Source Name (header / cookie / body field)"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "allowedOrigins": {
+                    "type": "string",
+                    "description": "Allowed Origins (CORS)"
+                  },
+                  "binaryDataFieldName": {
+                    "type": "string",
+                    "description": "Field Name for Binary Data"
+                  },
+                  "ignoreBots": {
+                    "type": "boolean",
+                    "description": "Ignore Bots"
+                  },
+                  "ipAllowlist": {
+                    "type": "string",
+                    "description": "IP(s) Allowlist"
+                  },
+                  "noResponseBody": {
+                    "type": "boolean",
+                    "description": "No Response Body"
+                  },
+                  "rawBody": {
+                    "type": "boolean",
+                    "description": "Raw Body"
+                  },
+                  "responseCode": {
+                    "type": "number",
+                    "description": "Response Code"
+                  },
+                  "responseData": {
+                    "type": "string",
+                    "description": "Response Data"
+                  }
+                },
+                "additionalProperties": false,
+                "default": {},
+                "description": "Options"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "name": "path",
+              "displayName": "Path",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The path to listen on (e.g. \"my-hook\")"
+            },
+            {
+              "name": "method",
+              "displayName": "HTTP Method",
+              "type": "options",
+              "default": "POST",
+              "required": true,
+              "options": [
+                {
+                  "name": "GET",
+                  "value": "GET"
+                },
+                {
+                  "name": "POST",
+                  "value": "POST"
+                },
+                {
+                  "name": "PUT",
+                  "value": "PUT"
+                },
+                {
+                  "name": "DELETE",
+                  "value": "DELETE"
+                },
+                {
+                  "name": "PATCH",
+                  "value": "PATCH"
+                },
+                {
+                  "name": "HEAD",
+                  "value": "HEAD"
+                }
+              ],
+              "description": "HTTP Method to listen for"
+            },
+            {
+              "name": "responseMode",
+              "displayName": "Respond",
+              "type": "options",
+              "default": "lastNode",
+              "required": true,
+              "options": [
+                {
+                  "name": "Immediately",
+                  "value": "onReceived"
+                },
+                {
+                  "name": "When Last Node Finishes",
+                  "value": "lastNode"
+                },
+                {
+                  "name": "Using 'Respond to Webhook' Node",
+                  "value": "respondWithNode"
+                },
+                {
+                  "name": "Streaming",
+                  "value": "streaming"
+                }
+              ],
+              "description": "When to respond to the webhook request"
+            },
+            {
+              "name": "authentication",
+              "displayName": "Authentication",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "Basic Auth",
+                  "value": "basicAuth"
+                },
+                {
+                  "name": "Header Auth",
+                  "value": "headerAuth"
+                },
+                {
+                  "name": "JWT Auth",
+                  "value": "jwtAuth"
+                },
+                {
+                  "name": "None",
+                  "value": "none"
+                }
+              ],
+              "description": "The type of authentication to use for incoming webhook requests"
+            },
+            {
+              "name": "sessionSource",
+              "displayName": "Session Source",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "None (legacy, no session)",
+                  "value": "none"
+                },
+                {
+                  "name": "Auto (platform issues a session id)",
+                  "value": "auto"
+                },
+                {
+                  "name": "From Header",
+                  "value": "header"
+                },
+                {
+                  "name": "From Cookie",
+                  "value": "cookie"
+                },
+                {
+                  "name": "From Body Field",
+                  "value": "body"
+                }
+              ],
+              "description": "How the platform identifies the caller for per-user session continuity. Required when memory or loops should partition by caller."
+            },
+            {
+              "name": "sessionSourceName",
+              "displayName": "Session Source Name",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. X-Caller-Id (header), userId (body field), session_id (cookie)",
+              "description": "Header name, body field path, or cookie name used as the caller id.",
+              "displayOptions": {
+                "show": {
+                  "sessionSource": [
+                    "header",
+                    "cookie",
+                    "body"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthUser",
+              "displayName": "User",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The username for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthPassword",
+              "displayName": "Password",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The password for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthName",
+              "displayName": "Name",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The header name to check for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthValue",
+              "displayName": "Value",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The expected header value for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtSecret",
+              "displayName": "Secret",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The secret key used to verify the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtAlgorithm",
+              "displayName": "Algorithm",
+              "type": "options",
+              "default": "HS256",
+              "options": [
+                {
+                  "name": "HS256",
+                  "value": "HS256"
+                },
+                {
+                  "name": "HS384",
+                  "value": "HS384"
+                },
+                {
+                  "name": "HS512",
+                  "value": "HS512"
+                }
+              ],
+              "description": "The algorithm used to sign the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "sessionClaim",
+              "displayName": "Session Claim",
+              "type": "string",
+              "default": "sub",
+              "description": "The claim in the JWT payload that identifies the user (e.g. sub, email, userId). Leave blank to skip session tracking.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "requireRoleCheck",
+              "displayName": "Require Role Check (RBAC)",
+              "type": "boolean",
+              "default": false,
+              "description": "If enabled, the incoming JWT must contain an authorized role claim to execute the workflow.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "roleClaimKey",
+              "displayName": "Role Claim Key",
+              "type": "string",
+              "default": "role",
+              "description": "The field name inside the JWT payload that contains the user's role (e.g., \"role\", \"groups\").",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "allowedRoles",
+              "displayName": "Allowed Roles",
+              "type": "string",
+              "default": "admin, staff",
+              "description": "A comma-separated list of roles that are allowed to trigger this workflow. If empty, all roles pass.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "options",
+              "displayName": "Options",
+              "type": "collection",
+              "default": {},
+              "placeholder": "Add option",
+              "fields": [
+                {
+                  "name": "allowedOrigins",
+                  "displayName": "Allowed Origins (CORS)",
+                  "type": "string",
+                  "default": "*",
+                  "placeholder": "*",
+                  "description": "Comma-separated list of allowed origins for CORS. Use * to allow all origins."
+                },
+                {
+                  "name": "binaryDataFieldName",
+                  "displayName": "Field Name for Binary Data",
+                  "type": "string",
+                  "default": "data",
+                  "placeholder": "data",
+                  "description": "The name of the field in the request that contains binary data (for file uploads)."
+                },
+                {
+                  "name": "ignoreBots",
+                  "displayName": "Ignore Bots",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, requests from known bots (crawlers, spiders) will be ignored."
+                },
+                {
+                  "name": "ipAllowlist",
+                  "displayName": "IP(s) Allowlist",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "e.g. 127.0.0.1, 192.168.1.0/24",
+                  "description": "Comma-separated list of IPs or CIDR ranges. Only these IPs can trigger the webhook."
+                },
+                {
+                  "name": "noResponseBody",
+                  "displayName": "No Response Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the webhook will respond with an empty body (only status code)."
+                },
+                {
+                  "name": "rawBody",
+                  "displayName": "Raw Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the raw request body will be passed as-is without parsing."
+                },
+                {
+                  "name": "responseData",
+                  "displayName": "Response Data",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "Response body content",
+                  "description": "Custom response data to return when the webhook is triggered (JSON or text)."
+                }
+              ]
+            }
+          ]
+        },
+        "isTrigger": true,
+        "isPrimaryTrigger": true,
+        "inputs": {
+          "method": "POST",
+          "responseMode": "lastNode",
+          "authentication": "none",
+          "jwtAlgorithm": "HS256",
+          "sessionClaim": "sub",
+          "requireRoleCheck": false,
+          "roleClaimKey": "role",
+          "allowedRoles": "admin, staff",
+          "sessionSource": "none",
+          "path": "identity/exchange",
+          "options": {
+            "allowedOrigins": "*"
+          }
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "body": {
+                  "supabase_jwt": "eyJhbGciOiJFUzI1NiIsImtpZCI6IjM4NTU2YzFjLTY4NGUtNDgzNC04ZjU0LTlhMjBmNTg0OGVjZiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3lkYnpjc2ZrZ3dhcXJ5Z2VucnFvLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI0OGRmYWE4OS0yN2I5LTQ4OTMtYjRhMy0wZDgyZjMzYWRjNTkiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzg2MjQ2NjUxLCJpYXQiOjE3ODYyNDMwNTEsImVtYWlsIjoicHJpeWFAYnJpZ2h0Zm9sZC5vcmciLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsIjoicHJpeWFAYnJpZ2h0Zm9sZC5vcmciLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZnVsbF9uYW1lIjoiUHJpeWEiLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6IjQ4ZGZhYTg5LTI3YjktNDg5My1iNGEzLTBkODJmMzNhZGM1OSJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzg2MjMwMjQyfV0sInNlc3Npb25faWQiOiI4ZTE5ODgyYS1hYTQ0LTQ1ODAtODRkMy0wMDQ5YzYzZDA4ODMiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.BRxf2BekyAo98trrOQMma5yn-k-7jWqIziUgvPHzDWFOCv5RE9au9HnPn_o5R7nliJLWWcCGp0jJ18-aolmECg"
+                },
+                "query": {},
+                "headers": {
+                  "x-forwarded-for": "103.224.35.25",
+                  "x-forwarded-proto": "https",
+                  "x-forwarded-port": "443",
+                  "host": "api.agents.snsihub.ai",
+                  "x-amzn-trace-id": "Root=1-6a77eb2d-37b5644c60806e9a09479003",
+                  "content-length": "977",
+                  "sec-ch-ua-platform": "\"Windows\"",
+                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+                  "content-type": "application/json",
+                  "sec-ch-ua-mobile": "?0",
+                  "accept": "*/*",
+                  "origin": "http://localhost:5173",
+                  "sec-fetch-site": "cross-site",
+                  "sec-fetch-mode": "cors",
+                  "sec-fetch-dest": "empty",
+                  "referer": "http://localhost:5173/",
+                  "accept-encoding": "gzip, deflate, br, zstd",
+                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+                  "priority": "u=1, i"
+                },
+                "params": {},
+                "file": null
+              }
+            }
+          ],
+          "usage": {
+            "category": "INTEGRATION",
+            "metrics": {
+              "durationMs": 0,
+              "apiCalls": 1,
+              "payloadSizeBytes": 1830
+            },
+            "cost": 2
+          }
+        },
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 98,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 223.26677538999985,
+        "y": 234.84066790913238
+      },
+      "dragging": false
+    },
+    {
+      "id": "httpRequest-1786146326228",
+      "type": "action",
+      "position": {
+        "x": 467.98575804184304,
+        "y": 234.6498689561439
+      },
+      "data": {
+        "label": "Http Request",
+        "toolId": "httpRequest",
+        "toolData": {
+          "id": "httpRequest",
+          "displayName": "Http Request",
+          "category": "API & HTTP",
+          "icon": "Globe",
+          "description": "Make HTTP API requests to external services.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS"
+                ],
+                "default": "GET",
+                "description": "HTTP method to use"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to send the request to"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Headers to include in the request"
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query parameters to append to the URL"
+              },
+              "body": {
+                "description": "Request body"
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "fields"
+                ],
+                "default": "json",
+                "description": "How the body is defined"
+              },
+              "bodyFields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Body fields for key-value input"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "form-urlencoded",
+                  "raw"
+                ],
+                "default": "json",
+                "description": "Content type of the request body"
+              },
+              "responseFormat": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "text",
+                  "binary"
+                ],
+                "default": "auto",
+                "description": "Format of the response data"
+              },
+              "authentication": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "header",
+                      "query",
+                      "basic",
+                      "bearer"
+                    ],
+                    "default": "none"
+                  },
+                  "config": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Authentication configuration"
+              },
+              "ignoreResponseCode": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, the node will not fail on non-2xx status codes"
+              },
+              "includeHeaders": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, response headers will be included in the output"
+              },
+              "allowUnauthorized": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, SSL certificate verification will be skipped"
+              },
+              "lowercaseHeaders": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, all header keys will be converted to lowercase"
+              },
+              "timeout": {
+                "type": "number",
+                "default": 300000,
+                "description": "Request timeout in milliseconds"
+              },
+              "outputPropertyName": {
+                "type": "string",
+                "default": "data",
+                "description": "The name of the property to store binary data in"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "method": "GET",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": true,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://ydbzcsfkgwaqrygenrqo.supabase.co/auth/v1/user",
+          "headers": {
+            "apikey": "REDACTED_SEE_CREDENTIAL_STORE",
+            "Authorization": "{{ 'Bearer ' + $json.body.supabase_jwt }}"
+          }
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "statusCode": 200,
+                "body": {
+                  "id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                  "aud": "authenticated",
+                  "role": "authenticated",
+                  "email": "priya@brightfold.org",
+                  "email_confirmed_at": "2026-08-08T08:14:23.828755Z",
+                  "phone": "",
+                  "confirmed_at": "2026-08-08T08:14:23.828755Z",
+                  "last_sign_in_at": "2026-08-08T23:04:02.487323Z",
+                  "app_metadata": {
+                    "provider": "email",
+                    "providers": [
+                      "email"
+                    ]
+                  },
+                  "user_metadata": {
+                    "email": "priya@brightfold.org",
+                    "email_verified": true,
+                    "full_name": "Priya",
+                    "phone_verified": false,
+                    "sub": "48dfaa89-27b9-4893-b4a3-0d82f33adc59"
+                  },
+                  "identities": [
+                    {
+                      "identity_id": "e3dba85e-5afc-4094-b769-4e34c47266b4",
+                      "id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                      "user_id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                      "identity_data": {
+                        "email": "priya@brightfold.org",
+                        "email_verified": false,
+                        "full_name": "Priya",
+                        "phone_verified": false,
+                        "sub": "48dfaa89-27b9-4893-b4a3-0d82f33adc59"
+                      },
+                      "provider": "email",
+                      "last_sign_in_at": "2026-08-08T08:14:23.826141Z",
+                      "created_at": "2026-08-08T08:14:23.826177Z",
+                      "updated_at": "2026-08-08T08:14:23.826177Z",
+                      "email": "priya@brightfold.org"
+                    }
+                  ],
+                  "created_at": "2026-08-08T08:14:23.821171Z",
+                  "updated_at": "2026-08-09T02:37:31.828523Z",
+                  "is_anonymous": false
+                }
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 467.98575804184304,
+        "y": 234.6498689561439
+      },
+      "dragging": false
+    },
+    {
+      "id": "ifnode-1786146418719",
+      "type": "action",
+      "position": {
+        "x": 712.869412674022,
+        "y": 235.8596717314831
+      },
+      "data": {
+        "label": "IF Condition",
+        "toolId": "ifnode",
+        "toolData": {
+          "id": "ifnode",
+          "displayName": "IF Condition",
+          "category": "Logic & Flow Control",
+          "icon": "shuffle",
+          "description": "Conditional workflow branching",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "conditions": {
+                "type": "object",
+                "properties": {
+                  "conditions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "leftValue": {
+                          "description": "The value to check (leftValue)"
+                        },
+                        "rightValue": {
+                          "description": "The value to compare against (rightValue)"
+                        },
+                        "operator": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "operation": {
+                              "type": "string"
+                            },
+                            "singleValue": {
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "operation"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "operator"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "combinator": {
+                    "type": "string",
+                    "enum": [
+                      "and",
+                      "or"
+                    ],
+                    "default": "and",
+                    "description": "How to combine multiple conditions"
+                  },
+                  "options": {
+                    "type": "object",
+                    "properties": {
+                      "caseSensitive": {
+                        "type": "boolean",
+                        "default": false
+                      },
+                      "leftValue": {
+                        "type": "string"
+                      },
+                      "typeValidation": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "number",
+                        "default": 3
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "conditions"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "conditions"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "conditions": {
+            "conditions": [
+              {
+                "id": "ks2yhcnxk",
+                "leftValue": "{{ $json.statusCode }}",
+                "rightValue": "200",
+                "operator": {
+                  "type": "number",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          }
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "statusCode": 200,
+                "body": {
+                  "id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                  "aud": "authenticated",
+                  "role": "authenticated",
+                  "email": "priya@brightfold.org",
+                  "email_confirmed_at": "2026-08-08T08:14:23.828755Z",
+                  "phone": "",
+                  "confirmed_at": "2026-08-08T08:14:23.828755Z",
+                  "last_sign_in_at": "2026-08-08T23:04:02.487323Z",
+                  "app_metadata": {
+                    "provider": "email",
+                    "providers": [
+                      "email"
+                    ]
+                  },
+                  "user_metadata": {
+                    "email": "priya@brightfold.org",
+                    "email_verified": true,
+                    "full_name": "Priya",
+                    "phone_verified": false,
+                    "sub": "48dfaa89-27b9-4893-b4a3-0d82f33adc59"
+                  },
+                  "identities": [
+                    {
+                      "identity_id": "e3dba85e-5afc-4094-b769-4e34c47266b4",
+                      "id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                      "user_id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                      "identity_data": {
+                        "email": "priya@brightfold.org",
+                        "email_verified": false,
+                        "full_name": "Priya",
+                        "phone_verified": false,
+                        "sub": "48dfaa89-27b9-4893-b4a3-0d82f33adc59"
+                      },
+                      "provider": "email",
+                      "last_sign_in_at": "2026-08-08T08:14:23.826141Z",
+                      "created_at": "2026-08-08T08:14:23.826177Z",
+                      "updated_at": "2026-08-08T08:14:23.826177Z",
+                      "email": "priya@brightfold.org"
+                    }
+                  ],
+                  "created_at": "2026-08-08T08:14:23.821171Z",
+                  "updated_at": "2026-08-09T02:37:31.828523Z",
+                  "is_anonymous": false
+                }
+              },
+              "pairedItem": 0
+            }
+          ],
+          "outputs": {
+            "true": [
+              {
+                "json": {
+                  "statusCode": 200,
+                  "body": {
+                    "id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                    "aud": "authenticated",
+                    "role": "authenticated",
+                    "email": "priya@brightfold.org",
+                    "email_confirmed_at": "2026-08-08T08:14:23.828755Z",
+                    "phone": "",
+                    "confirmed_at": "2026-08-08T08:14:23.828755Z",
+                    "last_sign_in_at": "2026-08-08T23:04:02.487323Z",
+                    "app_metadata": {
+                      "provider": "email",
+                      "providers": [
+                        "email"
+                      ]
+                    },
+                    "user_metadata": {
+                      "email": "priya@brightfold.org",
+                      "email_verified": true,
+                      "full_name": "Priya",
+                      "phone_verified": false,
+                      "sub": "48dfaa89-27b9-4893-b4a3-0d82f33adc59"
+                    },
+                    "identities": [
+                      {
+                        "identity_id": "e3dba85e-5afc-4094-b769-4e34c47266b4",
+                        "id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                        "user_id": "48dfaa89-27b9-4893-b4a3-0d82f33adc59",
+                        "identity_data": {
+                          "email": "priya@brightfold.org",
+                          "email_verified": false,
+                          "full_name": "Priya",
+                          "phone_verified": false,
+                          "sub": "48dfaa89-27b9-4893-b4a3-0d82f33adc59"
+                        },
+                        "provider": "email",
+                        "last_sign_in_at": "2026-08-08T08:14:23.826141Z",
+                        "created_at": "2026-08-08T08:14:23.826177Z",
+                        "updated_at": "2026-08-08T08:14:23.826177Z",
+                        "email": "priya@brightfold.org"
+                      }
+                    ],
+                    "created_at": "2026-08-08T08:14:23.821171Z",
+                    "updated_at": "2026-08-09T02:37:31.828523Z",
+                    "is_anonymous": false
+                  }
+                },
+                "pairedItem": 0
+              }
+            ]
+          }
+        },
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 712.869412674022,
+        "y": 235.8596717314831
+      },
+      "dragging": false
+    },
+    {
+      "id": "postgres.executeQuery-1786146470006",
+      "type": "action",
+      "position": {
+        "x": 1046.9235843420342,
+        "y": 219.99237981067
+      },
+      "data": {
+        "label": "Execute Query",
+        "toolId": "postgres.executeQuery",
+        "toolData": {
+          "id": "postgres.executeQuery",
+          "displayName": "Execute Query",
+          "category": "Memory & State",
+          "provider": "postgres",
+          "operation": "executeQuery",
+          "icon": "Database",
+          "description": "Execute a raw SQL query",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "credentialId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "queryTimeout": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "description": "Connection timeout in seconds"
+              },
+              "idleTimeout": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0,
+                "description": "Delay closing idle connection in seconds"
+              },
+              "replaceEmptyStringsWithNull": {
+                "type": "boolean",
+                "default": false,
+                "description": "Replace empty string values with NULL"
+              },
+              "outputLargeNumbersAsText": {
+                "type": "boolean",
+                "default": false,
+                "description": "Output BIGINT/NUMERIC as text"
+              },
+              "queryBatching": {
+                "type": "string",
+                "enum": [
+                  "single",
+                  "independently",
+                  "transaction"
+                ],
+                "default": "single",
+                "description": "Query Batching"
+              },
+              "query": {
+                "type": "string",
+                "description": "SQL query to execute"
+              },
+              "queryParameters": {
+                "type": "array",
+                "default": [],
+                "description": "Parameters for prepared statements"
+              }
+            },
+            "required": [
+              "credentialId",
+              "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "executionMode": "batch"
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "conditions": {
+            "conditions": [
+              {
+                "id": "ks2yhcnxk",
+                "leftValue": "{{ $json.statusCode }}",
+                "rightValue": "200",
+                "operator": {
+                  "type": "number",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "schemaMode": "list",
+          "tableMode": "list",
+          "columnsMode": "manually",
+          "schema": "public",
+          "query": "select resolve_identity(\r\n  $1::uuid,\r\n  $2::text,\r\n  nullif($3,'')::text,\r\n  nullif($4,'')::text,\r\n  null\r\n) as result;",
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "queryParameters": [
+            "{{ $json.body.id }}",
+            "{{ $json.body.email }}",
+            "{{ $json.body.user_metadata?.full_name || $json.body.user_metadata?.name || '' }}",
+            "{{ $json.body.user_metadata?.avatar_url || $json.body.user_metadata?.picture || '' }}"
+          ]
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "status": "success",
+                "data": {
+                  "items": [
+                    {
+                      "json": {
+                        "result": {
+                          "user_id": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                          "email": "priya@brightfold.org",
+                          "full_name": "Priya",
+                          "avatar_url": null,
+                          "memberships": [
+                            {
+                              "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                              "org_name": "Brightfold Studio",
+                              "org_slug": "priya-5a6f29",
+                              "plan": "enterprise",
+                              "role": "owner"
+                            }
+                          ],
+                          "count": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                "metadata": {
+                  "rowCount": 1,
+                  "command": "SELECT"
+                }
+              }
+            }
+          ]
+        },
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1046.9235843420342,
+        "y": 219.99237981067
+      },
+      "dragging": false
+    },
+    {
+      "id": "core.set-1786146542796",
+      "type": "action",
+      "position": {
+        "x": 998.8384277518896,
+        "y": 346.2718639300087
+      },
+      "data": {
+        "label": "Set Fields",
+        "toolId": "core.set",
+        "toolData": {
+          "id": "core.set",
+          "displayName": "Set Fields",
+          "category": "Core  Utilities",
+          "provider": "core",
+          "operation": "set",
+          "description": "Set or update fields",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "json"
+                ],
+                "default": "manual",
+                "description": "Select Manual Mapping or JSON Output"
+              },
+              "assignments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Field name"
+                    },
+                    "value": {
+                      "description": "Field value (Fixed or Expression)"
+                    },
+                    "valueType": {
+                      "type": "string",
+                      "enum": [
+                        "fixed",
+                        "expression"
+                      ],
+                      "default": "expression",
+                      "description": "Whether field value is fixed or an expression"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Data type of the field"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "additionalProperties": false
+                },
+                "description": "Fields to set when using Manual Mapping"
+              },
+              "jsonValue": {
+                "type": "string",
+                "description": "JSON to merge into the output when using JSON Output mode"
+              },
+              "includeOtherInputFields": {
+                "type": "boolean",
+                "default": false,
+                "description": "Also include unchanged fields from the input"
+              },
+              "inputFieldsToInclude": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "selected",
+                  "allExcept"
+                ],
+                "default": "all",
+                "description": "Choose which input data to include in the output data"
+              },
+              "fieldsToInclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to include when Input Fields to Include is Selected"
+              },
+              "fieldsToExclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to exclude when Input Fields to Include is All Except"
+              },
+              "includeBinaryData": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include binary data in the output"
+              },
+              "ignoreTypeConversionErrors": {
+                "type": "boolean",
+                "default": false,
+                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
+              },
+              "supportDotNotation": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process (for multi-item execution)"
+              },
+              "$inputItem": {
+                "description": "Single item to process (for backward compatibility)"
+              }
+            },
+            "additionalProperties": true,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "mode": "manual",
+          "includeOtherInputFields": false,
+          "inputFieldsToInclude": "all",
+          "includeBinaryData": true,
+          "ignoreTypeConversionErrors": false,
+          "supportDotNotation": true,
+          "assignments": [
+            {
+              "name": "error",
+              "value": "Invalid or expired session",
+              "type": "string",
+              "valueType": "fixed"
+            },
+            {
+              "name": "code",
+              "value": "UNAUTHORIZED",
+              "type": "string",
+              "valueType": "fixed"
+            }
+          ]
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "error": "Invalid or expired session",
+                "code": "UNAUTHORIZED"
+              }
+            }
+          ]
+        },
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 998.8384277518896,
+        "y": 346.2718639300087
+      },
+      "dragging": false
+    },
+    {
+      "id": "ifnode-1786146755998",
+      "type": "action",
+      "position": {
+        "x": 1319.256720949421,
+        "y": 223.85582409422665
+      },
+      "data": {
+        "label": "IF Condition",
+        "toolId": "ifnode",
+        "toolData": {
+          "id": "ifnode",
+          "displayName": "IF Condition",
+          "category": "Logic & Flow Control",
+          "icon": "shuffle",
+          "description": "Conditional workflow branching",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "conditions": {
+                "type": "object",
+                "properties": {
+                  "conditions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "leftValue": {
+                          "description": "The value to check (leftValue)"
+                        },
+                        "rightValue": {
+                          "description": "The value to compare against (rightValue)"
+                        },
+                        "operator": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string"
+                            },
+                            "operation": {
+                              "type": "string"
+                            },
+                            "singleValue": {
+                              "type": "boolean"
+                            },
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "operation"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "operator"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "combinator": {
+                    "type": "string",
+                    "enum": [
+                      "and",
+                      "or"
+                    ],
+                    "default": "and",
+                    "description": "How to combine multiple conditions"
+                  },
+                  "options": {
+                    "type": "object",
+                    "properties": {
+                      "caseSensitive": {
+                        "type": "boolean",
+                        "default": false
+                      },
+                      "leftValue": {
+                        "type": "string"
+                      },
+                      "typeValidation": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "number",
+                        "default": 3
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "conditions"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "conditions"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "conditions": {
+            "conditions": [
+              {
+                "id": "p1111rgjm",
+                "leftValue": "{{ $json.data.items[0].json.result.count }}",
+                "rightValue": "0",
+                "operator": {
+                  "type": "number",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          }
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "status": "success",
+                "data": {
+                  "items": [
+                    {
+                      "json": {
+                        "result": {
+                          "user_id": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                          "email": "priya@brightfold.org",
+                          "full_name": "Priya",
+                          "avatar_url": null,
+                          "memberships": [
+                            {
+                              "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                              "org_name": "Brightfold Studio",
+                              "org_slug": "priya-5a6f29",
+                              "plan": "enterprise",
+                              "role": "owner"
+                            }
+                          ],
+                          "count": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                "metadata": {
+                  "rowCount": 1,
+                  "command": "SELECT"
+                }
+              },
+              "pairedItem": 0
+            }
+          ],
+          "outputs": {
+            "false": [
+              {
+                "json": {
+                  "status": "success",
+                  "data": {
+                    "items": [
+                      {
+                        "json": {
+                          "result": {
+                            "user_id": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                            "email": "priya@brightfold.org",
+                            "full_name": "Priya",
+                            "avatar_url": null,
+                            "memberships": [
+                              {
+                                "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                                "org_name": "Brightfold Studio",
+                                "org_slug": "priya-5a6f29",
+                                "plan": "enterprise",
+                                "role": "owner"
+                              }
+                            ],
+                            "count": 1
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "metadata": {
+                    "rowCount": 1,
+                    "command": "SELECT"
+                  }
+                },
+                "pairedItem": 0
+              }
+            ]
+          }
+        },
+        "executionStatus": "success",
+        "executionId": "6a77eb2d53b933eae140ae7f",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1319.256720949421,
+        "y": 223.85582409422665
+      },
+      "dragging": false
+    },
+    {
+      "id": "core.set-1786146836543",
+      "type": "action",
+      "position": {
+        "x": 1631.051033828409,
+        "y": 223.85582409422665
+      },
+      "data": {
+        "label": "Set Fields",
+        "toolId": "core.set",
+        "toolData": {
+          "id": "core.set",
+          "displayName": "Set Fields",
+          "category": "Core  Utilities",
+          "provider": "core",
+          "operation": "set",
+          "description": "Set or update fields",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "json"
+                ],
+                "default": "manual",
+                "description": "Select Manual Mapping or JSON Output"
+              },
+              "assignments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Field name"
+                    },
+                    "value": {
+                      "description": "Field value (Fixed or Expression)"
+                    },
+                    "valueType": {
+                      "type": "string",
+                      "enum": [
+                        "fixed",
+                        "expression"
+                      ],
+                      "default": "expression",
+                      "description": "Whether field value is fixed or an expression"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Data type of the field"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "additionalProperties": false
+                },
+                "description": "Fields to set when using Manual Mapping"
+              },
+              "jsonValue": {
+                "type": "string",
+                "description": "JSON to merge into the output when using JSON Output mode"
+              },
+              "includeOtherInputFields": {
+                "type": "boolean",
+                "default": false,
+                "description": "Also include unchanged fields from the input"
+              },
+              "inputFieldsToInclude": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "selected",
+                  "allExcept"
+                ],
+                "default": "all",
+                "description": "Choose which input data to include in the output data"
+              },
+              "fieldsToInclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to include when Input Fields to Include is Selected"
+              },
+              "fieldsToExclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to exclude when Input Fields to Include is All Except"
+              },
+              "includeBinaryData": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include binary data in the output"
+              },
+              "ignoreTypeConversionErrors": {
+                "type": "boolean",
+                "default": false,
+                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
+              },
+              "supportDotNotation": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process (for multi-item execution)"
+              },
+              "$inputItem": {
+                "description": "Single item to process (for backward compatibility)"
+              }
+            },
+            "additionalProperties": true,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "mode": "manual",
+          "includeOtherInputFields": false,
+          "inputFieldsToInclude": "all",
+          "includeBinaryData": true,
+          "ignoreTypeConversionErrors": false,
+          "supportDotNotation": true,
+          "assignments": [
+            {
+              "name": "needs_onboarding",
+              "value": "{{ 'true' }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "user_id",
+              "value": "{{ $json.data.items[0].json.result.user_id }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "email",
+              "value": "{{ $json.data.items[0].json.result.email }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "full_name",
+              "value": "{{ $json.data.items[0].json.result.full_name }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "pending",
+              "value": "{{ 'true' }}",
+              "type": "string",
+              "valueType": "expression"
+            }
+          ]
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "needs_onboarding": "true",
+                "user_id": "0e52b36e-7960-4fb3-a803-f95227708443",
+                "email": "maya@gmail.com",
+                "full_name": "Maya",
+                "pending": "true"
+              }
+            }
+          ]
+        },
+        "executionStatus": "skipped",
+        "executionId": "6a77eb2d53b933eae140ae7f",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "positionAbsolute": {
+        "x": 1631.051033828409,
+        "y": 223.85582409422665
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "core.set-1786146919001",
+      "type": "action",
+      "position": {
+        "x": 1625.3064655682176,
+        "y": 360.55324443601086
+      },
+      "data": {
+        "label": "Set Fields",
+        "toolId": "core.set",
+        "toolData": {
+          "id": "core.set",
+          "displayName": "Set Fields",
+          "category": "Core  Utilities",
+          "provider": "core",
+          "operation": "set",
+          "description": "Set or update fields",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "json"
+                ],
+                "default": "manual",
+                "description": "Select Manual Mapping or JSON Output"
+              },
+              "assignments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Field name"
+                    },
+                    "value": {
+                      "description": "Field value (Fixed or Expression)"
+                    },
+                    "valueType": {
+                      "type": "string",
+                      "enum": [
+                        "fixed",
+                        "expression"
+                      ],
+                      "default": "expression",
+                      "description": "Whether field value is fixed or an expression"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Data type of the field"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "additionalProperties": false
+                },
+                "description": "Fields to set when using Manual Mapping"
+              },
+              "jsonValue": {
+                "type": "string",
+                "description": "JSON to merge into the output when using JSON Output mode"
+              },
+              "includeOtherInputFields": {
+                "type": "boolean",
+                "default": false,
+                "description": "Also include unchanged fields from the input"
+              },
+              "inputFieldsToInclude": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "selected",
+                  "allExcept"
+                ],
+                "default": "all",
+                "description": "Choose which input data to include in the output data"
+              },
+              "fieldsToInclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to include when Input Fields to Include is Selected"
+              },
+              "fieldsToExclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to exclude when Input Fields to Include is All Except"
+              },
+              "includeBinaryData": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include binary data in the output"
+              },
+              "ignoreTypeConversionErrors": {
+                "type": "boolean",
+                "default": false,
+                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
+              },
+              "supportDotNotation": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process (for multi-item execution)"
+              },
+              "$inputItem": {
+                "description": "Single item to process (for backward compatibility)"
+              }
+            },
+            "additionalProperties": true,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "mode": "manual",
+          "includeOtherInputFields": false,
+          "inputFieldsToInclude": "all",
+          "includeBinaryData": true,
+          "ignoreTypeConversionErrors": false,
+          "supportDotNotation": true,
+          "assignments": [
+            {
+              "name": "user_id",
+              "value": "{{ $json.data.items[0].json.result.user_id }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "email",
+              "value": "{{ $json.data.items[0].json.result.email }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "full_name",
+              "value": "{{ $json.data.items[0].json.result.full_name }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "avatar_url",
+              "value": "{{ $json.data.items[0].json.result.avatar_url || '' }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "org_id",
+              "value": "{{ $json.data.items[0].json.result.memberships[0].org_id }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "org_name",
+              "value": "{{ $json.data.items[0].json.result.memberships[0].org_name }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "role",
+              "value": "{{ $json.data.items[0].json.result.memberships[0].role }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "plan",
+              "value": "{{ $json.data.items[0].json.result.memberships[0].plan }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "orgs",
+              "value": "{{ JSON.stringify($json.data.items[0].json.result.memberships) }}",
+              "type": "string",
+              "valueType": "expression"
+            }
+          ]
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "user_id": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                "email": "priya@brightfold.org",
+                "full_name": "Priya",
+                "avatar_url": "",
+                "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                "org_name": "Brightfold Studio",
+                "role": "owner",
+                "plan": "enterprise",
+                "orgs": "[{\"org_id\":\"31522872-007e-4165-b899-c941c27eb8bc\",\"org_name\":\"Brightfold Studio\",\"org_slug\":\"priya-5a6f29\",\"plan\":\"enterprise\",\"role\":\"owner\"}]"
+              }
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a77eb2d53b933eae140ae7f",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1625.3064655682176,
+        "y": 360.55324443601086
+      },
+      "dragging": false
+    },
+    {
+      "id": "jwt-1786147082314",
+      "type": "action",
+      "position": {
+        "x": 1914.6265083981593,
+        "y": 359.27306725534737
+      },
+      "data": {
+        "label": "JWT",
+        "toolId": "jwt",
+        "toolData": {
+          "id": "jwt",
+          "displayName": "JWT",
+          "category": "Security",
+          "provider": "jwt",
+          "icon": "/tools/jwt.svg",
+          "description": "Sign, verify and decode JSON Web Tokens",
+          "inputSchemaJSON": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Sign",
+                    "description": "Action"
+                  },
+                  "payload": {
+                    "type": "string",
+                    "description": "Payload (JSON string)"
+                  },
+                  "credentialId": {
+                    "type": "string",
+                    "description": "Credential ID"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Secret or Private Key"
+                  },
+                  "algorithm": {
+                    "type": "string",
+                    "enum": [
+                      "HS256",
+                      "HS384",
+                      "HS512",
+                      "RS256",
+                      "RS384",
+                      "RS512",
+                      "ES256",
+                      "ES384",
+                      "ES512",
+                      "PS256",
+                      "PS384",
+                      "PS512",
+                      "none"
+                    ],
+                    "default": "HS256",
+                    "description": "Algorithm"
+                  },
+                  "expiresIn": {
+                    "type": "string",
+                    "description": "Expires In (e.g. 1h, 7d)"
+                  },
+                  "notBefore": {
+                    "type": "string",
+                    "description": "Not Before (e.g. 10m)"
+                  },
+                  "audience": {
+                    "type": "string",
+                    "description": "Audience"
+                  },
+                  "issuer": {
+                    "type": "string",
+                    "description": "Issuer"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Subject"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "token",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "payload"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Verify",
+                    "description": "Action"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "JWT Token"
+                  },
+                  "credentialId": {
+                    "type": "string",
+                    "description": "Credential ID"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Secret or Public Key"
+                  },
+                  "algorithms": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Allowed Algorithms"
+                  },
+                  "audience": {
+                    "type": "string",
+                    "description": "Expected Audience"
+                  },
+                  "issuer": {
+                    "type": "string",
+                    "description": "Expected Issuer"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Expected Subject"
+                  },
+                  "ignoreExpiration": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Ignore Expiration"
+                  },
+                  "ignoreNotBefore": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Ignore Not Before"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "verified",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "token"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Decode",
+                    "description": "Action"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "JWT Token"
+                  },
+                  "complete": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Complete (Include Header & Signature)"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "decoded",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "token"
+                ],
+                "additionalProperties": false
+              }
+            ],
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "useJsonPayload": true,
+          "secret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "payload_mode": "expression",
+          "payload": "{\"sub\":\"{{ $json.user_id }}\",\"org_id\":\"{{ $json.org_id }}\",\"org_name\":\"{{ $json.org_name }}\",\"role\":\"{{ $json.role }}\",\"plan\":\"{{ $json.plan }}\",\"email\":\"{{ $json.email }}\",\"exp\":{{ Math.floor(Date.now()/1000) + 86400 }}}"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2MzMwMjg2LCJpYXQiOjE3ODYyNDM4ODZ9.qb-x1_v1ZtGbN5z1EuB5UYmQllHzPt3LUvnTnhZA-Ok"
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a77eb2d53b933eae140ae7f",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": true,
+      "positionAbsolute": {
+        "x": 1914.6265083981593,
+        "y": 359.27306725534737
+      },
+      "dragging": false
+    },
+    {
+      "id": "jwt-1786149060972",
+      "type": "action",
+      "position": {
+        "x": 1932.6437965741493,
+        "y": 217.1674635076498
+      },
+      "data": {
+        "label": "JWT",
+        "toolId": "jwt",
+        "toolData": {
+          "id": "jwt",
+          "displayName": "JWT",
+          "category": "Security",
+          "provider": "jwt",
+          "icon": "/tools/jwt.svg",
+          "description": "Sign, verify and decode JSON Web Tokens",
+          "inputSchemaJSON": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Sign",
+                    "description": "Action"
+                  },
+                  "payload": {
+                    "type": "string",
+                    "description": "Payload (JSON string)"
+                  },
+                  "credentialId": {
+                    "type": "string",
+                    "description": "Credential ID"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Secret or Private Key"
+                  },
+                  "algorithm": {
+                    "type": "string",
+                    "enum": [
+                      "HS256",
+                      "HS384",
+                      "HS512",
+                      "RS256",
+                      "RS384",
+                      "RS512",
+                      "ES256",
+                      "ES384",
+                      "ES512",
+                      "PS256",
+                      "PS384",
+                      "PS512",
+                      "none"
+                    ],
+                    "default": "HS256",
+                    "description": "Algorithm"
+                  },
+                  "expiresIn": {
+                    "type": "string",
+                    "description": "Expires In (e.g. 1h, 7d)"
+                  },
+                  "notBefore": {
+                    "type": "string",
+                    "description": "Not Before (e.g. 10m)"
+                  },
+                  "audience": {
+                    "type": "string",
+                    "description": "Audience"
+                  },
+                  "issuer": {
+                    "type": "string",
+                    "description": "Issuer"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Subject"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "token",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "payload"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Verify",
+                    "description": "Action"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "JWT Token"
+                  },
+                  "credentialId": {
+                    "type": "string",
+                    "description": "Credential ID"
+                  },
+                  "secret": {
+                    "type": "string",
+                    "description": "Secret or Public Key"
+                  },
+                  "algorithms": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Allowed Algorithms"
+                  },
+                  "audience": {
+                    "type": "string",
+                    "description": "Expected Audience"
+                  },
+                  "issuer": {
+                    "type": "string",
+                    "description": "Expected Issuer"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Expected Subject"
+                  },
+                  "ignoreExpiration": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Ignore Expiration"
+                  },
+                  "ignoreNotBefore": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Ignore Not Before"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "verified",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "token"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "const": "Decode",
+                    "description": "Action"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "JWT Token"
+                  },
+                  "complete": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Complete (Include Header & Signature)"
+                  },
+                  "propertyName": {
+                    "type": "string",
+                    "default": "decoded",
+                    "description": "Property Name"
+                  }
+                },
+                "required": [
+                  "action",
+                  "token"
+                ],
+                "additionalProperties": false
+              }
+            ],
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "useJsonPayload": true,
+          "secret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "payload": "{\"sub\":\"{{ $json.user_id }}\",\"role\":\"pending\",\"email\":\"{{ $json.email }}\",\"exp\":{{ Math.floor(Date.now()/1000) + 3600 }}}"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwZTUyYjM2ZS03OTYwLTRmYjMtYTgwMy1mOTUyMjc3MDg0NDMiLCJyb2xlIjoicGVuZGluZyIsImVtYWlsIjoibWF5YUBnbWFpbC5jb20iLCJleHAiOjE3ODYxODA1MTMsImlhdCI6MTc4NjE3NjkxM30.fz6wymF4EO70-DAfOZRLUnnRme2La_TvRJmU_WQzEBc"
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "skipped",
+        "executionId": "6a77eb2d53b933eae140ae7f",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 93,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1932.6437965741493,
+        "y": 217.1674635076498
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "webhook-1786146288663",
+      "sourceHandle": null,
+      "target": "httpRequest-1786146326228",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-webhook-1786146288663-httpRequest-1786146326228"
+    },
+    {
+      "source": "httpRequest-1786146326228",
+      "sourceHandle": null,
+      "target": "ifnode-1786146418719",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-httpRequest-1786146326228-ifnode-1786146418719"
+    },
+    {
+      "source": "ifnode-1786146418719",
+      "sourceHandle": "true",
+      "target": "postgres.executeQuery-1786146470006",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-ifnode-1786146418719true-postgres.executeQuery-1786146470006"
+    },
+    {
+      "source": "ifnode-1786146418719",
+      "sourceHandle": "false",
+      "target": "core.set-1786146542796",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-ifnode-1786146418719false-core.set-1786146542796"
+    },
+    {
+      "source": "postgres.executeQuery-1786146470006",
+      "sourceHandle": null,
+      "target": "ifnode-1786146755998",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-postgres.executeQuery-1786146470006-ifnode-1786146755998"
+    },
+    {
+      "source": "ifnode-1786146755998",
+      "sourceHandle": "true",
+      "target": "core.set-1786146836543",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-ifnode-1786146755998true-core.set-1786146836543"
+    },
+    {
+      "source": "ifnode-1786146755998",
+      "sourceHandle": "false",
+      "target": "core.set-1786146919001",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-ifnode-1786146755998false-core.set-1786146919001"
+    },
+    {
+      "source": "core.set-1786146919001",
+      "sourceHandle": null,
+      "target": "jwt-1786147082314",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-core.set-1786146919001-jwt-1786147082314"
+    },
+    {
+      "source": "core.set-1786146836543",
+      "sourceHandle": null,
+      "target": "jwt-1786149060972",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-core.set-1786146836543-jwt-1786149060972"
+    }
+  ]
+}

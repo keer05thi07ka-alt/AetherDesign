@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-07T05:02:11.503Z",
+  "_exportedAt": "2026-08-09T03:25:42.715Z",
   "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpwb3N0Z3Jlcy5leGVjdXRlUXVlcnl8d2Vi",
   "nodes": [
     {
@@ -568,72 +568,11 @@
         "isTrigger": true,
         "connectedHandles": [],
         "isPrimaryTrigger": true,
-        "executionStatus": "success",
         "executionId": "6a745ae6f559bf7aea02ebb0",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false,
-        "lastTestOutput": {
-          "items": [
-            {
-              "json": {
-                "body": {
-                  "op": "create",
-                  "data": {
-                    "name": "API Test Campaign 2",
-                    "platform": "instagram"
-                  }
-                },
-                "query": {},
-                "headers": {
-                  "x-forwarded-for": "103.196.28.74",
-                  "x-forwarded-proto": "https",
-                  "x-forwarded-port": "443",
-                  "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a745ae6-265d5d0036adfc3e0a3246b1",
-                  "content-length": "76",
-                  "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "REDACTED_SEE_CREDENTIAL_STORE",
-                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
-                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
-                  "content-type": "application/json",
-                  "sec-ch-ua-mobile": "?0",
-                  "accept": "*/*",
-                  "origin": "http://localhost:5173",
-                  "sec-fetch-site": "cross-site",
-                  "sec-fetch-mode": "cors",
-                  "sec-fetch-dest": "empty",
-                  "referer": "http://localhost:5173/",
-                  "accept-encoding": "gzip, deflate, br, zstd",
-                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-                  "priority": "u=1, i"
-                },
-                "params": {
-                  "resource": "campaigns"
-                },
-                "jwt": {
-                  "sub": "a0000000-0000-0000-0000-000000000002",
-                  "org_id": "11111111-1111-1111-1111-111111111111",
-                  "role": "marketing_manager",
-                  "email": "asha@lumen.test",
-                  "exp": 1786096735,
-                  "iat": 1786010335
-                },
-                "file": null,
-                "sessionId": "rs_942d4c0051a54d366a6a05d72510687b773c"
-              }
-            }
-          ],
-          "usage": {
-            "category": "INTEGRATION",
-            "metrics": {
-              "durationMs": 0,
-              "apiCalls": 1,
-              "payloadSizeBytes": 1541
-            },
-            "cost": 2
-          }
-        }
+        "lastTestOutput": null
       },
       "type": "webhook",
       "width": 220,
@@ -643,7 +582,7 @@
         "x": -39.82726052765352,
         "y": 4.213677345557883
       },
-      "selected": false,
+      "selected": true,
       "positionAbsolute": {
         "x": -39.82726052765352,
         "y": 4.213677345557883

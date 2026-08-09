@@ -277,3 +277,11 @@ TENANCY RULE:
   role    -> {{ $json.jwt.role }}
 
 NEVER read org_id from body, query, or params.
+
+### Parameter field size limit
+A ~20,000 character parameter fails with "Database operation failed" — even
+for a trivial length($3) query. There is an undocumented size cap.
+
+RULE: pass bulk data one row at a time using Query Batching Mode =
+"Each Item Independently", with the Code node emitting one item per row.
+Embeddings use 256 dimensions to keep each payload near 3.5 KB.

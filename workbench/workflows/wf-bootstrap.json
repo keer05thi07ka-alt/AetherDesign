@@ -1,15 +1,15 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-07T07:03:16.189Z",
-  "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpjcnlwdG98YWN0aW9uOmp3dHxhY3Rpb246",
+  "_exportedAt": "2026-08-09T03:26:19.482Z",
+  "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpqd3R8YWN0aW9uOnBvc3RncmVzLmV4ZWN1",
   "nodes": [
     {
-      "id": "webhook-1786080601021",
+      "id": "webhook-1786149160158",
       "type": "webhook",
       "position": {
-        "x": 356.09006185039203,
-        "y": 249.85585237601532
+        "x": 423.8333740234375,
+        "y": 302.74998474121094
       },
       "data": {
         "label": "Webhook Trigger",
@@ -556,437 +556,44 @@
         "isTrigger": true,
         "isPrimaryTrigger": true,
         "inputs": {
-          "path": "identity/signup",
+          "method": "POST",
+          "responseMode": "lastNode",
+          "jwtAlgorithm": "HS256",
+          "sessionClaim": "sub",
+          "requireRoleCheck": false,
+          "roleClaimKey": "role",
+          "allowedRoles": "admin, staff",
+          "path": "identity/bootstrap",
           "options": {
             "allowedOrigins": "*"
-          }
+          },
+          "authentication": "jwtAuth",
+          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "sessionSource": "header",
+          "sessionSourceName": "Authorization"
         },
         "connectedHandles": [],
-        "lastTestOutput": {
-          "items": [
-            {
-              "json": {
-                "body": {
-                  "full_name": "Maya Chen",
-                  "email": "maya@brightfold.example",
-                  "org_name": "Brightfold Studio",
-                  "password": "Password123!"
-                },
-                "query": {},
-                "headers": {
-                  "x-forwarded-for": "103.196.28.74",
-                  "x-forwarded-proto": "https",
-                  "x-forwarded-port": "443",
-                  "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a7581b4-79b61d421f4da43204b92dd7",
-                  "content-length": "116",
-                  "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYxNjY0MzcsImlhdCI6MTc4NjA4MDAzN30.sRVpq0b0VW6-upna_WY2ZCR7EzKwcUPNyNOmuproTak",
-                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
-                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
-                  "content-type": "application/json",
-                  "sec-ch-ua-mobile": "?0",
-                  "accept": "*/*",
-                  "origin": "http://localhost:5173",
-                  "sec-fetch-site": "cross-site",
-                  "sec-fetch-mode": "cors",
-                  "sec-fetch-dest": "empty",
-                  "referer": "http://localhost:5173/",
-                  "accept-encoding": "gzip, deflate, br, zstd",
-                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-                  "priority": "u=1, i"
-                },
-                "params": {},
-                "file": null
-              }
-            }
-          ],
-          "usage": {
-            "category": "INTEGRATION",
-            "metrics": {
-              "durationMs": 0,
-              "apiCalls": 1,
-              "payloadSizeBytes": 1307
-            },
-            "cost": 2
-          }
-        },
-        "executionStatus": "success",
-        "executionId": "6a7581b4fda7c8acf153a119",
+        "lastTestOutput": null,
+        "executionId": "6a76e59853b933eae1409e3f",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
       },
       "width": 220,
       "height": 98,
-      "selected": false,
+      "selected": true,
       "positionAbsolute": {
-        "x": 356.09006185039203,
-        "y": 249.85585237601532
+        "x": 423.8333740234375,
+        "y": 302.74998474121094
       },
       "dragging": false
     },
     {
-      "id": "crypto-1786080647787",
+      "id": "postgres.executeQuery-1786149257951",
       "type": "action",
       "position": {
-        "x": 639.6027835506763,
-        "y": 249.59988081129103
-      },
-      "data": {
-        "label": "Crypto Tools",
-        "toolId": "crypto",
-        "toolData": {
-          "id": "crypto",
-          "displayName": "Crypto Tools",
-          "category": "Security",
-          "provider": "crypto",
-          "icon": "/tools/Crypto icon.svg",
-          "description": "Security and cryptographic operations",
-          "inputSchemaJSON": {
-            "anyOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "action": {
-                    "type": "string",
-                    "const": "Generate",
-                    "description": "Action"
-                  },
-                  "propertyName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 50,
-                    "description": "Property Name"
-                  },
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "ASCII",
-                      "BASE64",
-                      "HEX",
-                      "UUID"
-                    ],
-                    "default": "BASE64",
-                    "description": "Type"
-                  },
-                  "length": {
-                    "type": "number",
-                    "minimum": 1,
-                    "maximum": 100,
-                    "default": 10,
-                    "description": "Length"
-                  }
-                },
-                "required": [
-                  "action",
-                  "propertyName"
-                ],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "action": {
-                    "type": "string",
-                    "const": "Hash",
-                    "description": "Action"
-                  },
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "MD5",
-                      "SHA256",
-                      "SHA3-256",
-                      "SHA3-384",
-                      "SHA3-512",
-                      "SHA385",
-                      "SHA384",
-                      "SHA512"
-                    ],
-                    "default": "SHA256",
-                    "description": "Type"
-                  },
-                  "binaryFile": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Binary File"
-                  },
-                  "value": {
-                    "type": "string",
-                    "description": "Value"
-                  },
-                  "binaryPropertyName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "description": "Binary Property Name"
-                  },
-                  "propertyName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 50,
-                    "description": "Property Name"
-                  },
-                  "encoding": {
-                    "type": "string",
-                    "enum": [
-                      "BASE64",
-                      "HEX"
-                    ],
-                    "default": "HEX",
-                    "description": "Encoding"
-                  }
-                },
-                "required": [
-                  "action",
-                  "propertyName"
-                ],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "action": {
-                    "type": "string",
-                    "const": "Hmac",
-                    "description": "Action"
-                  },
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "MD5",
-                      "SHA256",
-                      "SHA3-256",
-                      "SHA3-384",
-                      "SHA3-512",
-                      "SHA385",
-                      "SHA384",
-                      "SHA512"
-                    ],
-                    "default": "SHA256",
-                    "description": "Type"
-                  },
-                  "binaryFile": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Binary File"
-                  },
-                  "value": {
-                    "type": "string",
-                    "description": "Value"
-                  },
-                  "binaryPropertyName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "description": "Binary Property Name"
-                  },
-                  "propertyName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 50,
-                    "description": "Property Name"
-                  },
-                  "credentialId": {
-                    "type": "string",
-                    "description": "Crypto Credential ID"
-                  },
-                  "secret": {
-                    "type": "string",
-                    "description": "Secret"
-                  },
-                  "encoding": {
-                    "type": "string",
-                    "enum": [
-                      "BASE64",
-                      "HEX"
-                    ],
-                    "default": "HEX",
-                    "description": "Encoding"
-                  }
-                },
-                "required": [
-                  "action",
-                  "propertyName"
-                ],
-                "additionalProperties": false
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "action": {
-                    "type": "string",
-                    "const": "Sign",
-                    "description": "Action"
-                  },
-                  "value": {
-                    "type": "string",
-                    "description": "Value"
-                  },
-                  "propertyName": {
-                    "type": "string",
-                    "minLength": 1,
-                    "maxLength": 50,
-                    "description": "Property Name"
-                  },
-                  "algorithm": {
-                    "type": "string",
-                    "enum": [
-                      "RSA-MD5",
-                      "RSA-RIPEMD160",
-                      "RSA-SHA1",
-                      "RSA-SHA1-2",
-                      "RSA-SHA224",
-                      "RSA-SHA256",
-                      "RSA-SHA3-224",
-                      "RSA-SHA3-256",
-                      "RSA-SHA3-384",
-                      "RSA-SHA3-512",
-                      "RSA-SHA384",
-                      "RSA-SHA512",
-                      "RSA-SHA512/224",
-                      "RSA-SHA512/256",
-                      "RSA-SM3",
-                      "blake2b512",
-                      "blake2s256",
-                      "id-rsassa-pkcs1-v1_5-with-sha3-224",
-                      "id-rsassa-pkcs1-v1_5-with-sha3-256",
-                      "id-rsassa-pkcs1-v1_5-with-sha3-384",
-                      "id-rsassa-pkcs1-v1_5-with-sha3-512",
-                      "md5",
-                      "md5-sha1",
-                      "md5WithRSAEncryption",
-                      "ripemd",
-                      "ripemd160",
-                      "ripemd160WithRSA",
-                      "rmd160",
-                      "sha1",
-                      "sha1WithRSAEncryption",
-                      "sha224",
-                      "sha224WithRSAEncryption",
-                      "sha256",
-                      "sha256WithRSAEncryption",
-                      "sha3-224",
-                      "sha3-256",
-                      "sha3-384",
-                      "sha3-512",
-                      "sha384",
-                      "sha384WithRSAEncryption",
-                      "sha512",
-                      "sha512-224",
-                      "sha512-224WithRSAEncryption",
-                      "sha512-256",
-                      "sha512-256WithRSAEncryption",
-                      "sha512WithRSAEncryption",
-                      "shake128",
-                      "shake256",
-                      "sm3",
-                      "sm3WithRSAEncryption",
-                      "ssl3-md5",
-                      "ssl3-sha1"
-                    ],
-                    "default": "RSA-SHA256",
-                    "description": "Algorithm Name or ID"
-                  },
-                  "encoding": {
-                    "type": "string",
-                    "enum": [
-                      "BASE64",
-                      "HEX"
-                    ],
-                    "default": "HEX",
-                    "description": "Encoding"
-                  },
-                  "credentialId": {
-                    "type": "string",
-                    "description": "Crypto Credential ID"
-                  },
-                  "privateKey": {
-                    "type": "string",
-                    "description": "Private Key"
-                  }
-                },
-                "required": [
-                  "action",
-                  "value",
-                  "propertyName"
-                ],
-                "additionalProperties": false
-              }
-            ],
-            "$schema": "http://json-schema.org/draft-07/schema#"
-          }
-        },
-        "isTrigger": false,
-        "isPrimaryTrigger": false,
-        "inputs": {
-          "action": "Hash",
-          "propertyName": "passwordHash",
-          "value": "{{ $json.body.password }}"
-        },
-        "connectedHandles": [],
-        "lastTestOutput": {
-          "items": [
-            {
-              "json": {
-                "body": {
-                  "full_name": "Maya Chen",
-                  "email": "maya@brightfold.example",
-                  "org_name": "Brightfold Studio",
-                  "password": "Password123!"
-                },
-                "query": {},
-                "headers": {
-                  "x-forwarded-for": "103.196.28.74",
-                  "x-forwarded-proto": "https",
-                  "x-forwarded-port": "443",
-                  "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a7581b4-79b61d421f4da43204b92dd7",
-                  "content-length": "116",
-                  "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDMiLCJvcmdfaWQiOiIxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTEiLCJyb2xlIjoiZGVzaWduZXIiLCJlbWFpbCI6InJhaHVsQGx1bWVuLnRlc3QiLCJleHAiOjE3ODYxNjY0MzcsImlhdCI6MTc4NjA4MDAzN30.sRVpq0b0VW6-upna_WY2ZCR7EzKwcUPNyNOmuproTak",
-                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
-                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
-                  "content-type": "application/json",
-                  "sec-ch-ua-mobile": "?0",
-                  "accept": "*/*",
-                  "origin": "http://localhost:5173",
-                  "sec-fetch-site": "cross-site",
-                  "sec-fetch-mode": "cors",
-                  "sec-fetch-dest": "empty",
-                  "referer": "http://localhost:5173/",
-                  "accept-encoding": "gzip, deflate, br, zstd",
-                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-                  "priority": "u=1, i"
-                },
-                "params": {},
-                "file": null,
-                "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea"
-              },
-              "pairedItem": 0
-            }
-          ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a7581b4fda7c8acf153a119",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
-      },
-      "width": 220,
-      "height": 93,
-      "selected": false,
-      "positionAbsolute": {
-        "x": 639.6027835506763,
-        "y": 249.59988081129103
-      },
-      "dragging": false
-    },
-    {
-      "id": "postgres.executeQuery-1786080701260",
-      "type": "action",
-      "position": {
-        "x": 914.1525894860027,
-        "y": 252.81302025569437
+        "x": 692.0152610425968,
+        "y": 315.9450493834787
       },
       "data": {
         "label": "Execute Query",
@@ -1059,23 +666,28 @@
         "isTrigger": false,
         "isPrimaryTrigger": false,
         "inputs": {
-          "action": "Hash",
-          "propertyName": "passwordHash",
-          "value": "{{ $json.body.password }}",
+          "idleTimeout": 0,
+          "replaceEmptyStringsWithNull": false,
+          "outputLargeNumbersAsText": false,
+          "queryBatching": "single",
+          "path": "identity/bootstrap",
+          "options": {
+            "allowedOrigins": "*"
+          },
+          "authentication": "jwtAuth",
+          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "sessionSource": "header",
+          "sessionSourceName": "Authorization",
           "schemaMode": "list",
           "tableMode": "list",
           "columnsMode": "manually",
           "schema": "public",
-          "query": "with new_org as (\r\n  insert into organizations (name, slug)\r\n  values ($1, lower(regexp_replace($1, '[^a-zA-Z0-9]+', '-', 'g'))\r\n              || '-' || substr(md5(random()::text), 1, 6))\r\n  returning id, name\r\n), new_user as (\r\n  insert into users (email, full_name, password_hash, auth_provider)\r\n  values (lower($2), $3, $4, 'password')\r\n  returning id, email, full_name, avatar_url\r\n), new_membership as (\r\n  insert into memberships (user_id, org_id, role)\r\n  select new_user.id, new_org.id, 'owner'::membership_role\r\n  from new_user, new_org\r\n  returning role\r\n)\r\nselect new_user.id        as user_id,\r\n       new_user.email     as email,\r\n       new_user.full_name as full_name,\r\n       new_org.id         as org_id,\r\n       new_org.name       as org_name,\r\n       'owner'            as role\r\nfrom new_user, new_org;",
+          "query": "select bootstrap_workspace($1::uuid, $2::text, $3::text) as result;",
           "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
-          "replaceEmptyStringsWithNull": false,
-          "outputLargeNumbersAsText": false,
-          "queryBatching": "single",
           "queryParameters": [
+            "{{ $json.jwt.sub }}",
             "{{ $json.body.org_name }}",
-            "{{ $json.body.email }}",
-            "{{ $json.body.full_name }}",
-            "{{ $json.passwordHash }}"
+            "{{ $json.body.plan || 'free' }}"
           ]
         },
         "connectedHandles": [],
@@ -1088,12 +700,16 @@
                   "items": [
                     {
                       "json": {
-                        "user_id": "f0c9449e-79bd-4c78-aaa3-8a03857b8aed",
-                        "email": "maya@brightfold.example",
-                        "full_name": "Maya Chen",
-                        "org_id": "fccb2f2e-9195-438a-9887-bc0b1e20b0e1",
-                        "org_name": "Brightfold Studio",
-                        "role": "owner"
+                        "result": {
+                          "user_id": "0e52b36e-7960-4fb3-a803-f95227708443",
+                          "email": "maya@gmail.com",
+                          "full_name": "Maya",
+                          "avatar_url": null,
+                          "org_id": "6b7d0221-9d48-4983-83e9-bc4c5b248862",
+                          "org_name": "Maya",
+                          "plan": "free",
+                          "role": "owner"
+                        }
                       }
                     }
                   ]
@@ -1107,7 +723,7 @@
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a7581b4fda7c8acf153a119",
+        "executionId": "6a76e59853b933eae1409e3f",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -1116,17 +732,17 @@
       "height": 93,
       "selected": false,
       "positionAbsolute": {
-        "x": 914.1525894860027,
-        "y": 252.81302025569437
+        "x": 692.0152610425968,
+        "y": 315.9450493834787
       },
       "dragging": false
     },
     {
-      "id": "core.set-1786080802400",
+      "id": "core.set-1786149309524",
       "type": "action",
       "position": {
-        "x": 1178.3532712334434,
-        "y": 246.77378132985456
+        "x": 955.8101037932831,
+        "y": 317.4817183703759
       },
       "data": {
         "label": "Set Fields",
@@ -1255,43 +871,43 @@
           "assignments": [
             {
               "name": "user_id",
-              "value": "{{ $json.data.items[0].json.user_id }}",
+              "value": "{{ $json.data.items[0].json.result.user_id }}",
               "type": "string",
               "valueType": "expression"
             },
             {
               "name": "email",
-              "value": "{{ $json.data.items[0].json.email }}",
+              "value": "{{ $json.data.items[0].json.result.email }}",
               "type": "string",
               "valueType": "expression"
             },
             {
               "name": "full_name",
-              "value": "{{ $json.data.items[0].json.full_name }}",
-              "type": "string",
-              "valueType": "expression"
-            },
-            {
-              "name": "avatar_url",
-              "value": "{{ '' }}",
+              "value": "{{ $json.data.items[0].json.result.full_name }}",
               "type": "string",
               "valueType": "expression"
             },
             {
               "name": "org_id",
-              "value": "{{ $json.data.items[0].json.org_id }}",
+              "value": "{{ $json.data.items[0].json.result.org_id }}",
               "type": "string",
               "valueType": "expression"
             },
             {
               "name": "org_name",
-              "value": "{{ $json.data.items[0].json.org_name }}",
+              "value": "{{ $json.data.items[0].json.result.org_name }}",
               "type": "string",
               "valueType": "expression"
             },
             {
               "name": "role",
-              "value": "{{ $json.data.items[0].json.role }}",
+              "value": "{{ $json.data.items[0].json.result.role }}",
+              "type": "string",
+              "valueType": "expression"
+            },
+            {
+              "name": "plan",
+              "value": "{{ $json.data.items[0].json.result.plan }}",
               "type": "string",
               "valueType": "expression"
             }
@@ -1302,19 +918,19 @@
           "items": [
             {
               "json": {
-                "user_id": "f0c9449e-79bd-4c78-aaa3-8a03857b8aed",
-                "email": "maya@brightfold.example",
-                "full_name": "Maya Chen",
-                "avatar_url": "",
-                "org_id": "fccb2f2e-9195-438a-9887-bc0b1e20b0e1",
-                "org_name": "Brightfold Studio",
-                "role": "owner"
+                "user_id": "0e52b36e-7960-4fb3-a803-f95227708443",
+                "email": "maya@gmail.com",
+                "full_name": "Maya",
+                "org_id": "6b7d0221-9d48-4983-83e9-bc4c5b248862",
+                "org_name": "Maya",
+                "role": "owner",
+                "plan": "free"
               }
             }
           ]
         },
         "executionStatus": "success",
-        "executionId": "6a7581b4fda7c8acf153a119",
+        "executionId": "6a76e59853b933eae1409e3f",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
@@ -1323,17 +939,17 @@
       "height": 93,
       "selected": false,
       "positionAbsolute": {
-        "x": 1178.3532712334434,
-        "y": 246.77378132985456
+        "x": 955.8101037932831,
+        "y": 317.4817183703759
       },
       "dragging": false
     },
     {
-      "id": "jwt-1786080953447",
+      "id": "jwt-1786149417268",
       "type": "action",
       "position": {
-        "x": 1455.109562647532,
-        "y": 250.21664495983157
+        "x": 1241.7837520039047,
+        "y": 319.01838735727307
       },
       "data": {
         "label": "JWT",
@@ -1517,72 +1133,56 @@
         "isPrimaryTrigger": false,
         "inputs": {
           "useJsonPayload": true,
-          "secret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
-          "payload": "{\"sub\":\"{{ $json.user_id }}\",\"org_id\":\"{{ $json.org_id }}\",\"role\":\"{{ $json.role }}\",\"email\":\"{{ $json.email }}\",\"exp\":{{ Math.floor(Date.now()/1000) + 86400 }}}"
+          "secret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "payload": "{\"sub\":\"{{ $json.user_id }}\",\"org_id\":\"{{ $json.org_id }}\",\"org_name\":\"{{ $json.org_name }}\",\"role\":\"{{ $json.role }}\",\"plan\":\"{{ $json.plan }}\",\"email\":\"{{ $json.email }}\",\"exp\":{{ Math.floor(Date.now()/1000) + 86400 }}}",
+          "payload_mode": "expression"
         },
         "connectedHandles": [],
-        "lastTestOutput": {
-          "items": [
-            {
-              "json": {
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmMGM5NDQ5ZS03OWJkLTRjNzgtYWFhMy04YTAzODU3YjhhZWQiLCJvcmdfaWQiOiJmY2NiMmYyZS05MTk1LTQzOGEtOTg4Ny1iYzBiMWUyMGIwZTEiLCJyb2xlIjoib3duZXIiLCJlbWFpbCI6Im1heWFAYnJpZ2h0Zm9sZC5leGFtcGxlIiwiZXhwIjoxNzg2MTcyMjEyLCJpYXQiOjE3ODYwODU4MTJ9.g9Y3fLxiB6YkO-iCoRQ3VfR8Oqyv1CoKjoUWEttPeV4"
-              },
-              "pairedItem": 0
-            }
-          ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a7581b4fda7c8acf153a119",
+        "lastTestOutput": null,
+        "executionStatus": null,
+        "executionError": null,
+        "executionId": "6a76e59853b933eae1409e3f",
         "isFormWait": false,
         "isTimerWait": false,
         "isWebhookWait": false
       },
       "width": 220,
       "height": 93,
-      "selected": true,
+      "selected": false,
       "positionAbsolute": {
-        "x": 1455.109562647532,
-        "y": 250.21664495983157
+        "x": 1241.7837520039047,
+        "y": 319.01838735727307
       },
       "dragging": false
     }
   ],
   "edges": [
     {
-      "source": "webhook-1786080601021",
+      "source": "webhook-1786149160158",
       "sourceHandle": null,
-      "target": "crypto-1786080647787",
+      "target": "postgres.executeQuery-1786149257951",
       "targetHandle": null,
       "type": "custom",
       "data": {},
-      "id": "reactflow__edge-webhook-1786080601021-crypto-1786080647787"
+      "id": "reactflow__edge-webhook-1786149160158-postgres.executeQuery-1786149257951"
     },
     {
-      "source": "crypto-1786080647787",
+      "source": "postgres.executeQuery-1786149257951",
       "sourceHandle": null,
-      "target": "postgres.executeQuery-1786080701260",
+      "target": "core.set-1786149309524",
       "targetHandle": null,
       "type": "custom",
       "data": {},
-      "id": "reactflow__edge-crypto-1786080647787-postgres.executeQuery-1786080701260"
+      "id": "reactflow__edge-postgres.executeQuery-1786149257951-core.set-1786149309524"
     },
     {
-      "source": "postgres.executeQuery-1786080701260",
+      "source": "core.set-1786149309524",
       "sourceHandle": null,
-      "target": "core.set-1786080802400",
+      "target": "jwt-1786149417268",
       "targetHandle": null,
       "type": "custom",
       "data": {},
-      "id": "reactflow__edge-postgres.executeQuery-1786080701260-core.set-1786080802400"
-    },
-    {
-      "source": "core.set-1786080802400",
-      "sourceHandle": null,
-      "target": "jwt-1786080953447",
-      "targetHandle": null,
-      "type": "custom",
-      "data": {},
-      "id": "reactflow__edge-core.set-1786080802400-jwt-1786080953447"
+      "id": "reactflow__edge-core.set-1786149309524-jwt-1786149417268"
     }
   ]
 }

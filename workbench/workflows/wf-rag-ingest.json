@@ -1,0 +1,1570 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-09T03:25:03.058Z",
+  "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246Y29kZS5leGVjdXRlfGFjdGlvbjpo",
+  "nodes": [
+    {
+      "id": "webhook-1786189579275",
+      "data": {
+        "label": "Webhook Trigger",
+        "inputs": {
+          "path": "rag/ingest",
+          "options": {
+            "allowedOrigins": "*"
+          },
+          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "respondWith": "All Incoming Items",
+          "allowedRoles": "owner, brand_admin",
+          "sessionSource": "header",
+          "authentication": "jwtAuth",
+          "inputFieldName": "data",
+          "requireRoleCheck": true,
+          "sessionSourceName": "Authorization"
+        },
+        "toolId": "webhook",
+        "toolData": {
+          "id": "webhook",
+          "displayName": "Webhook Trigger",
+          "category": "Input /  Output",
+          "icon": "webhook",
+          "description": "Trigger workflow via webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to listen on (e.g. \"my-hook\")"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD"
+                ],
+                "default": "POST",
+                "description": "HTTP Method"
+              },
+              "responseMode": {
+                "type": "string",
+                "enum": [
+                  "onReceived",
+                  "lastNode",
+                  "respondWithNode",
+                  "streaming"
+                ],
+                "default": "lastNode",
+                "description": "When to respond"
+              },
+              "authentication": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "basicAuth",
+                  "headerAuth",
+                  "jwtAuth"
+                ],
+                "default": "none",
+                "description": "Authentication"
+              },
+              "basicAuthUser": {
+                "type": "string",
+                "description": "Username"
+              },
+              "basicAuthPassword": {
+                "type": "string",
+                "description": "Password"
+              },
+              "headerAuthName": {
+                "type": "string",
+                "description": "Name"
+              },
+              "headerAuthValue": {
+                "type": "string",
+                "description": "Value"
+              },
+              "jwtSecret": {
+                "type": "string",
+                "description": "Secret"
+              },
+              "jwtAlgorithm": {
+                "type": "string",
+                "enum": [
+                  "HS256",
+                  "HS384",
+                  "HS512"
+                ],
+                "default": "HS256",
+                "description": "Algorithm"
+              },
+              "sessionClaim": {
+                "type": "string",
+                "default": "sub",
+                "description": "JWT claim used to identify the session"
+              },
+              "requireRoleCheck": {
+                "type": "boolean",
+                "default": false,
+                "description": "Require Role Check (RBAC)"
+              },
+              "roleClaimKey": {
+                "type": "string",
+                "default": "role",
+                "description": "Role Claim Key"
+              },
+              "allowedRoles": {
+                "type": "string",
+                "default": "admin, staff",
+                "description": "Allowed Roles (comma separated)"
+              },
+              "sessionSource": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "auto",
+                  "header",
+                  "cookie",
+                  "body"
+                ],
+                "default": "none",
+                "description": "Session Source"
+              },
+              "sessionSourceName": {
+                "type": "string",
+                "description": "Session Source Name (header / cookie / body field)"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "allowedOrigins": {
+                    "type": "string",
+                    "description": "Allowed Origins (CORS)"
+                  },
+                  "binaryDataFieldName": {
+                    "type": "string",
+                    "description": "Field Name for Binary Data"
+                  },
+                  "ignoreBots": {
+                    "type": "boolean",
+                    "description": "Ignore Bots"
+                  },
+                  "ipAllowlist": {
+                    "type": "string",
+                    "description": "IP(s) Allowlist"
+                  },
+                  "noResponseBody": {
+                    "type": "boolean",
+                    "description": "No Response Body"
+                  },
+                  "rawBody": {
+                    "type": "boolean",
+                    "description": "Raw Body"
+                  },
+                  "responseCode": {
+                    "type": "number",
+                    "description": "Response Code"
+                  },
+                  "responseData": {
+                    "type": "string",
+                    "description": "Response Data"
+                  }
+                },
+                "additionalProperties": false,
+                "default": {},
+                "description": "Options"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "name": "path",
+              "displayName": "Path",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The path to listen on (e.g. \"my-hook\")"
+            },
+            {
+              "name": "method",
+              "displayName": "HTTP Method",
+              "type": "options",
+              "default": "POST",
+              "required": true,
+              "options": [
+                {
+                  "name": "GET",
+                  "value": "GET"
+                },
+                {
+                  "name": "POST",
+                  "value": "POST"
+                },
+                {
+                  "name": "PUT",
+                  "value": "PUT"
+                },
+                {
+                  "name": "DELETE",
+                  "value": "DELETE"
+                },
+                {
+                  "name": "PATCH",
+                  "value": "PATCH"
+                },
+                {
+                  "name": "HEAD",
+                  "value": "HEAD"
+                }
+              ],
+              "description": "HTTP Method to listen for"
+            },
+            {
+              "name": "responseMode",
+              "displayName": "Respond",
+              "type": "options",
+              "default": "lastNode",
+              "required": true,
+              "options": [
+                {
+                  "name": "Immediately",
+                  "value": "onReceived"
+                },
+                {
+                  "name": "When Last Node Finishes",
+                  "value": "lastNode"
+                },
+                {
+                  "name": "Using 'Respond to Webhook' Node",
+                  "value": "respondWithNode"
+                },
+                {
+                  "name": "Streaming",
+                  "value": "streaming"
+                }
+              ],
+              "description": "When to respond to the webhook request"
+            },
+            {
+              "name": "authentication",
+              "displayName": "Authentication",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "Basic Auth",
+                  "value": "basicAuth"
+                },
+                {
+                  "name": "Header Auth",
+                  "value": "headerAuth"
+                },
+                {
+                  "name": "JWT Auth",
+                  "value": "jwtAuth"
+                },
+                {
+                  "name": "None",
+                  "value": "none"
+                }
+              ],
+              "description": "The type of authentication to use for incoming webhook requests"
+            },
+            {
+              "name": "sessionSource",
+              "displayName": "Session Source",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "None (legacy, no session)",
+                  "value": "none"
+                },
+                {
+                  "name": "Auto (platform issues a session id)",
+                  "value": "auto"
+                },
+                {
+                  "name": "From Header",
+                  "value": "header"
+                },
+                {
+                  "name": "From Cookie",
+                  "value": "cookie"
+                },
+                {
+                  "name": "From Body Field",
+                  "value": "body"
+                }
+              ],
+              "description": "How the platform identifies the caller for per-user session continuity. Required when memory or loops should partition by caller."
+            },
+            {
+              "name": "sessionSourceName",
+              "displayName": "Session Source Name",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. X-Caller-Id (header), userId (body field), session_id (cookie)",
+              "description": "Header name, body field path, or cookie name used as the caller id.",
+              "displayOptions": {
+                "show": {
+                  "sessionSource": [
+                    "header",
+                    "cookie",
+                    "body"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthUser",
+              "displayName": "User",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The username for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthPassword",
+              "displayName": "Password",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The password for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthName",
+              "displayName": "Name",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The header name to check for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthValue",
+              "displayName": "Value",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The expected header value for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtSecret",
+              "displayName": "Secret",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The secret key used to verify the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtAlgorithm",
+              "displayName": "Algorithm",
+              "type": "options",
+              "default": "HS256",
+              "options": [
+                {
+                  "name": "HS256",
+                  "value": "HS256"
+                },
+                {
+                  "name": "HS384",
+                  "value": "HS384"
+                },
+                {
+                  "name": "HS512",
+                  "value": "HS512"
+                }
+              ],
+              "description": "The algorithm used to sign the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "sessionClaim",
+              "displayName": "Session Claim",
+              "type": "string",
+              "default": "sub",
+              "description": "The claim in the JWT payload that identifies the user (e.g. sub, email, userId). Leave blank to skip session tracking.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "requireRoleCheck",
+              "displayName": "Require Role Check (RBAC)",
+              "type": "boolean",
+              "default": false,
+              "description": "If enabled, the incoming JWT must contain an authorized role claim to execute the workflow.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "roleClaimKey",
+              "displayName": "Role Claim Key",
+              "type": "string",
+              "default": "role",
+              "description": "The field name inside the JWT payload that contains the user's role (e.g., \"role\", \"groups\").",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "allowedRoles",
+              "displayName": "Allowed Roles",
+              "type": "string",
+              "default": "admin, staff",
+              "description": "A comma-separated list of roles that are allowed to trigger this workflow. If empty, all roles pass.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "options",
+              "displayName": "Options",
+              "type": "collection",
+              "default": {},
+              "placeholder": "Add option",
+              "fields": [
+                {
+                  "name": "allowedOrigins",
+                  "displayName": "Allowed Origins (CORS)",
+                  "type": "string",
+                  "default": "*",
+                  "placeholder": "*",
+                  "description": "Comma-separated list of allowed origins for CORS. Use * to allow all origins."
+                },
+                {
+                  "name": "binaryDataFieldName",
+                  "displayName": "Field Name for Binary Data",
+                  "type": "string",
+                  "default": "data",
+                  "placeholder": "data",
+                  "description": "The name of the field in the request that contains binary data (for file uploads)."
+                },
+                {
+                  "name": "ignoreBots",
+                  "displayName": "Ignore Bots",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, requests from known bots (crawlers, spiders) will be ignored."
+                },
+                {
+                  "name": "ipAllowlist",
+                  "displayName": "IP(s) Allowlist",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "e.g. 127.0.0.1, 192.168.1.0/24",
+                  "description": "Comma-separated list of IPs or CIDR ranges. Only these IPs can trigger the webhook."
+                },
+                {
+                  "name": "noResponseBody",
+                  "displayName": "No Response Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the webhook will respond with an empty body (only status code)."
+                },
+                {
+                  "name": "rawBody",
+                  "displayName": "Raw Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the raw request body will be passed as-is without parsing."
+                },
+                {
+                  "name": "responseData",
+                  "displayName": "Response Data",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "Response body content",
+                  "description": "Custom response data to return when the webhook is triggered (JSON or text)."
+                }
+              ]
+            }
+          ]
+        },
+        "isTrigger": true,
+        "isFormWait": false,
+        "executionId": "6a77eb3353b933eae140ae95",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": true,
+        "executionStatus": "success",
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "body": {
+                  "brand_kit_id": "c129e4df-9261-4c31-871a-d3df281685f2",
+                  "guidelines_text": "Brightfold is a studio brand built on clarity. Visual language favours generous white space, muted greens, and honest photography. The primary green anchors headers and calls to action but should never dominate more than a quarter of a composition. Imagery is candid and unstyled, shot in daylight, never on seamless backdrops. Avoid stock-photo gestures, heavy drop shadows, and gradient overlays. Voice is direct and unhurried. Headlines run three to six words. Body copy explains rather than persuades. Any claim about materials or sourcing must name the specific supplier or certification. Never use the word premium without stating what makes it so."
+                },
+                "query": {},
+                "headers": {
+                  "x-forwarded-for": "103.224.35.25",
+                  "x-forwarded-proto": "https",
+                  "x-forwarded-port": "443",
+                  "host": "api.agents.snsihub.ai",
+                  "x-amzn-trace-id": "Root=1-6a77eb33-7817132600037a1c709bd0fc",
+                  "content-length": "730",
+                  "sec-ch-ua-platform": "\"Windows\"",
+                  "authorization": "REDACTED_SEE_CREDENTIAL_STORE",
+                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+                  "content-type": "application/json",
+                  "sec-ch-ua-mobile": "?0",
+                  "accept": "*/*",
+                  "origin": "http://localhost:5173",
+                  "sec-fetch-site": "cross-site",
+                  "sec-fetch-mode": "cors",
+                  "sec-fetch-dest": "empty",
+                  "referer": "http://localhost:5173/",
+                  "accept-encoding": "gzip, deflate, br, zstd",
+                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+                  "priority": "u=1, i"
+                },
+                "params": {},
+                "jwt": {
+                  "sub": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                  "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                  "org_name": "Brightfold Studio",
+                  "role": "owner",
+                  "plan": "enterprise",
+                  "email": "priya@brightfold.org",
+                  "exp": 1786330285,
+                  "iat": 1786243885
+                },
+                "file": null,
+                "sessionId": "rs_02f2f7903719a3ea6d6e5c360e5353d21fb5"
+              }
+            }
+          ],
+          "usage": {
+            "category": "INTEGRATION",
+            "metrics": {
+              "durationMs": 0,
+              "apiCalls": 1,
+              "payloadSizeBytes": 2276
+            },
+            "cost": 2
+          }
+        }
+      },
+      "type": "webhook",
+      "width": 220,
+      "height": 98,
+      "dragging": false,
+      "position": {
+        "x": 243.71275258294514,
+        "y": 241.072257904742
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 243.71275258294514,
+        "y": 241.072257904742
+      }
+    },
+    {
+      "id": "code.execute-1786189703553",
+      "data": {
+        "label": "Code",
+        "inputs": {
+          "code": "body = _json.get(\"body\", {})\njwt = _json.get(\"jwt\", {})\n\ntext = (body.get(\"guidelines_text\") or \"\").strip()\nbrand_kit_id = body.get(\"brand_kit_id\") or \"\"\norg_id = jwt.get(\"org_id\") or \"\"\n\nMAX_CHARS = 500\nOVERLAP_SENTENCES = 1\n\ndef split_sentences(block):\n    out, buf = [], \"\"\n    for ch in block:\n        buf += ch\n        if ch in \".!?\" and len(buf.strip()) > 20:\n            out.append(buf.strip())\n            buf = \"\"\n    if buf.strip():\n        out.append(buf.strip())\n    return out\n\nchunks = []\nif text:\n    for para in [p.strip() for p in text.split(\"\\n\") if p.strip()]:\n        sentences = split_sentences(para)\n        current = []\n        for s in sentences:\n            candidate = \" \".join(current + [s])\n            if len(candidate) > MAX_CHARS and current:\n                chunks.append(\" \".join(current))\n                current = current[-OVERLAP_SENTENCES:] + [s]\n            else:\n                current.append(s)\n        if current:\n            chunks.append(\" \".join(current))\n\nchunks = [c for c in chunks if len(c) > 30]\n\nreturn [{\n    \"json\": {\n        \"org_id\": org_id,\n        \"brand_kit_id\": brand_kit_id,\n        \"chunk_count\": len(chunks),\n        \"chunks\": chunks,\n        \"batch_body\": {\n            \"requests\": [\n                {\n                    \"model\": \"models/gemini-embedding-001\",\n                    \"content\": {\"parts\": [{\"text\": c}]},\n                    \"outputDimensionality\": 128,\n                }\n                for c in chunks\n            ]\n        },\n    }\n}]",
+          "mode": "all",
+          "path": "rag/ingest",
+          "options": {
+            "allowedOrigins": "*"
+          },
+          "language": "python",
+          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "respondWith": "All Incoming Items",
+          "allowedRoles": "owner, brand_admin",
+          "sessionSource": "header",
+          "authentication": "jwtAuth",
+          "inputFieldName": "data",
+          "requireRoleCheck": true,
+          "sessionSourceName": "Authorization"
+        },
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a77eb3353b933eae140ae95",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                "brand_kit_id": "c129e4df-9261-4c31-871a-d3df281685f2",
+                "chunk_count": 2,
+                "chunks": [
+                  "Brightfold is a studio brand built on clarity. Visual language favours generous white space, muted greens, and honest photography. The primary green anchors headers and calls to action but should never dominate more than a quarter of a composition. Imagery is candid and unstyled, shot in daylight, never on seamless backdrops. Avoid stock-photo gestures, heavy drop shadows, and gradient overlays. Voice is direct and unhurried. Headlines run three to six words.",
+                  "Headlines run three to six words. Body copy explains rather than persuades. Any claim about materials or sourcing must name the specific supplier or certification. Never use the word premium without stating what makes it so."
+                ],
+                "batch_body": {
+                  "requests": [
+                    {
+                      "model": "models/gemini-embedding-001",
+                      "content": {
+                        "parts": [
+                          {
+                            "text": "Brightfold is a studio brand built on clarity. Visual language favours generous white space, muted greens, and honest photography. The primary green anchors headers and calls to action but should never dominate more than a quarter of a composition. Imagery is candid and unstyled, shot in daylight, never on seamless backdrops. Avoid stock-photo gestures, heavy drop shadows, and gradient overlays. Voice is direct and unhurried. Headlines run three to six words."
+                          }
+                        ]
+                      },
+                      "outputDimensionality": 128
+                    },
+                    {
+                      "model": "models/gemini-embedding-001",
+                      "content": {
+                        "parts": [
+                          {
+                            "text": "Headlines run three to six words. Body copy explains rather than persuades. Any claim about materials or sourcing must name the specific supplier or certification. Never use the word premium without stating what makes it so."
+                          }
+                        ]
+                      },
+                      "outputDimensionality": 128
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "executionStatus": "success"
+      },
+      "type": "action",
+      "width": 220,
+      "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 501.032286653106,
+        "y": 108.79043762078669
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 501.032286653106,
+        "y": 108.79043762078669
+      }
+    },
+    {
+      "id": "httpRequest-1786189746762",
+      "data": {
+        "label": "Http Request",
+        "inputs": {
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:batchEmbedContents",
+          "body": "{{ JSON.stringify($json.batch_body) }}",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE"
+          },
+          "timeout": 300000,
+          "bodyType": "json",
+          "contentType": "json",
+          "includeHeaders": false,
+          "responseFormat": "json",
+          "lowercaseHeaders": true,
+          "allowUnauthorized": false,
+          "ignoreResponseCode": true,
+          "outputPropertyName": "data"
+        },
+        "toolId": "httpRequest",
+        "toolData": {
+          "id": "httpRequest",
+          "displayName": "Http Request",
+          "category": "API & HTTP",
+          "icon": "Globe",
+          "description": "Make HTTP API requests to external services.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS"
+                ],
+                "default": "GET",
+                "description": "HTTP method to use"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to send the request to"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Headers to include in the request"
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query parameters to append to the URL"
+              },
+              "body": {
+                "description": "Request body"
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "fields"
+                ],
+                "default": "json",
+                "description": "How the body is defined"
+              },
+              "bodyFields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Body fields for key-value input"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "form-urlencoded",
+                  "raw"
+                ],
+                "default": "json",
+                "description": "Content type of the request body"
+              },
+              "responseFormat": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "text",
+                  "binary"
+                ],
+                "default": "auto",
+                "description": "Format of the response data"
+              },
+              "authentication": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "header",
+                      "query",
+                      "basic",
+                      "bearer"
+                    ],
+                    "default": "none"
+                  },
+                  "config": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Authentication configuration"
+              },
+              "ignoreResponseCode": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, the node will not fail on non-2xx status codes"
+              },
+              "includeHeaders": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, response headers will be included in the output"
+              },
+              "allowUnauthorized": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, SSL certificate verification will be skipped"
+              },
+              "lowercaseHeaders": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, all header keys will be converted to lowercase"
+              },
+              "timeout": {
+                "type": "number",
+                "default": 300000,
+                "description": "Request timeout in milliseconds"
+              },
+              "outputPropertyName": {
+                "type": "string",
+                "default": "data",
+                "description": "The name of the property to store binary data in"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a77eb3353b933eae140ae95",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "statusCode": 200,
+                "body": {
+                  "embeddings": [
+                    {
+                      "values": [
+                        -0.022645166,
+                        0.00016897418,
+                        -0.017234154,
+                        -0.097251,
+                        -0.0019104893,
+                        -0.008291175,
+                        -0.012867293,
+                        -0.016336933,
+                        -0.012029154,
+                        -0.0026292633,
+                        -0.020890068,
+                        0.013386203,
+                        -0.016537486,
+                        -0.0029200248,
+                        0.11706468,
+                        0.0065185893,
+                        -0.035342388,
+                        0.012578143,
+                        0.023412881,
+                        -0.011234177,
+                        0.0068458975,
+                        -0.0150975725,
+                        -0.0030644846,
+                        -0.012359058,
+                        0.0042314497,
+                        -0.008503818,
+                        0.010380343,
+                        0.017898545,
+                        0.0391422,
+                        0.017506339,
+                        -0.006776125,
+                        0.010109483,
+                        0.043854315,
+                        0.002270252,
+                        -0.0067609907,
+                        0.032055374,
+                        0.008947658,
+                        -0.027356962,
+                        -0.01730997,
+                        0.040076856,
+                        -0.039606724,
+                        0.022240808,
+                        0.011614475,
+                        -0.004065404,
+                        0.000915059,
+                        -0.015042611,
+                        0.014706726,
+                        0.010064738,
+                        0.0045145876,
+                        0.03393765,
+                        -0.025153883,
+                        0.013116122,
+                        -0.027536783,
+                        -0.15318988,
+                        0.028354896,
+                        0.0037740478,
+                        0.0027951847,
+                        -0.0005488303,
+                        0.00067647296,
+                        -0.016754463,
+                        -0.019612981,
+                        0.008873071,
+                        0.005000571,
+                        -0.013936593,
+                        0.037286166,
+                        -0.024221102,
+                        -0.01741987,
+                        -0.006657297,
+                        -0.0052809645,
+                        0.014143095,
+                        0.00051458797,
+                        -0.01291468,
+                        0.0026629718,
+                        -0.0032676663,
+                        0.014732727,
+                        -0.013604447,
+                        -0.0035422284,
+                        0.02686359,
+                        -0.011588175,
+                        0.0194082,
+                        0.009649811,
+                        -0.021923078,
+                        -0.022469506,
+                        -0.03437389,
+                        0.007471507,
+                        -0.0065358737,
+                        -0.0050770533,
+                        0.010665626,
+                        0.000032227264,
+                        0.009722916,
+                        -0.0013639905,
+                        0.0007283463,
+                        0.01639893,
+                        0.001649273,
+                        -0.0060914895,
+                        0.0010415608,
+                        -0.008586445,
+                        0.0016855462,
+                        -0.029532991,
+                        -0.017540136,
+                        0.0056088404,
+                        -0.01620695,
+                        -0.005661119,
+                        -0.0003924976,
+                        0.022679446,
+                        -0.008286603,
+                        0.023440188,
+                        -0.020588703,
+                        -0.022038165,
+                        0.0008837758,
+                        0.030242547,
+                        0.0025649718,
+                        -0.027576905,
+                        0.029186113,
+                        0.014927784,
+                        -0.18044975,
+                        0.010396633,
+                        0.024326758,
+                        -0.02633216,
+                        0.005990982,
+                        -0.020846194,
+                        -0.025728855,
+                        -0.021316396,
+                        0.01805624,
+                        0.008986032,
+                        -0.014621626,
+                        -0.017080171,
+                        0.022176249
+                      ]
+                    },
+                    {
+                      "values": [
+                        -0.004767445,
+                        -0.008008629,
+                        -0.0017467658,
+                        -0.056034718,
+                        -0.010450417,
+                        -0.013369629,
+                        0.009559805,
+                        -0.01794969,
+                        0.002077171,
+                        0.0030906594,
+                        -0.0279917,
+                        0.015426162,
+                        0.003003472,
+                        -0.020751119,
+                        0.10720384,
+                        0.019911151,
+                        -0.01179871,
+                        0.01538411,
+                        0.014948358,
+                        0.0057555554,
+                        0.008373777,
+                        -0.01042675,
+                        0.010897354,
+                        -0.017321417,
+                        -0.01066531,
+                        -0.005771378,
+                        0.025234364,
+                        0.0021366752,
+                        0.04254062,
+                        0.017647723,
+                        -0.009334691,
+                        0.007876753,
+                        0.02312335,
+                        0.019816779,
+                        0.023285897,
+                        0.058419216,
+                        0.01101662,
+                        -0.03266799,
+                        0.0065415567,
+                        0.010863494,
+                        0.003697066,
+                        0.01748382,
+                        0.011826578,
+                        -0.022721753,
+                        -0.004028993,
+                        -0.0038570727,
+                        0.018447766,
+                        -0.0076536783,
+                        0.01204256,
+                        0.035728365,
+                        -0.0114147365,
+                        -0.009979044,
+                        -0.016348202,
+                        -0.14136533,
+                        -0.009582025,
+                        -0.005085225,
+                        0.003771203,
+                        -0.017510174,
+                        -0.017228447,
+                        -0.008791272,
+                        -0.015752755,
+                        0.019041233,
+                        0.013318087,
+                        -0.033454873,
+                        0.0073504336,
+                        -0.025044313,
+                        -0.0011456714,
+                        -0.0038635267,
+                        -0.009119693,
+                        0.023455296,
+                        -0.0098018125,
+                        0.0016818756,
+                        -0.010255436,
+                        -0.01587331,
+                        -0.0011243583,
+                        -0.029729951,
+                        0.027745016,
+                        -0.016155861,
+                        -0.0228869,
+                        0.0015571279,
+                        0.030389952,
+                        -0.047755145,
+                        -0.015983855,
+                        -0.016055558,
+                        0.002782198,
+                        -0.005495496,
+                        0.009286124,
+                        -0.0064644124,
+                        0.0029247052,
+                        0.00579313,
+                        0.01028766,
+                        0.017870158,
+                        0.0072292406,
+                        -0.008637748,
+                        0.0025645378,
+                        -0.024216186,
+                        0.012921169,
+                        0.0061674584,
+                        -0.004054097,
+                        -0.041380245,
+                        0.004995092,
+                        -0.0029534018,
+                        -0.019463887,
+                        -0.02197807,
+                        0.010614468,
+                        -0.004175036,
+                        -0.020397052,
+                        -0.048122484,
+                        -0.003024764,
+                        -0.009898863,
+                        0.033209927,
+                        0.0015283916,
+                        -0.010831756,
+                        0.022867154,
+                        0.0012203278,
+                        -0.17404906,
+                        -0.0023631298,
+                        -0.02754039,
+                        -0.001291334,
+                        0.0037391158,
+                        -0.014221896,
+                        0.02211217,
+                        0.0054328414,
+                        0.017779252,
+                        -0.008380293,
+                        -0.018084982,
+                        -0.0181586,
+                        0.022441534
+                      ]
+                    }
+                  ]
+                }
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success"
+      },
+      "type": "action",
+      "width": 220,
+      "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 717.0328275748567,
+        "y": 297.8872049558077
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 717.0328275748567,
+        "y": 297.8872049558077
+      }
+    },
+    {
+      "id": "code.execute-1786190080819",
+      "data": {
+        "label": "Code",
+        "inputs": {
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:batchEmbedContents",
+          "body": "{{ JSON.stringify($json.batch_body) }}",
+          "code": "\"\"\"\nPair each chunk with its embedding.\n\nThe HTTP Request node replaces $json entirely, so the chunk text is no longer\nin scope. _node._node_results holds every node's output, which is how we\nrecover it. The probe below records what was found so a failure is diagnosable\nrather than silent.\n\"\"\"\n\nresp = _json.get(\"body\", {})\nembeddings = [e.get(\"values\", []) for e in resp.get(\"embeddings\", [])]\n\nchunks, org_id, brand_kit_id = [], \"\", \"\"\nprobe = \"not-attempted\"\n\ntry:\n    results = _node._node_results\n    probe = \"keys=\" + str(list(results.keys()))[:200]\n\n    for _, payload in results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"chunks\" in j and isinstance(j[\"chunks\"], list):\n                chunks = j[\"chunks\"]\n                org_id = j.get(\"org_id\", \"\")\n                brand_kit_id = j.get(\"brand_kit_id\", \"\")\n                break\n        if chunks:\n            break\nexcept Exception as e:\n    probe = \"error: \" + type(e).__name__ + \": \" + str(e)[:150]\n\npaired = [\n    {\"index\": i, \"content\": c, \"embedding\": embeddings[i]}\n    for i, c in enumerate(chunks)\n    if i < len(embeddings) and embeddings[i]\n]\npayload_json = json.dumps(paired)\n\n# Emit one item per chunk. The Execute Query node runs per item, so each\n# call carries a single embedding rather than the whole batch — the\n# parameter field cannot handle a full-batch payload.\nitems = []\nfor i, c in enumerate(chunks):\n    if i < len(embeddings) and embeddings[i]:\n        items.append({\n            \"json\": {\n                \"org_id\": org_id,\n                \"brand_kit_id\": brand_kit_id,\n                \"chunk_index\": i,\n                \"content\": c,\n                \"embedding_json\": json.dumps(embeddings[i]),\n            }\n        })\n\nif not items:\n    items = [{\"json\": {\n        \"org_id\": org_id,\n        \"brand_kit_id\": brand_kit_id,\n        \"chunk_index\": -1,\n        \"content\": \"\",\n        \"embedding_json\": \"[]\",\n        \"probe\": probe,\n    }}]\n\nreturn items",
+          "mode": "all",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json",
+            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE"
+          },
+          "timeout": 300000,
+          "bodyType": "json",
+          "language": "python",
+          "contentType": "json",
+          "includeHeaders": false,
+          "responseFormat": "json",
+          "lowercaseHeaders": true,
+          "allowUnauthorized": false,
+          "ignoreResponseCode": true,
+          "outputPropertyName": "data"
+        },
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a77eb3353b933eae140ae95",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                "brand_kit_id": "c129e4df-9261-4c31-871a-d3df281685f2",
+                "chunk_index": 0,
+                "content": "Brightfold is a studio brand built on clarity. Visual language favours generous white space, muted greens, and honest photography. The primary green anchors headers and calls to action but should never dominate more than a quarter of a composition. Imagery is candid and unstyled, shot in daylight, never on seamless backdrops. Avoid stock-photo gestures, heavy drop shadows, and gradient overlays. Voice is direct and unhurried. Headlines run three to six words.",
+                "embedding_json": "[-0.022645166, 0.00016897418, -0.017234154, -0.097251, -0.0019104893, -0.008291175, -0.012867293, -0.016336933, -0.012029154, -0.0026292633, -0.020890068, 0.013386203, -0.016537486, -0.0029200248, 0.11706468, 0.0065185893, -0.035342388, 0.012578143, 0.023412881, -0.011234177, 0.0068458975, -0.0150975725, -0.0030644846, -0.012359058, 0.0042314497, -0.008503818, 0.010380343, 0.017898545, 0.0391422, 0.017506339, -0.006776125, 0.010109483, 0.043854315, 0.002270252, -0.0067609907, 0.032055374, 0.008947658, -0.027356962, -0.01730997, 0.040076856, -0.039606724, 0.022240808, 0.011614475, -0.004065404, 0.000915059, -0.015042611, 0.014706726, 0.010064738, 0.0045145876, 0.03393765, -0.025153883, 0.013116122, -0.027536783, -0.15318988, 0.028354896, 0.0037740478, 0.0027951847, -0.0005488303, 0.00067647296, -0.016754463, -0.019612981, 0.008873071, 0.005000571, -0.013936593, 0.037286166, -0.024221102, -0.01741987, -0.006657297, -0.0052809645, 0.014143095, 0.00051458797, -0.01291468, 0.0026629718, -0.0032676663, 0.014732727, -0.013604447, -0.0035422284, 0.02686359, -0.011588175, 0.0194082, 0.009649811, -0.021923078, -0.022469506, -0.03437389, 0.007471507, -0.0065358737, -0.0050770533, 0.010665626, 3.2227264e-05, 0.009722916, -0.0013639905, 0.0007283463, 0.01639893, 0.001649273, -0.0060914895, 0.0010415608, -0.008586445, 0.0016855462, -0.029532991, -0.017540136, 0.0056088404, -0.01620695, -0.005661119, -0.0003924976, 0.022679446, -0.008286603, 0.023440188, -0.020588703, -0.022038165, 0.0008837758, 0.030242547, 0.0025649718, -0.027576905, 0.029186113, 0.014927784, -0.18044975, 0.010396633, 0.024326758, -0.02633216, 0.005990982, -0.020846194, -0.025728855, -0.021316396, 0.01805624, 0.008986032, -0.014621626, -0.017080171, 0.022176249]"
+              }
+            },
+            {
+              "json": {
+                "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                "brand_kit_id": "c129e4df-9261-4c31-871a-d3df281685f2",
+                "chunk_index": 1,
+                "content": "Headlines run three to six words. Body copy explains rather than persuades. Any claim about materials or sourcing must name the specific supplier or certification. Never use the word premium without stating what makes it so.",
+                "embedding_json": "[-0.004767445, -0.008008629, -0.0017467658, -0.056034718, -0.010450417, -0.013369629, 0.009559805, -0.01794969, 0.002077171, 0.0030906594, -0.0279917, 0.015426162, 0.003003472, -0.020751119, 0.10720384, 0.019911151, -0.01179871, 0.01538411, 0.014948358, 0.0057555554, 0.008373777, -0.01042675, 0.010897354, -0.017321417, -0.01066531, -0.005771378, 0.025234364, 0.0021366752, 0.04254062, 0.017647723, -0.009334691, 0.007876753, 0.02312335, 0.019816779, 0.023285897, 0.058419216, 0.01101662, -0.03266799, 0.0065415567, 0.010863494, 0.003697066, 0.01748382, 0.011826578, -0.022721753, -0.004028993, -0.0038570727, 0.018447766, -0.0076536783, 0.01204256, 0.035728365, -0.0114147365, -0.009979044, -0.016348202, -0.14136533, -0.009582025, -0.005085225, 0.003771203, -0.017510174, -0.017228447, -0.008791272, -0.015752755, 0.019041233, 0.013318087, -0.033454873, 0.0073504336, -0.025044313, -0.0011456714, -0.0038635267, -0.009119693, 0.023455296, -0.0098018125, 0.0016818756, -0.010255436, -0.01587331, -0.0011243583, -0.029729951, 0.027745016, -0.016155861, -0.0228869, 0.0015571279, 0.030389952, -0.047755145, -0.015983855, -0.016055558, 0.002782198, -0.005495496, 0.009286124, -0.0064644124, 0.0029247052, 0.00579313, 0.01028766, 0.017870158, 0.0072292406, -0.008637748, 0.0025645378, -0.024216186, 0.012921169, 0.0061674584, -0.004054097, -0.041380245, 0.004995092, -0.0029534018, -0.019463887, -0.02197807, 0.010614468, -0.004175036, -0.020397052, -0.048122484, -0.003024764, -0.009898863, 0.033209927, 0.0015283916, -0.010831756, 0.022867154, 0.0012203278, -0.17404906, -0.0023631298, -0.02754039, -0.001291334, 0.0037391158, -0.014221896, 0.02211217, 0.0054328414, 0.017779252, -0.008380293, -0.018084982, -0.0181586, 0.022441534]"
+              }
+            }
+          ]
+        },
+        "executionStatus": "success"
+      },
+      "type": "action",
+      "width": 220,
+      "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 956.7550434152478,
+        "y": 167.2475959221818
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 956.7550434152478,
+        "y": 167.2475959221818
+      }
+    },
+    {
+      "id": "postgres.executeQuery-1786190138076",
+      "data": {
+        "label": "Execute Query",
+        "inputs": {
+          "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:batchEmbedContents",
+          "body": "{{ JSON.stringify($json.batch_body) }}",
+          "code": "\"\"\"\nPair each chunk with its embedding.\n\nThe HTTP Request node replaces $json entirely, so the chunk text is no longer\nin scope. _node._node_results holds every node's output, which is how we\nrecover it. The probe below records what was found so a failure is diagnosable\nrather than silent.\n\"\"\"\n\nresp = _json.get(\"body\", {})\nembeddings = [e.get(\"values\", []) for e in resp.get(\"embeddings\", [])]\n\nchunks, org_id, brand_kit_id = [], \"\", \"\"\nprobe = \"not-attempted\"\n\ntry:\n    results = _node._node_results\n    probe = \"keys=\" + str(list(results.keys()))[:200]\n\n    for _, payload in results.items():\n        items = payload if isinstance(payload, list) else payload.get(\"items\", [])\n        for item in items:\n            j = item.get(\"json\", {}) if isinstance(item, dict) else {}\n            if \"chunks\" in j and isinstance(j[\"chunks\"], list):\n                chunks = j[\"chunks\"]\n                org_id = j.get(\"org_id\", \"\")\n                brand_kit_id = j.get(\"brand_kit_id\", \"\")\n                break\n        if chunks:\n            break\nexcept Exception as e:\n    probe = \"error: \" + type(e).__name__ + \": \" + str(e)[:150]\n\npaired = [\n    {\"index\": i, \"content\": c, \"embedding\": embeddings[i]}\n    for i, c in enumerate(chunks)\n    if i < len(embeddings) and embeddings[i]\n]\n\nreturn [{\n    \"json\": {\n        \"org_id\": org_id,\n        \"brand_kit_id\": brand_kit_id,\n        \"chunks_found\": len(chunks),\n        \"embeddings_found\": len(embeddings),\n        \"paired\": len(paired),\n        \"payload\": paired,\n        \"probe\": probe,\n    }\n}]",
+          "query": "select rag_upsert_chunk($1::uuid, $2::uuid, $3::int, $4::text, $5::text) as result;",
+          "method": "POST",
+          "schema": "public",
+          "headers": {
+            "Content-Type": "application/json",
+            "x-goog-api-key": "REDACTED_SEE_CREDENTIAL_STORE"
+          },
+          "timeout": 300000,
+          "bodyType": "json",
+          "language": "python",
+          "tableMode": "list",
+          "schemaMode": "list",
+          "columnsMode": "manually",
+          "contentType": "json",
+          "idleTimeout": 0,
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "queryBatching": "independently",
+          "includeHeaders": false,
+          "responseFormat": "json",
+          "queryParameters": [
+            "{{ $json.org_id }}",
+            "{{ $json.brand_kit_id }}",
+            " {{$node[\"code.execute-1786190080819\"].json[\"chunk_index\"]}}",
+            " {{$node[\"code.execute-1786190080819\"].json[\"content\"]}}",
+            " {{$node[\"code.execute-1786190080819\"].json[\"embedding_json\"]}}"
+          ],
+          "lowercaseHeaders": true,
+          "allowUnauthorized": false,
+          "ignoreResponseCode": true,
+          "outputPropertyName": "data",
+          "outputLargeNumbersAsText": false,
+          "replaceEmptyStringsWithNull": false
+        },
+        "toolId": "postgres.executeQuery",
+        "toolData": {
+          "id": "postgres.executeQuery",
+          "displayName": "Execute Query",
+          "category": "Memory & State",
+          "provider": "postgres",
+          "operation": "executeQuery",
+          "icon": "Database",
+          "description": "Execute a raw SQL query",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "credentialId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "queryTimeout": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "description": "Connection timeout in seconds"
+              },
+              "idleTimeout": {
+                "type": "integer",
+                "minimum": 0,
+                "default": 0,
+                "description": "Delay closing idle connection in seconds"
+              },
+              "replaceEmptyStringsWithNull": {
+                "type": "boolean",
+                "default": false,
+                "description": "Replace empty string values with NULL"
+              },
+              "outputLargeNumbersAsText": {
+                "type": "boolean",
+                "default": false,
+                "description": "Output BIGINT/NUMERIC as text"
+              },
+              "queryBatching": {
+                "type": "string",
+                "enum": [
+                  "single",
+                  "independently",
+                  "transaction"
+                ],
+                "default": "single",
+                "description": "Query Batching"
+              },
+              "query": {
+                "type": "string",
+                "description": "SQL query to execute"
+              },
+              "queryParameters": {
+                "type": "array",
+                "default": [],
+                "description": "Parameters for prepared statements"
+              }
+            },
+            "required": [
+              "credentialId",
+              "query"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "executionMode": "batch"
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a77eb3353b933eae140ae95",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "status": "success",
+                "data": {
+                  "items": [
+                    {
+                      "json": {
+                        "result": {
+                          "index": 0,
+                          "stored": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                "metadata": {
+                  "rowCount": 1,
+                  "command": "SELECT"
+                }
+              }
+            },
+            {
+              "json": {
+                "status": "success",
+                "data": {
+                  "items": [
+                    {
+                      "json": {
+                        "result": {
+                          "index": 1,
+                          "stored": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                "metadata": {
+                  "rowCount": 1,
+                  "command": "SELECT"
+                }
+              }
+            }
+          ]
+        },
+        "executionStatus": "success"
+      },
+      "type": "action",
+      "width": 220,
+      "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 1251.3110483662374,
+        "y": 293.91210586403156
+      },
+      "selected": true,
+      "positionAbsolute": {
+        "x": 1251.3110483662374,
+        "y": 293.91210586403156
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "reactflow__edge-webhook-1786189579275-code.execute-1786189703553",
+      "data": {},
+      "type": "custom",
+      "source": "webhook-1786189579275",
+      "target": "code.execute-1786189703553"
+    },
+    {
+      "id": "reactflow__edge-code.execute-1786189703553-httpRequest-1786189746762",
+      "data": {},
+      "type": "custom",
+      "source": "code.execute-1786189703553",
+      "target": "httpRequest-1786189746762"
+    },
+    {
+      "id": "reactflow__edge-httpRequest-1786189746762-code.execute-1786190080819",
+      "data": {},
+      "type": "custom",
+      "source": "httpRequest-1786189746762",
+      "target": "code.execute-1786190080819"
+    },
+    {
+      "id": "reactflow__edge-code.execute-1786190080819-postgres.executeQuery-1786190138076",
+      "data": {},
+      "type": "custom",
+      "source": "code.execute-1786190080819",
+      "target": "postgres.executeQuery-1786190138076"
+    }
+  ]
+}

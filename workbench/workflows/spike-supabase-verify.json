@@ -1,0 +1,429 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-09T03:29:35.516Z",
+  "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpodHRwUmVxdWVzdHxtYW51YWwtdHJpZ2dl",
+  "nodes": [
+    {
+      "id": "manual-trigger-1786145095153",
+      "data": {
+        "label": "Manual Trigger",
+        "inputs": {},
+        "toolId": "manual-trigger",
+        "toolData": {
+          "id": "manual-trigger",
+          "displayName": "Manual Trigger",
+          "category": "Triggers",
+          "icon": "play_arrow",
+          "description": "Start a workflow manually by clicking the Execute button",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "payloadMessage": {
+                "description": "JSON or text payload to pass as trigger output"
+              },
+              "numberOfProcesses": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "description": "Number of items to emit (duplicates payload N times)"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process"
+              },
+              "data": {
+                "description": "Data payload"
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": true,
+        "isFormWait": false,
+        "executionId": "6a766f3e53b933eae140957a",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": true
+      },
+      "type": "manual-trigger",
+      "width": 220,
+      "height": 98,
+      "dragging": false,
+      "position": {
+        "x": 219.69289364792746,
+        "y": 202.7407864835298
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 219.69289364792746,
+        "y": 202.7407864835298
+      }
+    },
+    {
+      "id": "httpRequest-1786145121990",
+      "data": {
+        "label": "Http Request",
+        "inputs": {
+          "url": "https://ydbzcsfkgwaqrygenrqo.supabase.co/auth/v1/user",
+          "method": "GET",
+          "headers": {
+            "apikey": "REDACTED_SEE_CREDENTIAL_STORE",
+            "Authorization": "REDACTED_SEE_CREDENTIAL_STORE"
+          },
+          "timeout": 300000,
+          "bodyType": "json",
+          "contentType": "json",
+          "includeHeaders": false,
+          "responseFormat": "json",
+          "lowercaseHeaders": true,
+          "allowUnauthorized": false,
+          "ignoreResponseCode": false,
+          "outputPropertyName": "data"
+        },
+        "toolId": "httpRequest",
+        "toolData": {
+          "id": "httpRequest",
+          "displayName": "Http Request",
+          "category": "API & HTTP",
+          "icon": "Globe",
+          "description": "Make HTTP API requests to external services.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS"
+                ],
+                "default": "GET",
+                "description": "HTTP method to use"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to send the request to"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Headers to include in the request"
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query parameters to append to the URL"
+              },
+              "body": {
+                "description": "Request body"
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "fields"
+                ],
+                "default": "json",
+                "description": "How the body is defined"
+              },
+              "bodyFields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Body fields for key-value input"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "form-urlencoded",
+                  "raw"
+                ],
+                "default": "json",
+                "description": "Content type of the request body"
+              },
+              "responseFormat": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "text",
+                  "binary"
+                ],
+                "default": "auto",
+                "description": "Format of the response data"
+              },
+              "authentication": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "header",
+                      "query",
+                      "basic",
+                      "bearer"
+                    ],
+                    "default": "none"
+                  },
+                  "config": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Authentication configuration"
+              },
+              "ignoreResponseCode": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, the node will not fail on non-2xx status codes"
+              },
+              "includeHeaders": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, response headers will be included in the output"
+              },
+              "allowUnauthorized": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, SSL certificate verification will be skipped"
+              },
+              "lowercaseHeaders": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, all header keys will be converted to lowercase"
+              },
+              "timeout": {
+                "type": "number",
+                "default": 300000,
+                "description": "Request timeout in milliseconds"
+              },
+              "outputPropertyName": {
+                "type": "string",
+                "default": "data",
+                "description": "The name of the property to store binary data in"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a766f3e53b933eae140957a",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false
+      },
+      "type": "action",
+      "width": 220,
+      "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 470.9597749224438,
+        "y": 210.70618836621423
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 470.9597749224438,
+        "y": 210.70618836621423
+      }
+    },
+    {
+      "id": "core.set-1786146051857",
+      "data": {
+        "label": "Set Fields",
+        "inputs": {
+          "mode": "manual",
+          "assignments": [
+            {
+              "name": "from_http",
+              "type": "string",
+              "value": "{{ $json.body.email }}",
+              "valueType": "expression"
+            },
+            {
+              "name": "from_webhook",
+              "type": "string",
+              "value": "{{ $('Manual Trigger').item.json ? 'reachable' : 'null' }}",
+              "valueType": "expression"
+            }
+          ],
+          "includeBinaryData": true,
+          "supportDotNotation": true,
+          "inputFieldsToInclude": "all",
+          "includeOtherInputFields": false,
+          "ignoreTypeConversionErrors": false
+        },
+        "toolId": "core.set",
+        "toolData": {
+          "id": "core.set",
+          "displayName": "Set Fields",
+          "category": "Core  Utilities",
+          "provider": "core",
+          "operation": "set",
+          "description": "Set or update fields",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "json"
+                ],
+                "default": "manual",
+                "description": "Select Manual Mapping or JSON Output"
+              },
+              "assignments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Field name"
+                    },
+                    "value": {
+                      "description": "Field value (Fixed or Expression)"
+                    },
+                    "valueType": {
+                      "type": "string",
+                      "enum": [
+                        "fixed",
+                        "expression"
+                      ],
+                      "default": "expression",
+                      "description": "Whether field value is fixed or an expression"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Data type of the field"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "additionalProperties": false
+                },
+                "description": "Fields to set when using Manual Mapping"
+              },
+              "jsonValue": {
+                "type": "string",
+                "description": "JSON to merge into the output when using JSON Output mode"
+              },
+              "includeOtherInputFields": {
+                "type": "boolean",
+                "default": false,
+                "description": "Also include unchanged fields from the input"
+              },
+              "inputFieldsToInclude": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "selected",
+                  "allExcept"
+                ],
+                "default": "all",
+                "description": "Choose which input data to include in the output data"
+              },
+              "fieldsToInclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to include when Input Fields to Include is Selected"
+              },
+              "fieldsToExclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to exclude when Input Fields to Include is All Except"
+              },
+              "includeBinaryData": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include binary data in the output"
+              },
+              "ignoreTypeConversionErrors": {
+                "type": "boolean",
+                "default": false,
+                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
+              },
+              "supportDotNotation": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process (for multi-item execution)"
+              },
+              "$inputItem": {
+                "description": "Single item to process (for backward compatibility)"
+              }
+            },
+            "additionalProperties": true,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a766f3e53b933eae140957a",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false
+      },
+      "type": "action",
+      "width": 220,
+      "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 727.0340498512824,
+        "y": 214.49611902145125
+      },
+      "selected": true,
+      "positionAbsolute": {
+        "x": 727.0340498512824,
+        "y": 214.49611902145125
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "reactflow__edge-manual-trigger-1786145095153-httpRequest-1786145121990",
+      "data": {},
+      "type": "custom",
+      "source": "manual-trigger-1786145095153",
+      "target": "httpRequest-1786145121990"
+    },
+    {
+      "id": "reactflow__edge-httpRequest-1786145121990-core.set-1786146051857",
+      "data": {},
+      "type": "custom",
+      "source": "httpRequest-1786145121990",
+      "target": "core.set-1786146051857"
+    }
+  ]
+}

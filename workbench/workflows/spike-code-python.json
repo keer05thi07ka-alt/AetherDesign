@@ -1,0 +1,320 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-09T03:28:28.142Z",
+  "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246Y29yZS5zZXR8bWFudWFsLXRyaWdn",
+  "nodes": [
+    {
+      "id": "manual-trigger-1786188719609",
+      "data": {
+        "label": "Manual Trigger",
+        "inputs": {},
+        "toolId": "manual-trigger",
+        "toolData": {
+          "id": "manual-trigger",
+          "displayName": "Manual Trigger",
+          "category": "Triggers",
+          "icon": "play_arrow",
+          "description": "Start a workflow manually by clicking the Execute button",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "payloadMessage": {
+                "description": "JSON or text payload to pass as trigger output"
+              },
+              "numberOfProcesses": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100,
+                "description": "Number of items to emit (duplicates payload N times)"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process"
+              },
+              "data": {
+                "description": "Data payload"
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": true,
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": true
+      },
+      "type": "manual-trigger",
+      "width": 220,
+      "height": 98,
+      "dragging": false,
+      "position": {
+        "x": 34.932921003444164,
+        "y": 250.4166038874593
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 34.932921003444164,
+        "y": 250.4166038874593
+      }
+    },
+    {
+      "id": "code.execute-1786188742606",
+      "data": {
+        "label": "Code",
+        "inputs": {
+          "code": "info = {}\n\ndef probe(name, obj):\n    try:\n        info[name + \"_type\"] = str(type(obj))\n        info[name + \"_attrs\"] = str([a for a in dir(obj) if not a.startswith(\"__\")])[:400]\n        info[name + \"_repr\"] = str(obj)[:300]\n    except Exception as e:\n        info[name + \"_err\"] = str(e)\n\nprobe(\"_input\", _input)\nprobe(\"_json\", _json)\nprobe(\"_node\", _node)\n\n# Common accessor shapes\nfor expr in [\"_input.all()\", \"_input.first()\", \"_input.item\", \"_input.json\",\n             \"_json.brand_kit_id\", \"_node.input\"]:\n    try:\n        info[expr] = str(eval(expr))[:300]\n    except Exception as e:\n        info[expr] = \"err: \" + type(e).__name__\n\nreturn [{\"json\": info}]",
+          "mode": "all",
+          "language": "python"
+        },
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a77182d53b933eae140a401",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false
+      },
+      "type": "action",
+      "width": 220,
+      "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 573.0092347260027,
+        "y": 253.80000411274864
+      },
+      "selected": true,
+      "positionAbsolute": {
+        "x": 573.0092347260027,
+        "y": 253.80000411274864
+      }
+    },
+    {
+      "id": "core.set-1786189178358",
+      "data": {
+        "label": "Set Fields",
+        "inputs": {
+          "mode": "manual",
+          "assignments": [
+            {
+              "name": "brand_kit_id",
+              "type": "string",
+              "value": "c0000000-0000-0000-0000-000000000001",
+              "valueType": "fixed"
+            },
+            {
+              "name": "guidelines",
+              "type": "string",
+              "value": "Lumen is a clean-beauty brand built on restraint. Coral anchors no more than one third of any composition. Photography is product-forward, never on models.",
+              "valueType": "fixed"
+            }
+          ],
+          "includeBinaryData": true,
+          "supportDotNotation": true,
+          "inputFieldsToInclude": "all",
+          "includeOtherInputFields": false,
+          "ignoreTypeConversionErrors": false
+        },
+        "toolId": "core.set",
+        "toolData": {
+          "id": "core.set",
+          "displayName": "Set Fields",
+          "category": "Core  Utilities",
+          "provider": "core",
+          "operation": "set",
+          "description": "Set or update fields",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "json"
+                ],
+                "default": "manual",
+                "description": "Select Manual Mapping or JSON Output"
+              },
+              "assignments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Field name"
+                    },
+                    "value": {
+                      "description": "Field value (Fixed or Expression)"
+                    },
+                    "valueType": {
+                      "type": "string",
+                      "enum": [
+                        "fixed",
+                        "expression"
+                      ],
+                      "default": "expression",
+                      "description": "Whether field value is fixed or an expression"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "Data type of the field"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "additionalProperties": false
+                },
+                "description": "Fields to set when using Manual Mapping"
+              },
+              "jsonValue": {
+                "type": "string",
+                "description": "JSON to merge into the output when using JSON Output mode"
+              },
+              "includeOtherInputFields": {
+                "type": "boolean",
+                "default": false,
+                "description": "Also include unchanged fields from the input"
+              },
+              "inputFieldsToInclude": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "selected",
+                  "allExcept"
+                ],
+                "default": "all",
+                "description": "Choose which input data to include in the output data"
+              },
+              "fieldsToInclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to include when Input Fields to Include is Selected"
+              },
+              "fieldsToExclude": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of input fields to exclude when Input Fields to Include is All Except"
+              },
+              "includeBinaryData": {
+                "type": "boolean",
+                "default": true,
+                "description": "Include binary data in the output"
+              },
+              "ignoreTypeConversionErrors": {
+                "type": "boolean",
+                "default": false,
+                "description": "Ignore some data type errors when mapping fields (Manual Mapping only)"
+              },
+              "supportDotNotation": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, dotted names create nested objects (e.g. number.one → { number: { one: value } })"
+              },
+              "items": {
+                "type": "array",
+                "description": "Array of items to process (for multi-item execution)"
+              },
+              "$inputItem": {
+                "description": "Single item to process (for backward compatibility)"
+              }
+            },
+            "additionalProperties": true,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false
+      },
+      "type": "action",
+      "width": 220,
+      "height": 93,
+      "dragging": false,
+      "position": {
+        "x": 295.6362299487444,
+        "y": 244.87892233540668
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 295.6362299487444,
+        "y": 244.87892233540668
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "reactflow__edge-manual-trigger-1786188719609-core.set-1786189178358",
+      "data": {},
+      "type": "custom",
+      "source": "manual-trigger-1786188719609",
+      "target": "core.set-1786189178358"
+    },
+    {
+      "id": "reactflow__edge-core.set-1786189178358-code.execute-1786188742606",
+      "data": {},
+      "type": "custom",
+      "source": "core.set-1786189178358",
+      "target": "code.execute-1786188742606"
+    }
+  ]
+}
