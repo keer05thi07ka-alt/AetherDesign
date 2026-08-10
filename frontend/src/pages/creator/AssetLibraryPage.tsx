@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import type { GeneratedAsset } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, Download, Edit3, Trash2 } from 'lucide-react';
+import { Search, Download, Edit3, Trash2, Sparkles } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { AssetPreviewModal } from '../../components/common/AssetPreviewModal';
+import { CaptionsModal } from '../../components/common/CaptionsModal';
+import toast from 'react-hot-toast';
 
 export const AssetLibraryPage: React.FC = () => {
   const navigate = useNavigate();
@@ -12,6 +14,33 @@ export const AssetLibraryPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [preview, setPreview] = useState<GeneratedAsset | null>(null);
+  const [captionsResponse, setCaptionsResponse] = useState<string | null>(null);
+
+  const handleCreateCaptions = async (asset: GeneratedAsset) => {
+    const promise = fetch('https://api.agents.snsihub.ai/webhook-test/f6f15dd3-e291-4e50-a677-83b775bf4145', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        imageUrl: asset.imageUrl,
+        prompt: asset.prompt,
+      }),
+    }).then(async (res) => {
+      if (!res.ok) {
+        throw new Error(`Server returned status ${res.status}`);
+      }
+      const text = await res.text();
+      setCaptionsResponse(text);
+      return text;
+    });
+
+    toast.promise(promise, {
+      loading: 'Triggering captions creation...',
+      success: 'Webhook sent! Caption generation started.',
+      error: (err) => `Failed: ${err.message || err}`,
+    });
+  };
 
   const categories = ['All', 'Poster', 'Banner', 'Social Media', 'Presentation', 'Logo'];
 
@@ -140,6 +169,14 @@ export const AssetLibraryPage: React.FC = () => {
                 </button>
 
                 <button
+                  onClick={() => handleCreateCaptions(asset)}
+                  className="p-2 bg-white border border-[#E9D5FF] text-[#8B5CF6] hover:bg-[#F3F0FF] rounded-xl transition-colors"
+                  title="Create Captions"
+                >
+                  <Sparkles className="w-4 h-4" />
+                </button>
+
+                <button
                   onClick={() => deleteAsset(asset.id)}
                   className="p-2 bg-white border border-[#E9D5FF] text-red-600 hover:bg-red-50 rounded-xl transition-colors"
                   title="Delete Asset"
@@ -154,6 +191,7 @@ export const AssetLibraryPage: React.FC = () => {
       )}
 
     <AssetPreviewModal asset={preview} onClose={() => setPreview(null)} />
+    <CaptionsModal isOpen={!!captionsResponse} onClose={() => setCaptionsResponse(null)} rawResponse={captionsResponse || ''} />
     </div>
   );
 };

@@ -1,7 +1,8 @@
-﻿import React, { useEffect } from 'react';
-import { X, Download, Maximize2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { X, Download, Maximize2, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
 import type { GeneratedAsset } from '../../types';
+import { CaptionsModal } from './CaptionsModal';
 
 interface Props {
   asset: GeneratedAsset | null;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export const AssetPreviewModal: React.FC<Props> = ({ asset, onClose }) => {
+  const [captionsResponse, setCaptionsResponse] = useState<string | null>(null);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -41,6 +44,37 @@ export const AssetPreviewModal: React.FC<Props> = ({ asset, onClose }) => {
     } catch {
       toast.error('Could not download this asset');
     }
+  };
+
+  const handleCreateCaptions = async () => {
+    if (!asset.imageUrl) {
+      toast.error('This asset has no image URL');
+      return;
+    }
+
+    const promise = fetch('https://api.agents.snsihub.ai/webhook-test/f6f15dd3-e291-4e50-a677-83b775bf4145', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        imageUrl: asset.imageUrl,
+        prompt: asset.prompt || '',
+      }),
+    }).then(async (res) => {
+      if (!res.ok) {
+        throw new Error(`Server returned status ${res.status}`);
+      }
+      const text = await res.text();
+      setCaptionsResponse(text);
+      return text;
+    });
+
+    toast.promise(promise, {
+      loading: 'Triggering captions creation...',
+      success: 'Webhook sent! Caption generation started.',
+      error: (err) => `Failed: ${err.message || err}`,
+    });
   };
 
   const details: Array<[string, string]> = [
@@ -86,8 +120,17 @@ export const AssetPreviewModal: React.FC<Props> = ({ asset, onClose }) => {
               <Maximize2 className="w-3.5 h-3.5" />
             </a>
           </div>
+
+          <button
+            onClick={handleCreateCaptions}
+            className="w-full py-2.5 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#7C3AED] hover:to-[#DB2777] text-white text-xs font-bold rounded-xl flex items-center justify-center space-x-1.5 transition-all shadow-sm hover:shadow"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Create Captions</span>
+          </button>
         </div>
       </div>
+      <CaptionsModal isOpen={!!captionsResponse} onClose={() => setCaptionsResponse(null)} rawResponse={captionsResponse || ''} />
     </div>
   );
 };

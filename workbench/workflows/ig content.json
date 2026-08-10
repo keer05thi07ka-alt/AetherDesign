@@ -1,0 +1,1108 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-10T09:38:08.841Z",
+  "_fingerprint": "YWN0aW9uOmdyb3F8YWN0aW9uOnJlc3BvbmRUb1dlYmhvb2t8d2ViaG9vazp3ZWJo",
+  "nodes": [
+    {
+      "id": "webhook-1786343056029",
+      "type": "webhook",
+      "position": {
+        "x": 399.86605989951534,
+        "y": 239.29938911303032
+      },
+      "data": {
+        "label": "Webhook Trigger",
+        "toolId": "webhook",
+        "toolData": {
+          "id": "webhook",
+          "displayName": "Webhook Trigger",
+          "category": "Input /  Output",
+          "icon": "webhook",
+          "description": "Trigger workflow via webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to listen on (e.g. \"my-hook\")"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD"
+                ],
+                "default": "POST",
+                "description": "HTTP Method"
+              },
+              "responseMode": {
+                "type": "string",
+                "enum": [
+                  "onReceived",
+                  "lastNode",
+                  "respondWithNode",
+                  "streaming"
+                ],
+                "default": "lastNode",
+                "description": "When to respond"
+              },
+              "authentication": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "basicAuth",
+                  "headerAuth",
+                  "jwtAuth"
+                ],
+                "default": "none",
+                "description": "Authentication"
+              },
+              "basicAuthUser": {
+                "type": "string",
+                "description": "Username"
+              },
+              "basicAuthPassword": {
+                "type": "string",
+                "description": "Password"
+              },
+              "headerAuthName": {
+                "type": "string",
+                "description": "Name"
+              },
+              "headerAuthValue": {
+                "type": "string",
+                "description": "Value"
+              },
+              "jwtSecret": {
+                "type": "string",
+                "description": "Secret"
+              },
+              "jwtAlgorithm": {
+                "type": "string",
+                "enum": [
+                  "HS256",
+                  "HS384",
+                  "HS512"
+                ],
+                "default": "HS256",
+                "description": "Algorithm"
+              },
+              "sessionClaim": {
+                "type": "string",
+                "default": "sub",
+                "description": "JWT claim used to identify the session"
+              },
+              "requireRoleCheck": {
+                "type": "boolean",
+                "default": false,
+                "description": "Require Role Check (RBAC)"
+              },
+              "roleClaimKey": {
+                "type": "string",
+                "default": "role",
+                "description": "Role Claim Key"
+              },
+              "allowedRoles": {
+                "type": "string",
+                "default": "admin, staff",
+                "description": "Allowed Roles (comma separated)"
+              },
+              "sessionSource": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "auto",
+                  "header",
+                  "cookie",
+                  "body"
+                ],
+                "default": "none",
+                "description": "Session Source"
+              },
+              "sessionSourceName": {
+                "type": "string",
+                "description": "Session Source Name (header / cookie / body field)"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "allowedOrigins": {
+                    "type": "string",
+                    "description": "Allowed Origins (CORS)"
+                  },
+                  "binaryDataFieldName": {
+                    "type": "string",
+                    "description": "Field Name for Binary Data"
+                  },
+                  "ignoreBots": {
+                    "type": "boolean",
+                    "description": "Ignore Bots"
+                  },
+                  "ipAllowlist": {
+                    "type": "string",
+                    "description": "IP(s) Allowlist"
+                  },
+                  "noResponseBody": {
+                    "type": "boolean",
+                    "description": "No Response Body"
+                  },
+                  "rawBody": {
+                    "type": "boolean",
+                    "description": "Raw Body"
+                  },
+                  "responseCode": {
+                    "type": "number",
+                    "description": "Response Code"
+                  },
+                  "responseData": {
+                    "type": "string",
+                    "description": "Response Data"
+                  }
+                },
+                "additionalProperties": false,
+                "default": {},
+                "description": "Options"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "name": "path",
+              "displayName": "Path",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The path to listen on (e.g. \"my-hook\")"
+            },
+            {
+              "name": "method",
+              "displayName": "HTTP Method",
+              "type": "options",
+              "default": "POST",
+              "required": true,
+              "options": [
+                {
+                  "name": "GET",
+                  "value": "GET"
+                },
+                {
+                  "name": "POST",
+                  "value": "POST"
+                },
+                {
+                  "name": "PUT",
+                  "value": "PUT"
+                },
+                {
+                  "name": "DELETE",
+                  "value": "DELETE"
+                },
+                {
+                  "name": "PATCH",
+                  "value": "PATCH"
+                },
+                {
+                  "name": "HEAD",
+                  "value": "HEAD"
+                }
+              ],
+              "description": "HTTP Method to listen for"
+            },
+            {
+              "name": "responseMode",
+              "displayName": "Respond",
+              "type": "options",
+              "default": "lastNode",
+              "required": true,
+              "options": [
+                {
+                  "name": "Immediately",
+                  "value": "onReceived"
+                },
+                {
+                  "name": "When Last Node Finishes",
+                  "value": "lastNode"
+                },
+                {
+                  "name": "Using 'Respond to Webhook' Node",
+                  "value": "respondWithNode"
+                },
+                {
+                  "name": "Streaming",
+                  "value": "streaming"
+                }
+              ],
+              "description": "When to respond to the webhook request"
+            },
+            {
+              "name": "authentication",
+              "displayName": "Authentication",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "Basic Auth",
+                  "value": "basicAuth"
+                },
+                {
+                  "name": "Header Auth",
+                  "value": "headerAuth"
+                },
+                {
+                  "name": "JWT Auth",
+                  "value": "jwtAuth"
+                },
+                {
+                  "name": "None",
+                  "value": "none"
+                }
+              ],
+              "description": "The type of authentication to use for incoming webhook requests"
+            },
+            {
+              "name": "sessionSource",
+              "displayName": "Session Source",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "None (legacy, no session)",
+                  "value": "none"
+                },
+                {
+                  "name": "Auto (platform issues a session id)",
+                  "value": "auto"
+                },
+                {
+                  "name": "From Header",
+                  "value": "header"
+                },
+                {
+                  "name": "From Cookie",
+                  "value": "cookie"
+                },
+                {
+                  "name": "From Body Field",
+                  "value": "body"
+                }
+              ],
+              "description": "How the platform identifies the caller for per-user session continuity. Required when memory or loops should partition by caller."
+            },
+            {
+              "name": "sessionSourceName",
+              "displayName": "Session Source Name",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. X-Caller-Id (header), userId (body field), session_id (cookie)",
+              "description": "Header name, body field path, or cookie name used as the caller id.",
+              "displayOptions": {
+                "show": {
+                  "sessionSource": [
+                    "header",
+                    "cookie",
+                    "body"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthUser",
+              "displayName": "User",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The username for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthPassword",
+              "displayName": "Password",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The password for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthName",
+              "displayName": "Name",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The header name to check for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthValue",
+              "displayName": "Value",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The expected header value for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtSecret",
+              "displayName": "Secret",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The secret key used to verify the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtAlgorithm",
+              "displayName": "Algorithm",
+              "type": "options",
+              "default": "HS256",
+              "options": [
+                {
+                  "name": "HS256",
+                  "value": "HS256"
+                },
+                {
+                  "name": "HS384",
+                  "value": "HS384"
+                },
+                {
+                  "name": "HS512",
+                  "value": "HS512"
+                }
+              ],
+              "description": "The algorithm used to sign the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "sessionClaim",
+              "displayName": "Session Claim",
+              "type": "string",
+              "default": "sub",
+              "description": "The claim in the JWT payload that identifies the user (e.g. sub, email, userId). Leave blank to skip session tracking.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "requireRoleCheck",
+              "displayName": "Require Role Check (RBAC)",
+              "type": "boolean",
+              "default": false,
+              "description": "If enabled, the incoming JWT must contain an authorized role claim to execute the workflow.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "roleClaimKey",
+              "displayName": "Role Claim Key",
+              "type": "string",
+              "default": "role",
+              "description": "The field name inside the JWT payload that contains the user's role (e.g., \"role\", \"groups\").",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "allowedRoles",
+              "displayName": "Allowed Roles",
+              "type": "string",
+              "default": "admin, staff",
+              "description": "A comma-separated list of roles that are allowed to trigger this workflow. If empty, all roles pass.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "options",
+              "displayName": "Options",
+              "type": "collection",
+              "default": {},
+              "placeholder": "Add option",
+              "fields": [
+                {
+                  "name": "allowedOrigins",
+                  "displayName": "Allowed Origins (CORS)",
+                  "type": "string",
+                  "default": "*",
+                  "placeholder": "*",
+                  "description": "Comma-separated list of allowed origins for CORS. Use * to allow all origins."
+                },
+                {
+                  "name": "binaryDataFieldName",
+                  "displayName": "Field Name for Binary Data",
+                  "type": "string",
+                  "default": "data",
+                  "placeholder": "data",
+                  "description": "The name of the field in the request that contains binary data (for file uploads)."
+                },
+                {
+                  "name": "ignoreBots",
+                  "displayName": "Ignore Bots",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, requests from known bots (crawlers, spiders) will be ignored."
+                },
+                {
+                  "name": "ipAllowlist",
+                  "displayName": "IP(s) Allowlist",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "e.g. 127.0.0.1, 192.168.1.0/24",
+                  "description": "Comma-separated list of IPs or CIDR ranges. Only these IPs can trigger the webhook."
+                },
+                {
+                  "name": "noResponseBody",
+                  "displayName": "No Response Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the webhook will respond with an empty body (only status code)."
+                },
+                {
+                  "name": "rawBody",
+                  "displayName": "Raw Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the raw request body will be passed as-is without parsing."
+                },
+                {
+                  "name": "responseData",
+                  "displayName": "Response Data",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "Response body content",
+                  "description": "Custom response data to return when the webhook is triggered (JSON or text)."
+                }
+              ]
+            }
+          ]
+        },
+        "isTrigger": true,
+        "isPrimaryTrigger": true,
+        "inputs": {
+          "authentication": "none",
+          "jwtAlgorithm": "HS256",
+          "sessionClaim": "sub",
+          "requireRoleCheck": false,
+          "roleClaimKey": "role",
+          "allowedRoles": "admin, staff",
+          "sessionSource": "none",
+          "options": {},
+          "path": "f6f15dd3-e291-4e50-a677-83b775bf4145",
+          "method": "POST",
+          "responseMode": "respondWithNode"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "body": {
+                  "imageUrl": "https://ydbzcsfkgwaqrygenrqo.supabase.co/storage/v1/object/public/brand-assets/0e52b36e-7960-4fb3-a803-f95227708443/generated/1786338951079-1080x1080.jpg",
+                  "prompt": "An editorial-style food photograph of an artisanal pasta dish on a textured plaster table, illuminated by warm afternoon sunlight filtering through a window, casting long, soft shadows, with a glass of wine and elegant negative space for a clean, sophisticated look."
+                },
+                "query": {},
+                "headers": {
+                  "x-forwarded-for": "103.196.28.74",
+                  "x-forwarded-proto": "https",
+                  "x-forwarded-port": "443",
+                  "host": "api.agents.snsihub.ai",
+                  "x-amzn-trace-id": "Root=1-6a798d94-169cba4d0955c68f000935f0",
+                  "content-length": "446",
+                  "sec-ch-ua-platform": "\"Windows\"",
+                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+                  "content-type": "application/json",
+                  "sec-ch-ua-mobile": "?0",
+                  "accept": "*/*",
+                  "origin": "http://localhost:5173",
+                  "sec-fetch-site": "cross-site",
+                  "sec-fetch-mode": "cors",
+                  "sec-fetch-dest": "empty",
+                  "referer": "http://localhost:5173/",
+                  "accept-encoding": "gzip, deflate, br, zstd",
+                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+                  "priority": "u=1, i"
+                },
+                "params": {},
+                "file": null
+              }
+            }
+          ],
+          "usage": {
+            "category": "INTEGRATION",
+            "metrics": {
+              "durationMs": 0,
+              "apiCalls": 1,
+              "payloadSizeBytes": 1299
+            },
+            "cost": 2
+          }
+        },
+        "executionStatus": "success",
+        "executionId": "6a798d9462189754cd9c1eb2",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 99,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 399.86605989951534,
+        "y": 239.29938911303032
+      },
+      "dragging": false
+    },
+    {
+      "id": "groq-1786344377347",
+      "type": "action",
+      "position": {
+        "x": 717.025210399729,
+        "y": 239.01371757552914
+      },
+      "data": {
+        "label": "Chat Text",
+        "toolId": "groq",
+        "toolData": {
+          "id": "groq",
+          "displayName": "Groq",
+          "type": "chat model",
+          "category": "AI / LLM",
+          "provider": "LLM Models",
+          "operation": "execute",
+          "icon": "tools/groq.png",
+          "description": "Run ultra-fast LLM inference with Groq-hosted open-source models.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "resource": {
+                "type": "string",
+                "enum": [
+                  "Text"
+                ],
+                "default": "Text"
+              },
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "Chat"
+                ],
+                "default": "Chat"
+              },
+              "model": {
+                "type": "string",
+                "default": "llama-3.3-70b-versatile"
+              },
+              "prompt": {
+                "type": "string"
+              },
+              "messages": {
+                "type": "object",
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "prompt": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "user",
+                            "model"
+                          ],
+                          "default": "user"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "simplify": {
+                "type": "boolean",
+                "default": true
+              },
+              "outputContentAsJson": {
+                "type": "boolean",
+                "default": false
+              },
+              "options": {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              "credentialId": {
+                "type": "string"
+              },
+              "credentials": {}
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "displayName": "Resource",
+              "name": "resource",
+              "type": "options",
+              "noDataExpression": true,
+              "options": [
+                {
+                  "name": "Text",
+                  "value": "Text"
+                }
+              ],
+              "default": "Text"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Chat",
+                  "value": "Chat"
+                }
+              ],
+              "default": "Chat"
+            },
+            {
+              "displayName": "Model",
+              "name": "model",
+              "type": "options",
+              "fetchEndpoint": "/api/tools/groq/list-models",
+              "dependsOn": [
+                "credentials"
+              ],
+              "labelKey": "name",
+              "valueKey": "id",
+              "default": "llama-3.3-70b-versatile",
+              "description": "Select the Groq model to use."
+            },
+            {
+              "displayName": "Prompt (User Message)",
+              "name": "prompt",
+              "type": "string",
+              "format": "text",
+              "typeOptions": {
+                "rows": 4
+              },
+              "default": "",
+              "placeholder": "e.g. What can you do?",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ],
+                  "operation": [
+                    "Chat"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Simplify Output",
+              "name": "simplify",
+              "type": "boolean",
+              "default": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Output Content as JSON",
+              "name": "outputContentAsJson",
+              "type": "boolean",
+              "default": false,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ],
+                  "operation": [
+                    "Chat"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Options",
+              "name": "options",
+              "type": "collection",
+              "displayOptions": {
+                "show": {
+                  "/operation": [
+                    "Chat"
+                  ]
+                }
+              },
+              "placeholder": "Add Option",
+              "default": {},
+              "fields": [
+                {
+                  "name": "systemMessage",
+                  "displayName": "System Message",
+                  "type": "string",
+                  "format": "text",
+                  "default": "",
+                  "typeOptions": {
+                    "rows": 3
+                  },
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Chat"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "maxTokens",
+                  "displayName": "Maximum Number of Tokens",
+                  "type": "number",
+                  "default": 1024,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Chat"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "temperature",
+                  "displayName": "Output Randomness (Temperature)",
+                  "type": "number",
+                  "default": 0.7,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Chat"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "topP",
+                  "displayName": "Output Randomness (Top P)",
+                  "type": "number",
+                  "default": 0.95,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Chat"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "initialData": {
+            "resource": "Text",
+            "operation": "Chat",
+            "model": "llama-3.3-70b-versatile",
+            "prompt": "",
+            "simplify": true,
+            "outputContentAsJson": false,
+            "credentialId": "",
+            "options": {}
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "resource": "Text",
+          "operation": "Chat",
+          "model": "llama-3.3-70b-versatile",
+          "prompt": "You are an expert Instagram content creator and social media copywriter.\r\n\r\nYour task is to create engaging, relevant, and platform-appropriate Instagram content based strictly on the user's given prompt.\r\n\r\nUSER PROMPT:\r\n\r\n\r {{$node[\"webhook-1786343056029\"].json[\"body\"][\"prompt\"]}}\nGenerate the following:\r\n\r\n1. CAPTION\r\n- Write a compelling Instagram caption based on the user's prompt.\r\n- Keep it natural, engaging, and easy to read.\r\n- Match the subject, purpose, and emotion of the user's prompt.\r\n- Use short paragraphs and line breaks for readability.\r\n- Include a strong opening hook.\r\n- Include a clear call-to-action when appropriate.\r\n- Do not invent facts, statistics, names, events, or claims that are not present in the user's prompt.\r\n- Avoid excessive emojis. Use them only when they naturally fit the content.\r\n- Keep the caption suitable for Instagram.\r\n\r\n2. HASHTAGS\r\n- Generate 8–15 relevant hashtags.\r\n- Use hashtags directly related to the content.\r\n- Mix broad, niche, and topic-specific hashtags.\r\n- Do not use irrelevant or spammy hashtags.\r\n\r\n3. SHORT_CAPTION\r\n- Create a shorter version of the caption in 1–2 sentences.\r\n- Preserve the main message and appeal.\r\n\r\n4. CTA\r\n- Provide one concise call-to-action relevant to the post.\r\n\r\nReturn ONLY valid JSON in exactly this structure:\r\n\r\n{\r\n  \"caption\": \"Full Instagram caption\",\r\n  \"short_caption\": \"Short Instagram caption\",\r\n  \"hashtags\": [\r\n    \"#hashtag1\",\r\n    \"#hashtag2\",\r\n    \"#hashtag3\"\r\n  ],\r\n  \"cta\": \"Call to action\"\r\n}\r\n\r\nImportant:\r\n- Return valid JSON only.\r\n- Do not use Markdown.\r\n- Do not add explanations outside the JSON.\r\n- Escape quotation marks properly so the output can be parsed as JSON.",
+          "simplify": true,
+          "outputContentAsJson": true,
+          "credentialId": "6853669d-c6e7-4076-ac89-feed24cd3754",
+          "options": {}
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "content": {
+                  "parts": [
+                    {
+                      "text": "{\n  \"caption\": \"As the warm afternoon sunlight streams through the window, it casts a gentle glow on this exquisite artisanal pasta dish. The soft shadows dance across the textured plaster table, inviting you to take a seat and savor the moment. Paired with a glass of wine, this scene is the epitome of a sophisticated and relaxing afternoon. \\n\\nTake a moment to appreciate the simple pleasures in life and let the beauty of this dish transport you to a world of elegance and refinement. Share with us your favorite way to unwind and enjoy a delicious meal!\",\n   \"short_caption\": \"Savoring the moment with a delicious artisanal pasta dish and a glass of wine, basking in the warm afternoon sunlight.\",\n   \"hashtags\": [\n      \"#foodie\",\n      \"#pastalover\",\n      \"#wineanddine\",\n      \"#afternoonsun\",\n      \"#homedecor\",\n      \"#foodphotography\",\n      \"#italiancuisine\",\n      \"#sophisticatedliving\",\n      \"#relaxationmode\",\n      \"#gourmetfood\"\n   ],\n   \"cta\": \"Double tap if you're craving a taste of la dolce vita!\"\n}"
+                    }
+                  ],
+                  "role": "model"
+                },
+                "finishReason": "stop",
+                "index": 0
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a798d9462189754cd9c1eb2",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 717.025210399729,
+        "y": 239.01371757552914
+      },
+      "dragging": false
+    },
+    {
+      "id": "respondToWebhook-1786344533849",
+      "type": "action",
+      "position": {
+        "x": 1068.5569001541705,
+        "y": 233.59362544275137
+      },
+      "data": {
+        "label": "Webhook Response",
+        "toolId": "respondToWebhook",
+        "toolData": {
+          "id": "respondToWebhook",
+          "displayName": "Webhook Response",
+          "category": "Input /  Output",
+          "icon": "reply",
+          "description": "Send response to webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "respondWith": {
+                "type": "string",
+                "enum": [
+                  "All Incoming Items",
+                  "First Incoming Item",
+                  "JSON",
+                  "Binary File",
+                  "JWT Token",
+                  "Text",
+                  "Redirect",
+                  "No Data"
+                ],
+                "default": "All Incoming Items",
+                "description": "What to respond with."
+              },
+              "responseBody": {
+                "type": "string",
+                "description": "The body of the response (can be an expression)"
+              },
+              "credentialId": {
+                "type": "string",
+                "description": "JWT credential ID"
+              },
+              "payload": {
+                "type": "string",
+                "description": "JWT Token Payload (JSON string or expression)"
+              },
+              "redirectUrl": {
+                "type": "string",
+                "description": "Redirect URL"
+              },
+              "inputFieldName": {
+                "type": "string",
+                "default": "data",
+                "description": "Input Field Name containing the binary file"
+              },
+              "responseCode": {
+                "type": "number",
+                "description": "HTTP Response Code"
+              },
+              "putResponseInField": {
+                "type": "string",
+                "description": "If set, put the response into this field instead of the default output"
+              },
+              "enableStreaming": {
+                "type": "boolean",
+                "description": "Stream the response back to the caller when supported"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "headers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "respondWith": "Text",
+          "inputFieldName": "data",
+          "responseBody": " {{$node[\"webhook-1786343056029\"].json[\"body\"][\"imageUrl\"]}}   {{$node[\"groq-1786344377347\"].json[\"content\"]}}"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "_respondWith": "Text",
+                "_responseCode": 200,
+                "_responseData": " https://ydbzcsfkgwaqrygenrqo.supabase.co/storage/v1/object/public/brand-assets/0e52b36e-7960-4fb3-a803-f95227708443/generated/1786338951079-1080x1080.jpg   {\"parts\":[{\"text\":\"{\\n  \\\"caption\\\": \\\"As the warm afternoon sunlight streams through the window, it casts a gentle glow on this exquisite artisanal pasta dish. The soft shadows dance across the textured plaster table, inviting you to take a seat and savor the moment. Paired with a glass of wine, this scene is the epitome of a sophisticated and relaxing afternoon. \\\\n\\\\nTake a moment to appreciate the simple pleasures in life and let the beauty of this dish transport you to a world of elegance and refinement. Share with us your favorite way to unwind and enjoy a delicious meal!\\\",\\n   \\\"short_caption\\\": \\\"Savoring the moment with a delicious artisanal pasta dish and a glass of wine, basking in the warm afternoon sunlight.\\\",\\n   \\\"hashtags\\\": [\\n      \\\"#foodie\\\",\\n      \\\"#pastalover\\\",\\n      \\\"#wineanddine\\\",\\n      \\\"#afternoonsun\\\",\\n      \\\"#homedecor\\\",\\n      \\\"#foodphotography\\\",\\n      \\\"#italiancuisine\\\",\\n      \\\"#sophisticatedliving\\\",\\n      \\\"#relaxationmode\\\",\\n      \\\"#gourmetfood\\\"\\n   ],\\n   \\\"cta\\\": \\\"Double tap if you're craving a taste of la dolce vita!\\\"\\n}\"}],\"role\":\"model\"}",
+                "items": [
+                  {
+                    "json": " https://ydbzcsfkgwaqrygenrqo.supabase.co/storage/v1/object/public/brand-assets/0e52b36e-7960-4fb3-a803-f95227708443/generated/1786338951079-1080x1080.jpg   {\"parts\":[{\"text\":\"{\\n  \\\"caption\\\": \\\"As the warm afternoon sunlight streams through the window, it casts a gentle glow on this exquisite artisanal pasta dish. The soft shadows dance across the textured plaster table, inviting you to take a seat and savor the moment. Paired with a glass of wine, this scene is the epitome of a sophisticated and relaxing afternoon. \\\\n\\\\nTake a moment to appreciate the simple pleasures in life and let the beauty of this dish transport you to a world of elegance and refinement. Share with us your favorite way to unwind and enjoy a delicious meal!\\\",\\n   \\\"short_caption\\\": \\\"Savoring the moment with a delicious artisanal pasta dish and a glass of wine, basking in the warm afternoon sunlight.\\\",\\n   \\\"hashtags\\\": [\\n      \\\"#foodie\\\",\\n      \\\"#pastalover\\\",\\n      \\\"#wineanddine\\\",\\n      \\\"#afternoonsun\\\",\\n      \\\"#homedecor\\\",\\n      \\\"#foodphotography\\\",\\n      \\\"#italiancuisine\\\",\\n      \\\"#sophisticatedliving\\\",\\n      \\\"#relaxationmode\\\",\\n      \\\"#gourmetfood\\\"\\n   ],\\n   \\\"cta\\\": \\\"Double tap if you're craving a taste of la dolce vita!\\\"\\n}\"}],\"role\":\"model\"}"
+                  }
+                ]
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionId": "6a798d9462189754cd9c1eb2",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1068.5569001541705,
+        "y": 233.59362544275137
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "webhook-1786343056029",
+      "sourceHandle": null,
+      "target": "groq-1786344377347",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-webhook-1786343056029-groq-1786344377347"
+    },
+    {
+      "source": "groq-1786344377347",
+      "sourceHandle": null,
+      "target": "respondToWebhook-1786344533849",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-groq-1786344377347-respondToWebhook-1786344533849"
+    }
+  ]
+}

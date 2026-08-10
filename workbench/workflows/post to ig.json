@@ -1,0 +1,1064 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-10T09:37:50.825Z",
+  "_fingerprint": "YWN0aW9uOmh0dHBSZXF1ZXN0fGFjdGlvbjpodHRwUmVxdWVzdHx3ZWJob29rOndl",
+  "nodes": [
+    {
+      "id": "webhook-1786346745527",
+      "type": "webhook",
+      "position": {
+        "x": 418.8333740234375,
+        "y": 247.74998474121094
+      },
+      "data": {
+        "label": "Webhook Trigger",
+        "toolId": "webhook",
+        "toolData": {
+          "id": "webhook",
+          "displayName": "Webhook Trigger",
+          "category": "Input /  Output",
+          "icon": "webhook",
+          "description": "Trigger workflow via webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to listen on (e.g. \"my-hook\")"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD"
+                ],
+                "default": "POST",
+                "description": "HTTP Method"
+              },
+              "responseMode": {
+                "type": "string",
+                "enum": [
+                  "onReceived",
+                  "lastNode",
+                  "respondWithNode",
+                  "streaming"
+                ],
+                "default": "lastNode",
+                "description": "When to respond"
+              },
+              "authentication": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "basicAuth",
+                  "headerAuth",
+                  "jwtAuth"
+                ],
+                "default": "none",
+                "description": "Authentication"
+              },
+              "basicAuthUser": {
+                "type": "string",
+                "description": "Username"
+              },
+              "basicAuthPassword": {
+                "type": "string",
+                "description": "Password"
+              },
+              "headerAuthName": {
+                "type": "string",
+                "description": "Name"
+              },
+              "headerAuthValue": {
+                "type": "string",
+                "description": "Value"
+              },
+              "jwtSecret": {
+                "type": "string",
+                "description": "Secret"
+              },
+              "jwtAlgorithm": {
+                "type": "string",
+                "enum": [
+                  "HS256",
+                  "HS384",
+                  "HS512"
+                ],
+                "default": "HS256",
+                "description": "Algorithm"
+              },
+              "sessionClaim": {
+                "type": "string",
+                "default": "sub",
+                "description": "JWT claim used to identify the session"
+              },
+              "requireRoleCheck": {
+                "type": "boolean",
+                "default": false,
+                "description": "Require Role Check (RBAC)"
+              },
+              "roleClaimKey": {
+                "type": "string",
+                "default": "role",
+                "description": "Role Claim Key"
+              },
+              "allowedRoles": {
+                "type": "string",
+                "default": "admin, staff",
+                "description": "Allowed Roles (comma separated)"
+              },
+              "sessionSource": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "auto",
+                  "header",
+                  "cookie",
+                  "body"
+                ],
+                "default": "none",
+                "description": "Session Source"
+              },
+              "sessionSourceName": {
+                "type": "string",
+                "description": "Session Source Name (header / cookie / body field)"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "allowedOrigins": {
+                    "type": "string",
+                    "description": "Allowed Origins (CORS)"
+                  },
+                  "binaryDataFieldName": {
+                    "type": "string",
+                    "description": "Field Name for Binary Data"
+                  },
+                  "ignoreBots": {
+                    "type": "boolean",
+                    "description": "Ignore Bots"
+                  },
+                  "ipAllowlist": {
+                    "type": "string",
+                    "description": "IP(s) Allowlist"
+                  },
+                  "noResponseBody": {
+                    "type": "boolean",
+                    "description": "No Response Body"
+                  },
+                  "rawBody": {
+                    "type": "boolean",
+                    "description": "Raw Body"
+                  },
+                  "responseCode": {
+                    "type": "number",
+                    "description": "Response Code"
+                  },
+                  "responseData": {
+                    "type": "string",
+                    "description": "Response Data"
+                  }
+                },
+                "additionalProperties": false,
+                "default": {},
+                "description": "Options"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "name": "path",
+              "displayName": "Path",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The path to listen on (e.g. \"my-hook\")"
+            },
+            {
+              "name": "method",
+              "displayName": "HTTP Method",
+              "type": "options",
+              "default": "POST",
+              "required": true,
+              "options": [
+                {
+                  "name": "GET",
+                  "value": "GET"
+                },
+                {
+                  "name": "POST",
+                  "value": "POST"
+                },
+                {
+                  "name": "PUT",
+                  "value": "PUT"
+                },
+                {
+                  "name": "DELETE",
+                  "value": "DELETE"
+                },
+                {
+                  "name": "PATCH",
+                  "value": "PATCH"
+                },
+                {
+                  "name": "HEAD",
+                  "value": "HEAD"
+                }
+              ],
+              "description": "HTTP Method to listen for"
+            },
+            {
+              "name": "responseMode",
+              "displayName": "Respond",
+              "type": "options",
+              "default": "lastNode",
+              "required": true,
+              "options": [
+                {
+                  "name": "Immediately",
+                  "value": "onReceived"
+                },
+                {
+                  "name": "When Last Node Finishes",
+                  "value": "lastNode"
+                },
+                {
+                  "name": "Using 'Respond to Webhook' Node",
+                  "value": "respondWithNode"
+                },
+                {
+                  "name": "Streaming",
+                  "value": "streaming"
+                }
+              ],
+              "description": "When to respond to the webhook request"
+            },
+            {
+              "name": "authentication",
+              "displayName": "Authentication",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "Basic Auth",
+                  "value": "basicAuth"
+                },
+                {
+                  "name": "Header Auth",
+                  "value": "headerAuth"
+                },
+                {
+                  "name": "JWT Auth",
+                  "value": "jwtAuth"
+                },
+                {
+                  "name": "None",
+                  "value": "none"
+                }
+              ],
+              "description": "The type of authentication to use for incoming webhook requests"
+            },
+            {
+              "name": "sessionSource",
+              "displayName": "Session Source",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "None (legacy, no session)",
+                  "value": "none"
+                },
+                {
+                  "name": "Auto (platform issues a session id)",
+                  "value": "auto"
+                },
+                {
+                  "name": "From Header",
+                  "value": "header"
+                },
+                {
+                  "name": "From Cookie",
+                  "value": "cookie"
+                },
+                {
+                  "name": "From Body Field",
+                  "value": "body"
+                }
+              ],
+              "description": "How the platform identifies the caller for per-user session continuity. Required when memory or loops should partition by caller."
+            },
+            {
+              "name": "sessionSourceName",
+              "displayName": "Session Source Name",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. X-Caller-Id (header), userId (body field), session_id (cookie)",
+              "description": "Header name, body field path, or cookie name used as the caller id.",
+              "displayOptions": {
+                "show": {
+                  "sessionSource": [
+                    "header",
+                    "cookie",
+                    "body"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthUser",
+              "displayName": "User",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The username for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthPassword",
+              "displayName": "Password",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The password for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthName",
+              "displayName": "Name",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The header name to check for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthValue",
+              "displayName": "Value",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The expected header value for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtSecret",
+              "displayName": "Secret",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The secret key used to verify the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtAlgorithm",
+              "displayName": "Algorithm",
+              "type": "options",
+              "default": "HS256",
+              "options": [
+                {
+                  "name": "HS256",
+                  "value": "HS256"
+                },
+                {
+                  "name": "HS384",
+                  "value": "HS384"
+                },
+                {
+                  "name": "HS512",
+                  "value": "HS512"
+                }
+              ],
+              "description": "The algorithm used to sign the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "sessionClaim",
+              "displayName": "Session Claim",
+              "type": "string",
+              "default": "sub",
+              "description": "The claim in the JWT payload that identifies the user (e.g. sub, email, userId). Leave blank to skip session tracking.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "requireRoleCheck",
+              "displayName": "Require Role Check (RBAC)",
+              "type": "boolean",
+              "default": false,
+              "description": "If enabled, the incoming JWT must contain an authorized role claim to execute the workflow.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "roleClaimKey",
+              "displayName": "Role Claim Key",
+              "type": "string",
+              "default": "role",
+              "description": "The field name inside the JWT payload that contains the user's role (e.g., \"role\", \"groups\").",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "allowedRoles",
+              "displayName": "Allowed Roles",
+              "type": "string",
+              "default": "admin, staff",
+              "description": "A comma-separated list of roles that are allowed to trigger this workflow. If empty, all roles pass.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "options",
+              "displayName": "Options",
+              "type": "collection",
+              "default": {},
+              "placeholder": "Add option",
+              "fields": [
+                {
+                  "name": "allowedOrigins",
+                  "displayName": "Allowed Origins (CORS)",
+                  "type": "string",
+                  "default": "*",
+                  "placeholder": "*",
+                  "description": "Comma-separated list of allowed origins for CORS. Use * to allow all origins."
+                },
+                {
+                  "name": "binaryDataFieldName",
+                  "displayName": "Field Name for Binary Data",
+                  "type": "string",
+                  "default": "data",
+                  "placeholder": "data",
+                  "description": "The name of the field in the request that contains binary data (for file uploads)."
+                },
+                {
+                  "name": "ignoreBots",
+                  "displayName": "Ignore Bots",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, requests from known bots (crawlers, spiders) will be ignored."
+                },
+                {
+                  "name": "ipAllowlist",
+                  "displayName": "IP(s) Allowlist",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "e.g. 127.0.0.1, 192.168.1.0/24",
+                  "description": "Comma-separated list of IPs or CIDR ranges. Only these IPs can trigger the webhook."
+                },
+                {
+                  "name": "noResponseBody",
+                  "displayName": "No Response Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the webhook will respond with an empty body (only status code)."
+                },
+                {
+                  "name": "rawBody",
+                  "displayName": "Raw Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the raw request body will be passed as-is without parsing."
+                },
+                {
+                  "name": "responseData",
+                  "displayName": "Response Data",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "Response body content",
+                  "description": "Custom response data to return when the webhook is triggered (JSON or text)."
+                }
+              ]
+            }
+          ]
+        },
+        "isTrigger": true,
+        "isPrimaryTrigger": true,
+        "inputs": {
+          "method": "POST",
+          "responseMode": "lastNode",
+          "authentication": "none",
+          "jwtAlgorithm": "HS256",
+          "sessionClaim": "sub",
+          "requireRoleCheck": false,
+          "roleClaimKey": "role",
+          "allowedRoles": "admin, staff",
+          "sessionSource": "none",
+          "options": {},
+          "path": "1687ddd6-52f6-4a8f-9c8f-4b296761ceeb"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "body": {
+                  "imageUrl": "https://ydbzcsfkgwaqrygenrqo.supabase.co/storage/v1/object/public/brand-assets/0e52b36e-7960-4fb3-a803-f95227708443/generated/1786338951079-1080x1080.jpg",
+                  "caption": "As the warm afternoon sunlight streams through the window, it casts a gentle glow on this exquisite artisanal pasta dish. The soft shadows dance across the textured plaster table, inviting you to take a seat and savor the moment. Paired with a glass of wine, this scene is the epitome of a sophisticated and relaxing afternoon. \n\nTake a moment to appreciate the simple pleasures in life and let the beauty of this dish transport you to a world of elegance and refinement. Share with us your favorite way to unwind and enjoy a delicious meal!\n\nDouble tap if you're craving a taste of la dolce vita!\n\n#foodie #pastalover #wineanddine #afternoonsun #homedecor #foodphotography #italiancuisine #sophisticatedliving #relaxationmode #gourmetfood #snsinstitutions #snsdesignthinkers #designthinking"
+                },
+                "query": {},
+                "headers": {
+                  "x-forwarded-for": "103.196.28.74",
+                  "x-forwarded-proto": "https",
+                  "x-forwarded-port": "443",
+                  "host": "api.agents.snsihub.ai",
+                  "x-amzn-trace-id": "Root=1-6a798e4f-0e43b99a101e1cbc3ee9fb1f",
+                  "content-length": "978",
+                  "sec-ch-ua-platform": "\"Windows\"",
+                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+                  "content-type": "application/json",
+                  "sec-ch-ua-mobile": "?0",
+                  "accept": "*/*",
+                  "origin": "http://localhost:5173",
+                  "sec-fetch-site": "cross-site",
+                  "sec-fetch-mode": "cors",
+                  "sec-fetch-dest": "empty",
+                  "referer": "http://localhost:5173/",
+                  "accept-encoding": "gzip, deflate, br, zstd",
+                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+                  "priority": "u=1, i"
+                },
+                "params": {},
+                "file": null
+              }
+            }
+          ],
+          "usage": {
+            "category": "INTEGRATION",
+            "metrics": {
+              "durationMs": 0,
+              "apiCalls": 1,
+              "payloadSizeBytes": 1831
+            },
+            "cost": 2
+          }
+        },
+        "executionStatus": "success",
+        "executionId": "6a798e4f62189754cd9c1eeb",
+        "isFormWait": false,
+        "isTimerWait": false,
+        "isWebhookWait": false
+      },
+      "width": 220,
+      "height": 99,
+      "positionAbsolute": {
+        "x": 418.8333740234375,
+        "y": 247.74998474121094
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "httpRequest-1786351210538",
+      "type": "action",
+      "position": {
+        "x": 786.4078848034412,
+        "y": 240.18504427675862
+      },
+      "data": {
+        "label": "Http Request",
+        "toolId": "httpRequest",
+        "toolData": {
+          "id": "httpRequest",
+          "displayName": "Http Request",
+          "category": "API & HTTP",
+          "icon": "Globe",
+          "description": "Make HTTP API requests to external services.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS"
+                ],
+                "default": "GET",
+                "description": "HTTP method to use"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to send the request to"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Headers to include in the request"
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query parameters to append to the URL"
+              },
+              "body": {
+                "description": "Request body"
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "fields"
+                ],
+                "default": "json",
+                "description": "How the body is defined"
+              },
+              "bodyFields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Body fields for key-value input"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "form-urlencoded",
+                  "raw"
+                ],
+                "default": "json",
+                "description": "Content type of the request body"
+              },
+              "responseFormat": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "text",
+                  "binary"
+                ],
+                "default": "auto",
+                "description": "Format of the response data"
+              },
+              "authentication": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "header",
+                      "query",
+                      "basic",
+                      "bearer"
+                    ],
+                    "default": "none"
+                  },
+                  "config": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Authentication configuration"
+              },
+              "ignoreResponseCode": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, the node will not fail on non-2xx status codes"
+              },
+              "includeHeaders": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, response headers will be included in the output"
+              },
+              "allowUnauthorized": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, SSL certificate verification will be skipped"
+              },
+              "lowercaseHeaders": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, all header keys will be converted to lowercase"
+              },
+              "timeout": {
+                "type": "number",
+                "default": 300000,
+                "description": "Request timeout in milliseconds"
+              },
+              "outputPropertyName": {
+                "type": "string",
+                "default": "data",
+                "description": "The name of the property to store binary data in"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "method": "POST",
+          "bodyType": "fields",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": false,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://graph.instagram.com/v23.0/17841440064535025/media",
+          "headers": {
+            "content-type": "application/json",
+            "Authorization": "Bearer IGAAeYsdOV6ctBZAGI5UVBGVFFkRG5LM3pCMWh1am9kdXNlNkRPQWRlMmlWdkN0R1NNaElUdjJCZAHVIMHR2QWM4MmdvSWVfVVpxMlRSd3NpRVk3OGVpcnNGLWhsNVY0bk5BdXJ4WV9mekVFSjJfNnh3YWtjSlJnR1pTUU9MUUtkcwZDZD"
+          },
+          "body": "{ \"image_url\": \"{{$node['webhook-1786346745527'].json['body']['imageUrl']}}\", \r\n\"caption\": \"{{$node['webhook-1786346745527'].json['body']['caption']}}\" }",
+          "authentication": {
+            "type": "none",
+            "config": {}
+          },
+          "_internal": {
+            "bodyMode": "kv",
+            "queryMode": "kv",
+            "headerMode": "kv"
+          },
+          "bodyFields": {
+            "image_url": " {{$node[\"webhook-1786346745527\"].json[\"body\"][\"imageUrl\"]}}",
+            "caption": " {{$node[\"webhook-1786346745527\"].json[\"body\"][\"caption\"]}}"
+          },
+          "queryParameters": {}
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "statusCode": 200,
+                "body": {
+                  "id": "18092184923335485"
+                }
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionError": null
+      },
+      "width": 220,
+      "height": 94,
+      "selected": true,
+      "positionAbsolute": {
+        "x": 786.4078848034412,
+        "y": 240.18504427675862
+      },
+      "dragging": false
+    },
+    {
+      "id": "httpRequest-1786354398496",
+      "type": "action",
+      "position": {
+        "x": 1094.6621554726846,
+        "y": 263.72993547391894
+      },
+      "data": {
+        "label": "Http Request",
+        "toolId": "httpRequest",
+        "toolData": {
+          "id": "httpRequest",
+          "displayName": "Http Request",
+          "category": "API & HTTP",
+          "icon": "Globe",
+          "description": "Make HTTP API requests to external services.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE",
+                  "HEAD",
+                  "OPTIONS"
+                ],
+                "default": "GET",
+                "description": "HTTP method to use"
+              },
+              "url": {
+                "type": "string",
+                "description": "URL to send the request to"
+              },
+              "headers": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Headers to include in the request"
+              },
+              "queryParameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query parameters to append to the URL"
+              },
+              "body": {
+                "description": "Request body"
+              },
+              "bodyType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "fields"
+                ],
+                "default": "json",
+                "description": "How the body is defined"
+              },
+              "bodyFields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Body fields for key-value input"
+              },
+              "contentType": {
+                "type": "string",
+                "enum": [
+                  "json",
+                  "form-data",
+                  "form-urlencoded",
+                  "raw"
+                ],
+                "default": "json",
+                "description": "Content type of the request body"
+              },
+              "responseFormat": {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "json",
+                  "text",
+                  "binary"
+                ],
+                "default": "auto",
+                "description": "Format of the response data"
+              },
+              "authentication": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "header",
+                      "query",
+                      "basic",
+                      "bearer"
+                    ],
+                    "default": "none"
+                  },
+                  "config": {
+                    "type": "object",
+                    "additionalProperties": {}
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Authentication configuration"
+              },
+              "ignoreResponseCode": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, the node will not fail on non-2xx status codes"
+              },
+              "includeHeaders": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, response headers will be included in the output"
+              },
+              "allowUnauthorized": {
+                "type": "boolean",
+                "default": false,
+                "description": "If enabled, SSL certificate verification will be skipped"
+              },
+              "lowercaseHeaders": {
+                "type": "boolean",
+                "default": true,
+                "description": "If enabled, all header keys will be converted to lowercase"
+              },
+              "timeout": {
+                "type": "number",
+                "default": 300000,
+                "description": "Request timeout in milliseconds"
+              },
+              "outputPropertyName": {
+                "type": "string",
+                "default": "data",
+                "description": "The name of the property to store binary data in"
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isPrimaryTrigger": false,
+        "inputs": {
+          "method": "POST",
+          "bodyType": "json",
+          "contentType": "json",
+          "responseFormat": "json",
+          "ignoreResponseCode": false,
+          "includeHeaders": false,
+          "allowUnauthorized": false,
+          "lowercaseHeaders": true,
+          "timeout": 300000,
+          "outputPropertyName": "data",
+          "url": "https://graph.instagram.com/v23.0/17841440064535025/media_publish",
+          "headers": {
+            "content-type": "application/json",
+            "authorization": "Bearer IGAAeYsdOV6ctBZAFpVTUlMaG1UV2hqRERHZAE5uZAkJoWlhWbGxkZAlAwbXByZA1hPcVV2SEk1Nk1QSU1qVjd6SXlzZAVhVQUZACVURxQmtXSUxMV0ZA5akc2UnE5aFdzd2h6bjNIVC1yNlVjUDhHUmtWMFhPWVJYcldfdjB6RUluYTJtOAZDZD"
+          },
+          "body": "{ \"creation_id\": \"{{$node['httpRequest-1786351210538'].json['body']['id']}}\" }"
+        },
+        "connectedHandles": [],
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "statusCode": 200,
+                "body": {
+                  "id": "18108857531018784"
+                }
+              },
+              "pairedItem": 0
+            }
+          ]
+        },
+        "executionStatus": "success",
+        "executionError": null
+      },
+      "width": 220,
+      "height": 94,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 1094.6621554726846,
+        "y": 263.72993547391894
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "webhook-1786346745527",
+      "sourceHandle": null,
+      "target": "httpRequest-1786351210538",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-webhook-1786346745527-httpRequest-1786351210538"
+    },
+    {
+      "source": "httpRequest-1786351210538",
+      "sourceHandle": null,
+      "target": "httpRequest-1786354398496",
+      "targetHandle": null,
+      "type": "custom",
+      "data": {},
+      "id": "reactflow__edge-httpRequest-1786351210538-httpRequest-1786354398496"
+    }
+  ]
+}
