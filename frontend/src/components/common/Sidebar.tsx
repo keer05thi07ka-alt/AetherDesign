@@ -12,6 +12,7 @@ import {
   Grid,
   FolderKanban,
   Edit3,
+  LifeBuoy,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -56,6 +57,7 @@ export const Sidebar: React.FC = () => {
 
   const settingsItems: NavItem[] = [
     { label: 'Settings', path: '/settings', icon: Settings, show: true },
+    { label: 'Support', path: '/support', icon: LifeBuoy, show: true },
   ];
 
   const sections = [

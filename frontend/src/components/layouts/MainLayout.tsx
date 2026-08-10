@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '../common/Navbar';
 import { Sidebar } from '../common/Sidebar';
 import { Footer } from '../common/Footer';
+import { SupportChat } from '../common/SupportChat';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -66,6 +67,11 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
       {/* Show Footer only on public pages and non-editor pages */}
       {!isWorkspace && !isAuthOrRole && <Footer />}
+
+      {/* Support assistant. Hidden on auth pages, where there is no session
+          to give it context, and in the editor, where it would sit over the
+          canvas controls. */}
+      {!isAuthOrRole && !isFullEditor && <SupportChat />}
     </div>
   );
 };

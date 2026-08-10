@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-09T03:25:42.715Z",
+  "_exportedAt": "2026-08-10T05:11:04.587Z",
   "_fingerprint": "YWN0aW9uOmNvcmUuc2V0fGFjdGlvbjpwb3N0Z3Jlcy5leGVjdXRlUXVlcnl8d2Vi",
   "nodes": [
     {
@@ -14,7 +14,7 @@
           "options": {
             "allowedOrigins": "*"
           },
-          "jwtSecret": "REDACTED_SEE_CREDENTIAL_STORE",
+          "jwtSecret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
           "allowedRoles": "admin, staff",
           "jwtAlgorithm": "HS256",
           "responseMode": "lastNode",
@@ -566,23 +566,90 @@
           ]
         },
         "isTrigger": true,
-        "connectedHandles": [],
-        "isPrimaryTrigger": true,
-        "executionId": "6a745ae6f559bf7aea02ebb0",
         "isFormWait": false,
+        "executionId": "6a795d0b53b933eae140c4d1",
         "isTimerWait": false,
         "isWebhookWait": false,
-        "lastTestOutput": null
+        "connectedHandles": [],
+        "isPrimaryTrigger": true,
+        "executionStatus": "success",
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "body": {
+                  "op": "create",
+                  "data": {
+                    "email": "priya@brightfold.org",
+                    "name": "Priya",
+                    "topic": "generation",
+                    "subject": "Testing the support form",
+                    "message": "Checking that tickets reach the team.",
+                    "chat_transcript": null
+                  }
+                },
+                "query": {},
+                "headers": {
+                  "x-forwarded-for": "103.196.28.74",
+                  "x-forwarded-proto": "https",
+                  "x-forwarded-port": "443",
+                  "host": "api.agents.snsihub.ai",
+                  "x-amzn-trace-id": "Root=1-6a795d0b-102e7fc319d70e12199a5faf",
+                  "content-length": "201",
+                  "sec-ch-ua-platform": "\"Windows\"",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2NDI0OTQ1LCJpYXQiOjE3ODYzMzg1NDV9.Yw1ZvKVp-lRJBi7DlLR24xMGCmsLtG0IYu5Oxgriu3s",
+                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+                  "content-type": "application/json",
+                  "sec-ch-ua-mobile": "?0",
+                  "accept": "*/*",
+                  "origin": "http://localhost:5173",
+                  "sec-fetch-site": "cross-site",
+                  "sec-fetch-mode": "cors",
+                  "sec-fetch-dest": "empty",
+                  "referer": "http://localhost:5173/",
+                  "accept-encoding": "gzip, deflate, br, zstd",
+                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+                  "priority": "u=1, i"
+                },
+                "params": {
+                  "resource": "support_tickets"
+                },
+                "jwt": {
+                  "sub": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                  "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                  "org_name": "Brightfold Studio",
+                  "role": "owner",
+                  "plan": "enterprise",
+                  "email": "priya@brightfold.org",
+                  "exp": 1786424945,
+                  "iat": 1786338545
+                },
+                "file": null,
+                "sessionId": "rs_9f08134ea66ed9cbff84a8c8e2bf37b5a695"
+              }
+            }
+          ],
+          "usage": {
+            "category": "INTEGRATION",
+            "metrics": {
+              "durationMs": 0,
+              "apiCalls": 1,
+              "payloadSizeBytes": 1775
+            },
+            "cost": 2
+          }
+        }
       },
       "type": "webhook",
       "width": 220,
-      "height": 98,
+      "height": 99,
       "dragging": false,
       "position": {
         "x": -39.82726052765352,
         "y": 4.213677345557883
       },
-      "selected": true,
+      "selected": false,
       "positionAbsolute": {
         "x": -39.82726052765352,
         "y": 4.213677345557883
@@ -678,8 +745,13 @@
           "executionMode": "batch"
         },
         "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a795d0b53b933eae140c4d1",
+        "isTimerWait": false,
+        "isWebhookWait": false,
         "connectedHandles": [],
         "isPrimaryTrigger": false,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -690,19 +762,8 @@
                     {
                       "json": {
                         "result": {
-                          "id": "b3a20ef0-19ab-4b0f-9802-9ce72a8190c8",
-                          "org_id": "11111111-1111-1111-1111-111111111111",
-                          "name": "API Test Campaign 2",
-                          "brief": null,
-                          "audience": null,
-                          "platform": "instagram",
-                          "status": "draft",
-                          "deadline": null,
-                          "brand_kit_id": null,
-                          "assigned_to": null,
-                          "created_by": "a0000000-0000-0000-0000-000000000002",
-                          "created_at": "2026-08-06T09:59:02.98712+00:00",
-                          "updated_at": "2026-08-06T09:59:02.98712+00:00"
+                          "id": "544d1eb3-dec0-4b54-bb85-1025b691cebf",
+                          "status": "open"
                         }
                       }
                     }
@@ -715,16 +776,11 @@
               }
             }
           ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a745ae6f559bf7aea02ebb0",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
+        }
       },
       "type": "action",
       "width": 220,
-      "height": 93,
+      "height": 94,
       "dragging": false,
       "position": {
         "x": 248.2273420466102,
@@ -738,13 +794,24 @@
     },
     {
       "id": "core.set-1786010152956",
-      "type": "action",
-      "position": {
-        "x": 532.1137394846007,
-        "y": 8.807917480785719
-      },
       "data": {
         "label": "Set Fields",
+        "inputs": {
+          "mode": "manual",
+          "assignments": [
+            {
+              "name": "result",
+              "type": "string",
+              "value": "{{ JSON.stringify($json.data.items[0].json.result) }}",
+              "valueType": "expression"
+            }
+          ],
+          "includeBinaryData": true,
+          "supportDotNotation": true,
+          "inputFieldsToInclude": "all",
+          "includeOtherInputFields": false,
+          "ignoreTypeConversionErrors": false
+        },
         "toolId": "core.set",
         "toolData": {
           "id": "core.set",
@@ -859,67 +926,52 @@
           }
         },
         "isTrigger": false,
-        "isPrimaryTrigger": false,
-        "inputs": {
-          "mode": "manual",
-          "includeOtherInputFields": false,
-          "inputFieldsToInclude": "all",
-          "includeBinaryData": true,
-          "ignoreTypeConversionErrors": false,
-          "supportDotNotation": true,
-          "assignments": [
-            {
-              "name": "result",
-              "value": "{{ JSON.stringify($json.data.items[0].json.result) }}",
-              "type": "string",
-              "valueType": "expression"
-            }
-          ]
-        },
+        "isFormWait": false,
+        "executionId": "6a795d0b53b933eae140c4d1",
+        "isTimerWait": false,
+        "isWebhookWait": false,
         "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
               "json": {
-                "result": "{\"id\":\"b3a20ef0-19ab-4b0f-9802-9ce72a8190c8\",\"org_id\":\"11111111-1111-1111-1111-111111111111\",\"name\":\"API Test Campaign 2\",\"brief\":null,\"audience\":null,\"platform\":\"instagram\",\"status\":\"draft\",\"deadline\":null,\"brand_kit_id\":null,\"assigned_to\":null,\"created_by\":\"a0000000-0000-0000-0000-000000000002\",\"created_at\":\"2026-08-06T09:59:02.98712+00:00\",\"updated_at\":\"2026-08-06T09:59:02.98712+00:00\"}"
+                "result": "{\"id\":\"544d1eb3-dec0-4b54-bb85-1025b691cebf\",\"status\":\"open\"}"
               }
             }
           ]
-        },
-        "executionStatus": "success",
-        "executionId": "6a745ae6f559bf7aea02ebb0",
-        "isFormWait": false,
-        "isTimerWait": false,
-        "isWebhookWait": false
+        }
       },
+      "type": "action",
       "width": 220,
-      "height": 93,
+      "height": 94,
+      "dragging": false,
+      "position": {
+        "x": 532.1137394846007,
+        "y": 8.807917480785719
+      },
       "selected": false,
       "positionAbsolute": {
         "x": 532.1137394846007,
         "y": 8.807917480785719
-      },
-      "dragging": false
+      }
     }
   ],
   "edges": [
     {
-      "source": "webhook-1785998671933",
-      "sourceHandle": null,
-      "target": "postgres.executeQuery-1785999069497",
-      "targetHandle": null,
-      "type": "custom",
+      "id": "reactflow__edge-webhook-1785998671933-postgres.executeQuery-1785999069497",
       "data": {},
-      "id": "reactflow__edge-webhook-1785998671933-postgres.executeQuery-1785999069497"
+      "type": "custom",
+      "source": "webhook-1785998671933",
+      "target": "postgres.executeQuery-1785999069497"
     },
     {
-      "source": "postgres.executeQuery-1785999069497",
-      "sourceHandle": null,
-      "target": "core.set-1786010152956",
-      "targetHandle": null,
-      "type": "custom",
+      "id": "reactflow__edge-postgres.executeQuery-1785999069497-core.set-1786010152956",
       "data": {},
-      "id": "reactflow__edge-postgres.executeQuery-1785999069497-core.set-1786010152956"
+      "type": "custom",
+      "source": "postgres.executeQuery-1785999069497",
+      "target": "core.set-1786010152956"
     }
   ]
 }

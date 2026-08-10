@@ -1,0 +1,2160 @@
+{
+  "_platform": "agentbuilder",
+  "_version": 1,
+  "_exportedAt": "2026-08-10T05:10:21.507Z",
+  "_fingerprint": "YWN0aW9uOmNvZGUuZXhlY3V0ZXxhY3Rpb246Y29kZS5leGVjdXRlfGFjdGlvbjpn",
+  "nodes": [
+    {
+      "id": "webhook-1786318310862",
+      "data": {
+        "label": "Webhook Trigger",
+        "inputs": {
+          "path": "support/chat",
+          "options": {
+            "allowedOrigins": "*"
+          },
+          "jwtSecret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
+          "responseMode": "respondWithNode",
+          "sessionSource": "header",
+          "authentication": "jwtAuth",
+          "requireRoleCheck": false,
+          "sessionSourceName": "Authorization"
+        },
+        "toolId": "webhook",
+        "toolData": {
+          "id": "webhook",
+          "displayName": "Webhook Trigger",
+          "category": "Input /  Output",
+          "icon": "webhook",
+          "description": "Trigger workflow via webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "The path to listen on (e.g. \"my-hook\")"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "DELETE",
+                  "PATCH",
+                  "HEAD"
+                ],
+                "default": "POST",
+                "description": "HTTP Method"
+              },
+              "responseMode": {
+                "type": "string",
+                "enum": [
+                  "onReceived",
+                  "lastNode",
+                  "respondWithNode",
+                  "streaming"
+                ],
+                "default": "lastNode",
+                "description": "When to respond"
+              },
+              "authentication": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "basicAuth",
+                  "headerAuth",
+                  "jwtAuth"
+                ],
+                "default": "none",
+                "description": "Authentication"
+              },
+              "basicAuthUser": {
+                "type": "string",
+                "description": "Username"
+              },
+              "basicAuthPassword": {
+                "type": "string",
+                "description": "Password"
+              },
+              "headerAuthName": {
+                "type": "string",
+                "description": "Name"
+              },
+              "headerAuthValue": {
+                "type": "string",
+                "description": "Value"
+              },
+              "jwtSecret": {
+                "type": "string",
+                "description": "Secret"
+              },
+              "jwtAlgorithm": {
+                "type": "string",
+                "enum": [
+                  "HS256",
+                  "HS384",
+                  "HS512"
+                ],
+                "default": "HS256",
+                "description": "Algorithm"
+              },
+              "sessionClaim": {
+                "type": "string",
+                "default": "sub",
+                "description": "JWT claim used to identify the session"
+              },
+              "requireRoleCheck": {
+                "type": "boolean",
+                "default": false,
+                "description": "Require Role Check (RBAC)"
+              },
+              "roleClaimKey": {
+                "type": "string",
+                "default": "role",
+                "description": "Role Claim Key"
+              },
+              "allowedRoles": {
+                "type": "string",
+                "default": "admin, staff",
+                "description": "Allowed Roles (comma separated)"
+              },
+              "sessionSource": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "auto",
+                  "header",
+                  "cookie",
+                  "body"
+                ],
+                "default": "none",
+                "description": "Session Source"
+              },
+              "sessionSourceName": {
+                "type": "string",
+                "description": "Session Source Name (header / cookie / body field)"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "allowedOrigins": {
+                    "type": "string",
+                    "description": "Allowed Origins (CORS)"
+                  },
+                  "binaryDataFieldName": {
+                    "type": "string",
+                    "description": "Field Name for Binary Data"
+                  },
+                  "ignoreBots": {
+                    "type": "boolean",
+                    "description": "Ignore Bots"
+                  },
+                  "ipAllowlist": {
+                    "type": "string",
+                    "description": "IP(s) Allowlist"
+                  },
+                  "noResponseBody": {
+                    "type": "boolean",
+                    "description": "No Response Body"
+                  },
+                  "rawBody": {
+                    "type": "boolean",
+                    "description": "Raw Body"
+                  },
+                  "responseCode": {
+                    "type": "number",
+                    "description": "Response Code"
+                  },
+                  "responseData": {
+                    "type": "string",
+                    "description": "Response Data"
+                  }
+                },
+                "additionalProperties": false,
+                "default": {},
+                "description": "Options"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "name": "path",
+              "displayName": "Path",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The path to listen on (e.g. \"my-hook\")"
+            },
+            {
+              "name": "method",
+              "displayName": "HTTP Method",
+              "type": "options",
+              "default": "POST",
+              "required": true,
+              "options": [
+                {
+                  "name": "GET",
+                  "value": "GET"
+                },
+                {
+                  "name": "POST",
+                  "value": "POST"
+                },
+                {
+                  "name": "PUT",
+                  "value": "PUT"
+                },
+                {
+                  "name": "DELETE",
+                  "value": "DELETE"
+                },
+                {
+                  "name": "PATCH",
+                  "value": "PATCH"
+                },
+                {
+                  "name": "HEAD",
+                  "value": "HEAD"
+                }
+              ],
+              "description": "HTTP Method to listen for"
+            },
+            {
+              "name": "responseMode",
+              "displayName": "Respond",
+              "type": "options",
+              "default": "lastNode",
+              "required": true,
+              "options": [
+                {
+                  "name": "Immediately",
+                  "value": "onReceived"
+                },
+                {
+                  "name": "When Last Node Finishes",
+                  "value": "lastNode"
+                },
+                {
+                  "name": "Using 'Respond to Webhook' Node",
+                  "value": "respondWithNode"
+                },
+                {
+                  "name": "Streaming",
+                  "value": "streaming"
+                }
+              ],
+              "description": "When to respond to the webhook request"
+            },
+            {
+              "name": "authentication",
+              "displayName": "Authentication",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "Basic Auth",
+                  "value": "basicAuth"
+                },
+                {
+                  "name": "Header Auth",
+                  "value": "headerAuth"
+                },
+                {
+                  "name": "JWT Auth",
+                  "value": "jwtAuth"
+                },
+                {
+                  "name": "None",
+                  "value": "none"
+                }
+              ],
+              "description": "The type of authentication to use for incoming webhook requests"
+            },
+            {
+              "name": "sessionSource",
+              "displayName": "Session Source",
+              "type": "options",
+              "default": "none",
+              "options": [
+                {
+                  "name": "None (legacy, no session)",
+                  "value": "none"
+                },
+                {
+                  "name": "Auto (platform issues a session id)",
+                  "value": "auto"
+                },
+                {
+                  "name": "From Header",
+                  "value": "header"
+                },
+                {
+                  "name": "From Cookie",
+                  "value": "cookie"
+                },
+                {
+                  "name": "From Body Field",
+                  "value": "body"
+                }
+              ],
+              "description": "How the platform identifies the caller for per-user session continuity. Required when memory or loops should partition by caller."
+            },
+            {
+              "name": "sessionSourceName",
+              "displayName": "Session Source Name",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. X-Caller-Id (header), userId (body field), session_id (cookie)",
+              "description": "Header name, body field path, or cookie name used as the caller id.",
+              "displayOptions": {
+                "show": {
+                  "sessionSource": [
+                    "header",
+                    "cookie",
+                    "body"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthUser",
+              "displayName": "User",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The username for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "basicAuthPassword",
+              "displayName": "Password",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The password for Basic Authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "basicAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthName",
+              "displayName": "Name",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "The header name to check for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "headerAuthValue",
+              "displayName": "Value",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The expected header value for authentication",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "headerAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtSecret",
+              "displayName": "Secret",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "typeOptions": {
+                "password": true
+              },
+              "description": "The secret key used to verify the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "jwtAlgorithm",
+              "displayName": "Algorithm",
+              "type": "options",
+              "default": "HS256",
+              "options": [
+                {
+                  "name": "HS256",
+                  "value": "HS256"
+                },
+                {
+                  "name": "HS384",
+                  "value": "HS384"
+                },
+                {
+                  "name": "HS512",
+                  "value": "HS512"
+                }
+              ],
+              "description": "The algorithm used to sign the JWT token",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "sessionClaim",
+              "displayName": "Session Claim",
+              "type": "string",
+              "default": "sub",
+              "description": "The claim in the JWT payload that identifies the user (e.g. sub, email, userId). Leave blank to skip session tracking.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "requireRoleCheck",
+              "displayName": "Require Role Check (RBAC)",
+              "type": "boolean",
+              "default": false,
+              "description": "If enabled, the incoming JWT must contain an authorized role claim to execute the workflow.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "roleClaimKey",
+              "displayName": "Role Claim Key",
+              "type": "string",
+              "default": "role",
+              "description": "The field name inside the JWT payload that contains the user's role (e.g., \"role\", \"groups\").",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "allowedRoles",
+              "displayName": "Allowed Roles",
+              "type": "string",
+              "default": "admin, staff",
+              "description": "A comma-separated list of roles that are allowed to trigger this workflow. If empty, all roles pass.",
+              "displayOptions": {
+                "show": {
+                  "authentication": [
+                    "jwtAuth"
+                  ],
+                  "requireRoleCheck": [
+                    true
+                  ]
+                }
+              }
+            },
+            {
+              "name": "options",
+              "displayName": "Options",
+              "type": "collection",
+              "default": {},
+              "placeholder": "Add option",
+              "fields": [
+                {
+                  "name": "allowedOrigins",
+                  "displayName": "Allowed Origins (CORS)",
+                  "type": "string",
+                  "default": "*",
+                  "placeholder": "*",
+                  "description": "Comma-separated list of allowed origins for CORS. Use * to allow all origins."
+                },
+                {
+                  "name": "binaryDataFieldName",
+                  "displayName": "Field Name for Binary Data",
+                  "type": "string",
+                  "default": "data",
+                  "placeholder": "data",
+                  "description": "The name of the field in the request that contains binary data (for file uploads)."
+                },
+                {
+                  "name": "ignoreBots",
+                  "displayName": "Ignore Bots",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, requests from known bots (crawlers, spiders) will be ignored."
+                },
+                {
+                  "name": "ipAllowlist",
+                  "displayName": "IP(s) Allowlist",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "e.g. 127.0.0.1, 192.168.1.0/24",
+                  "description": "Comma-separated list of IPs or CIDR ranges. Only these IPs can trigger the webhook."
+                },
+                {
+                  "name": "noResponseBody",
+                  "displayName": "No Response Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the webhook will respond with an empty body (only status code)."
+                },
+                {
+                  "name": "rawBody",
+                  "displayName": "Raw Body",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "If enabled, the raw request body will be passed as-is without parsing."
+                },
+                {
+                  "name": "responseData",
+                  "displayName": "Response Data",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "Response body content",
+                  "description": "Custom response data to return when the webhook is triggered (JSON or text)."
+                }
+              ]
+            }
+          ]
+        },
+        "isTrigger": true,
+        "isFormWait": false,
+        "executionId": "6a7955fe53b933eae140c1ae",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": true,
+        "executionStatus": "success",
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "body": {
+                  "messages": [
+                    {
+                      "role": "user",
+                      "text": "How do I add my brand colours?"
+                    }
+                  ],
+                  "context": {
+                    "plan": "enterprise",
+                    "role": "owner",
+                    "page": "/business/dashboard"
+                  }
+                },
+                "query": {},
+                "headers": {
+                  "x-forwarded-for": "103.196.28.74",
+                  "x-forwarded-proto": "https",
+                  "x-forwarded-port": "443",
+                  "host": "api.agents.snsihub.ai",
+                  "x-amzn-trace-id": "Root=1-6a7955fe-0fc1c3c7774a2cc5041b4b44",
+                  "content-length": "146",
+                  "sec-ch-ua-platform": "\"Windows\"",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2NDIzMTM3LCJpYXQiOjE3ODYzMzY3Mzd9.TftiELRDr-kYHm3SUMr2afYoxjRgqolaSUmq4yVxX1w",
+                  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+                  "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
+                  "content-type": "application/json",
+                  "sec-ch-ua-mobile": "?0",
+                  "accept": "*/*",
+                  "origin": "http://localhost:5173",
+                  "sec-fetch-site": "cross-site",
+                  "sec-fetch-mode": "cors",
+                  "sec-fetch-dest": "empty",
+                  "referer": "http://localhost:5173/",
+                  "accept-encoding": "gzip, deflate, br, zstd",
+                  "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+                  "priority": "u=1, i"
+                },
+                "params": {},
+                "jwt": {
+                  "sub": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                  "org_id": "31522872-007e-4165-b899-c941c27eb8bc",
+                  "org_name": "Brightfold Studio",
+                  "role": "owner",
+                  "plan": "enterprise",
+                  "email": "priya@brightfold.org",
+                  "exp": 1786423137,
+                  "iat": 1786336737
+                },
+                "file": null,
+                "sessionId": "rs_27208f676d30748f4e229aa96acb1828a8c1"
+              }
+            }
+          ],
+          "usage": {
+            "category": "INTEGRATION",
+            "metrics": {
+              "durationMs": 0,
+              "apiCalls": 1,
+              "payloadSizeBytes": 1692
+            },
+            "cost": 2
+          }
+        }
+      },
+      "type": "webhook",
+      "width": 220,
+      "height": 99,
+      "dragging": false,
+      "position": {
+        "x": 438.388916015625,
+        "y": 322.6666564941406
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 438.388916015625,
+        "y": 322.6666564941406
+      }
+    },
+    {
+      "id": "code.execute-1786318473997",
+      "data": {
+        "label": "Code",
+        "inputs": {
+          "code": "\"\"\"\nBuild the support conversation.\n\nThe product is small enough that its whole feature set fits in a system\nprompt — a second RAG pipeline over documentation would be architecture for\nits own sake at this scale.\n\nWhat makes the answers useful is the user's context: plan, role, and current\npage. That lets the assistant say \"campaigns need a team plan and you're on\nfree\" rather than explaining a feature the user cannot reach.\n\"\"\"\n\nbody = _json.get(\"body\", {}) or {}\njwt = _json.get(\"jwt\", {}) or {}\n\nmessages = body.get(\"messages\", []) or []\nctx = body.get(\"context\", {}) or {}\n\nplan = ctx.get(\"plan\") or jwt.get(\"plan\") or \"free\"\nrole = ctx.get(\"role\") or jwt.get(\"role\") or \"designer\"\npage = ctx.get(\"page\") or \"unknown\"\nemail = jwt.get(\"email\", \"\")\n\nis_team = plan in (\"pro\", \"enterprise\")\n\nSYSTEM = \"\"\"You are the in-app support assistant for AetherDesign, an AI creative\ncontent platform. You are concise, practical, and honest.\n\nWHAT THE PRODUCT DOES\n- AI image generation from a text prompt, sized for a chosen platform\n  (Instagram post and story, LinkedIn, Facebook, Pinterest, email banner,\n  web hero). Images are generated at the correct aspect ratio and scaled to\n  exact platform dimensions.\n- An AI Understanding panel shows what the system inferred before and after\n  generation: intent, subject, composition, palette, mood, and what to avoid.\n- Brand Kit Engine (team plans): colours, typography, tone, logo, and a\n  guidelines document. Guidelines are indexed so generation can recall\n  specific rules.\n- Asset Library: browse, preview, download, and delete generated assets.\n- Campaigns, approvals, and analytics (team plans).\n\nKNOWN LIMITATIONS - be upfront about these\n- Generated images contain no readable text. Typography is added afterwards\n  in the editor. This is deliberate: image models render text unreliably.\n- Formats that upscale significantly (story, web hero) will look softer than\n  square formats, because the model generates at roughly one megapixel.\n- Reference-image upload is not available yet.\n- The editor is not yet built.\n\nWHEN THE BRAND KIT DOES NOT MATCH\nIf the user asks why generation ignored a rule, explain that retrieval\nreports its confidence. When nothing in their guidelines closely matches the\nrequest, generation uses their palette and tone but no specific rules. The\nfix is usually to add that rule to the guidelines document.\n\nHOW TO ANSWER\n- Two or three sentences unless more is genuinely needed.\n- Say what to click, not just what exists.\n- If a feature requires a plan the user does not have, say so plainly.\n- If you do not know, say so and suggest contacting support. Never invent a\n  feature, menu item, or setting.\n- Do not discuss internal architecture, API keys, or database structure.\"\"\"\n\ncontext_line = (\n    \"CURRENT USER: plan=\" + plan + \", role=\" + role + \", page=\" + page + \"\\n\"\n    + (\"They have access to brand kits, campaigns, approvals, and analytics.\"\n       if is_team else\n       \"They are on a solo plan: generation, templates, and the asset library only. \"\n       \"Brand kits, campaigns, and approvals are not available to them.\")\n)\n\nlines = [context_line, \"\", \"CONVERSATION:\"]\nfor m in messages[-10:]:\n    who = \"User\" if m.get(\"role\") == \"user\" else \"Assistant\"\n    lines.append(who + \": \" + (m.get(\"text\") or \"\").strip())\nlines.append(\"Assistant:\")\n\nreturn [{\"json\": {\n    \"system\": SYSTEM,\n    \"prompt\": \"\\n\".join(lines),\n    \"plan\": plan,\n    \"role\": role,\n    \"email\": email,\n}}]",
+          "path": "support/chat",
+          "options": {
+            "allowedOrigins": "*"
+          },
+          "language": "python",
+          "jwtSecret": "Lsg6nEyT3R8tXdaCqYxrzH5oBlUkWFeIKNJcmQ2p7wiGfD94",
+          "responseMode": "respondWithNode",
+          "sessionSource": "header",
+          "authentication": "jwtAuth",
+          "requireRoleCheck": false,
+          "sessionSourceName": "Authorization"
+        },
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a7955fe53b933eae140c1ae",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "system": "You are the in-app support assistant for AetherDesign, an AI creative\n    content platform. You are concise, practical, and honest.\n\n    WHAT THE PRODUCT DOES\n    - AI image generation from a text prompt, sized for a chosen platform\n      (Instagram post and story, LinkedIn, Facebook, Pinterest, email banner,\n      web hero). Images are generated at the correct aspect ratio and scaled to\n      exact platform dimensions.\n    - An AI Understanding panel shows what the system inferred before and after\n      generation: intent, subject, composition, palette, mood, and what to avoid.\n    - Brand Kit Engine (team plans): colours, typography, tone, logo, and a\n      guidelines document. Guidelines are indexed so generation can recall\n      specific rules.\n    - Asset Library: browse, preview, download, and delete generated assets.\n    - Campaigns, approvals, and analytics (team plans).\n\n    KNOWN LIMITATIONS - be upfront about these\n    - Generated images contain no readable text. Typography is added afterwards\n      in the editor. This is deliberate: image models render text unreliably.\n    - Formats that upscale significantly (story, web hero) will look softer than\n      square formats, because the model generates at roughly one megapixel.\n    - Reference-image upload is not available yet.\n    - The editor is not yet built.\n\n    WHEN THE BRAND KIT DOES NOT MATCH\n    If the user asks why generation ignored a rule, explain that retrieval\n    reports its confidence. When nothing in their guidelines closely matches the\n    request, generation uses their palette and tone but no specific rules. The\n    fix is usually to add that rule to the guidelines document.\n\n    HOW TO ANSWER\n    - Two or three sentences unless more is genuinely needed.\n    - Say what to click, not just what exists.\n    - If a feature requires a plan the user does not have, say so plainly.\n    - If you do not know, say so and suggest contacting support. Never invent a\n      feature, menu item, or setting.\n    - Do not discuss internal architecture, API keys, or database structure.",
+                "prompt": "CURRENT USER: plan=enterprise, role=owner, page=/business/dashboard\nThey have access to brand kits, campaigns, approvals, and analytics.\n\nCONVERSATION:\nUser: How do I add my brand colours?\nAssistant:",
+                "plan": "enterprise",
+                "role": "owner",
+                "email": "priya@brightfold.org"
+              }
+            }
+          ]
+        }
+      },
+      "type": "action",
+      "width": 220,
+      "height": 94,
+      "dragging": false,
+      "position": {
+        "x": 707.4158555249934,
+        "y": 321.05313778944566
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 707.4158555249934,
+        "y": 321.05313778944566
+      }
+    },
+    {
+      "id": "gemini-1786318526278",
+      "data": {
+        "label": "Message a Model Text",
+        "inputs": {
+          "model": "gemini-3.5-flash",
+          "prompt": "{{ $json.prompt }}",
+          "fileUrl": "",
+          "options": {
+            "temperature": "0.3",
+            "systemMessage": "{{ $json.system }}"
+          },
+          "audioUrl": "",
+          "pageSize": 10,
+          "resource": "Text",
+          "simplify": true,
+          "inputType": "Binary File(s)",
+          "operation": "Message a Model",
+          "pageToken": "",
+          "displayName": "",
+          "documentUrl": "",
+          "forceDelete": false,
+          "builtInTools": {},
+          "credentialId": "9e2f94b5-e83d-40bc-86d2-9f9e83d09fd3",
+          "fileDisplayName": "",
+          "inputDataFieldName": "data",
+          "fileSearchStoreName": "",
+          "outputContentAsJson": false
+        },
+        "toolId": "gemini",
+        "toolData": {
+          "id": "gemini",
+          "displayName": "Google Gemini",
+          "type": "chat model",
+          "category": "AI / LLM",
+          "provider": "LLM Models",
+          "operation": "execute",
+          "icon": "api",
+          "description": "Interact with Google Gemini AI models for audio, vision, and language processing.",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "resource": {
+                "type": "string",
+                "enum": [
+                  "Text",
+                  "Audio",
+                  "Document",
+                  "Media File",
+                  "File Search"
+                ],
+                "default": "Audio"
+              },
+              "operation": {
+                "type": "string",
+                "enum": [
+                  "Message a Model",
+                  "Analyze Audio",
+                  "Transcribe a Recording",
+                  "Analyze Document",
+                  "Upload Media File",
+                  "Create File Search Store",
+                  "Delete File Search Store",
+                  "List File Search Stores",
+                  "Upload to File Search Store"
+                ]
+              },
+              "model": {
+                "type": "string",
+                "default": "gemini-2.5-flash"
+              },
+              "textInput": {
+                "type": "string"
+              },
+              "messages": {
+                "type": "object",
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "prompt": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "user",
+                            "model"
+                          ],
+                          "default": "user"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "inputType": {
+                "type": "string",
+                "enum": [
+                  "Binary File(s)",
+                  "Audio URL",
+                  "Document URL",
+                  "Binary File",
+                  "File URL"
+                ],
+                "default": "Binary File(s)"
+              },
+              "audioUrl": {
+                "type": "string"
+              },
+              "documentUrl": {
+                "type": "string"
+              },
+              "fileUrl": {
+                "type": "string"
+              },
+              "outputContentAsJson": {
+                "type": "boolean",
+                "default": false
+              },
+              "builtInTools": {
+                "type": "object",
+                "properties": {
+                  "googleSearch": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "default": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "googleMaps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "latitude": {
+                          "type": "number"
+                        },
+                        "longitude": {
+                          "type": "number"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "urlContext": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "default": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "fileSearch": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "default": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "codeExecution": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "default": true
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "fileSearchStoreName": {
+                "type": "string"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "fileDisplayName": {
+                "type": "string"
+              },
+              "pageSize": {
+                "type": "number"
+              },
+              "pageToken": {
+                "type": "string"
+              },
+              "forceDelete": {
+                "type": "boolean"
+              },
+              "inputDataFieldName": {
+                "type": "string",
+                "default": "data"
+              },
+              "simplify": {
+                "type": "boolean",
+                "default": true
+              },
+              "options": {
+                "type": "object",
+                "additionalProperties": {}
+              },
+              "credentialId": {
+                "type": "string"
+              },
+              "credentials": {}
+            },
+            "required": [
+              "operation"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          },
+          "fields": [
+            {
+              "displayName": "Resource",
+              "name": "resource",
+              "type": "options",
+              "noDataExpression": true,
+              "options": [
+                {
+                  "name": "Text",
+                  "value": "Text"
+                },
+                {
+                  "name": "Audio",
+                  "value": "Audio"
+                },
+                {
+                  "name": "Document",
+                  "value": "Document"
+                },
+                {
+                  "name": "Media File",
+                  "value": "Media File"
+                },
+                {
+                  "name": "File Search",
+                  "value": "File Search"
+                }
+              ],
+              "default": "Audio"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Message a Model",
+                  "value": "Message a Model"
+                }
+              ],
+              "default": "Message a Model"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Audio"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Analyze Audio",
+                  "value": "Analyze Audio"
+                },
+                {
+                  "name": "Transcribe a Recording",
+                  "value": "Transcribe a Recording"
+                }
+              ],
+              "default": "Analyze Audio"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Document"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Analyze Document",
+                  "value": "Analyze Document"
+                }
+              ],
+              "default": "Analyze Document"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Media File"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Upload Media File",
+                  "value": "Upload Media File"
+                }
+              ],
+              "default": "Upload Media File"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Create File Search Store",
+                  "value": "Create File Search Store"
+                },
+                {
+                  "name": "Delete File Search Store",
+                  "value": "Delete File Search Store"
+                },
+                {
+                  "name": "List File Search Stores",
+                  "value": "List File Search Stores"
+                },
+                {
+                  "name": "Upload to File Search Store",
+                  "value": "Upload to File Search Store"
+                }
+              ],
+              "default": "List File Search Stores"
+            },
+            {
+              "displayName": "Model",
+              "name": "model",
+              "type": "options",
+              "fetchEndpoint": "/api/tools/gemini/list-models",
+              "dependsOn": [
+                "credentials"
+              ],
+              "labelKey": "name",
+              "valueKey": "id",
+              "default": "gemini-2.5-flash",
+              "description": "Select the Gemini model to use.",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text",
+                    "Audio",
+                    "Document"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Prompt (User Message)",
+              "name": "prompt",
+              "type": "string",
+              "format": "text",
+              "typeOptions": {
+                "rows": 4
+              },
+              "default": "",
+              "placeholder": "e.g. Hello, how can you help me?",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ],
+                  "operation": [
+                    "Message a Model"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Text Input",
+              "name": "textInput",
+              "type": "string",
+              "format": "text",
+              "typeOptions": {
+                "rows": 4
+              },
+              "default": "",
+              "placeholder": "What's in this audio?",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Audio"
+                  ],
+                  "operation": [
+                    "Analyze Audio"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Text Input",
+              "name": "textInput",
+              "type": "string",
+              "format": "text",
+              "typeOptions": {
+                "rows": 4
+              },
+              "default": "",
+              "placeholder": "What's in this document?",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Document"
+                  ],
+                  "operation": [
+                    "Analyze Document"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Input Type",
+              "name": "inputType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Audio"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Binary File(s)",
+                  "value": "Binary File(s)"
+                },
+                {
+                  "name": "Audio URL",
+                  "value": "Audio URL"
+                }
+              ],
+              "default": "Binary File(s)"
+            },
+            {
+              "displayName": "Input Type",
+              "name": "inputType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Document"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Binary File(s)",
+                  "value": "Binary File(s)"
+                },
+                {
+                  "name": "Document URL",
+                  "value": "Document URL"
+                }
+              ],
+              "default": "Binary File(s)"
+            },
+            {
+              "displayName": "Input Type",
+              "name": "inputType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Media File"
+                  ],
+                  "operation": [
+                    "Upload Media File"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Binary File",
+                  "value": "Binary File"
+                },
+                {
+                  "name": "File URL",
+                  "value": "File URL"
+                }
+              ],
+              "default": "Binary File"
+            },
+            {
+              "displayName": "Audio URL",
+              "name": "audioUrl",
+              "type": "string",
+              "default": "",
+              "placeholder": "https://example.com/audio.mp3",
+              "description": "Publicly accessible URL of the audio file to process",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Audio"
+                  ],
+                  "inputType": [
+                    "Audio URL"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Document URL",
+              "name": "documentUrl",
+              "type": "string",
+              "default": "",
+              "placeholder": "https://example.com/file.pdf",
+              "description": "Publicly accessible URL of the document file to process",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Document"
+                  ],
+                  "inputType": [
+                    "Document URL"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "File URL",
+              "name": "fileUrl",
+              "type": "string",
+              "default": "",
+              "placeholder": "https://example.com/file.pdf",
+              "description": "Publicly accessible URL of the file to upload",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Media File"
+                  ],
+                  "operation": [
+                    "Upload Media File"
+                  ],
+                  "inputType": [
+                    "File URL"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "File Search Store Name",
+              "name": "fileSearchStoreName",
+              "type": "string",
+              "default": "",
+              "placeholder": "fileSearchStores/my-file-search-store-123",
+              "description": "The File Search store resource name (for example: fileSearchStores/my-store-id)",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Delete File Search Store",
+                    "Upload to File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Display Name",
+              "name": "displayName",
+              "type": "string",
+              "default": "",
+              "placeholder": "Testing",
+              "description": "Display name for the new File Search store",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Create File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "File Display Name",
+              "name": "fileDisplayName",
+              "type": "string",
+              "default": "",
+              "placeholder": "AWS",
+              "description": "Display name for the uploaded document in the File Search store",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Upload to File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Input Type",
+              "name": "inputType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Upload to File Search Store"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Binary File",
+                  "value": "Binary File"
+                }
+              ],
+              "default": "Binary File"
+            },
+            {
+              "displayName": "Page Size",
+              "name": "pageSize",
+              "type": "number",
+              "default": 10,
+              "description": "Maximum number of stores to return per page (1 to 20)",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "List File Search Stores"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Page Token",
+              "name": "pageToken",
+              "type": "string",
+              "default": "",
+              "description": "Pagination token from a previous list response",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "List File Search Stores"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Force Delete",
+              "name": "forceDelete",
+              "type": "boolean",
+              "default": false,
+              "description": "Delete all related documents in the store as well",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "File Search"
+                  ],
+                  "operation": [
+                    "Delete File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Input Data Field Name(s)",
+              "name": "inputDataFieldName",
+              "type": "string",
+              "default": "data",
+              "description": "The name of the input binary field to process. Leave as data, or use your form file field name such as image.",
+              "displayOptions": {
+                "show": {
+                  "operation": [
+                    "Analyze Audio",
+                    "Transcribe a Recording",
+                    "Analyze Document",
+                    "Upload Media File",
+                    "Upload to File Search Store"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Simplify Output",
+              "name": "simplify",
+              "type": "boolean",
+              "default": true,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text",
+                    "Audio",
+                    "Document"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Output Content as JSON",
+              "name": "outputContentAsJson",
+              "type": "boolean",
+              "default": false,
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "Text"
+                  ],
+                  "operation": [
+                    "Message a Model"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Built-in Tools",
+              "name": "builtInTools",
+              "type": "fixedCollection",
+              "typeOptions": {
+                "multipleValues": true,
+                "buttonLabel": "Add Built-in Tool"
+              },
+              "default": {},
+              "displayOptions": {
+                "hide": {
+                  "operation": [
+                    "Message a Model"
+                  ]
+                },
+                "show": {
+                  "resource": [
+                    "Text"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "displayName": "Google Search",
+                  "name": "googleSearch",
+                  "values": [
+                    {
+                      "name": "enabled",
+                      "type": "boolean",
+                      "default": true
+                    }
+                  ]
+                },
+                {
+                  "displayName": "Google Maps",
+                  "name": "googleMaps",
+                  "values": [
+                    {
+                      "displayName": "Latitude",
+                      "name": "latitude",
+                      "type": "number",
+                      "default": 0
+                    },
+                    {
+                      "displayName": "Longitude",
+                      "name": "longitude",
+                      "type": "number",
+                      "default": 0
+                    }
+                  ]
+                },
+                {
+                  "displayName": "URL Context",
+                  "name": "urlContext",
+                  "values": [
+                    {
+                      "name": "enabled",
+                      "type": "boolean",
+                      "default": true
+                    }
+                  ]
+                },
+                {
+                  "displayName": "Code Execution",
+                  "name": "codeExecution",
+                  "values": [
+                    {
+                      "name": "enabled",
+                      "type": "boolean",
+                      "default": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "displayName": "Options",
+              "name": "options",
+              "type": "collection",
+              "displayOptions": {
+                "show": {
+                  "/operation": [
+                    "Analyze Audio",
+                    "Transcribe a Recording",
+                    "Analyze Document",
+                    "Message a Model"
+                  ]
+                }
+              },
+              "placeholder": "Add Option",
+              "default": {},
+              "fields": [
+                {
+                  "name": "maxTokens",
+                  "displayName": "Length of Description (Max Tokens)",
+                  "type": "number",
+                  "default": 1000,
+                  "description": "The maximum number of tokens to generate for Analyze Audio and Analyze Document.",
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Analyze Audio",
+                        "Analyze Document",
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "includeMergedResponse",
+                  "displayName": "Include Merged Response",
+                  "type": "boolean",
+                  "default": true,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "systemMessage",
+                  "displayName": "System Message",
+                  "type": "string",
+                  "format": "text",
+                  "default": "",
+                  "typeOptions": {
+                    "rows": 3
+                  },
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "frequencyPenalty",
+                  "displayName": "Frequency Penalty",
+                  "type": "number",
+                  "default": 0,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "numberOfCompletions",
+                  "displayName": "Number of Completions",
+                  "type": "number",
+                  "default": 1,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "presencePenalty",
+                  "displayName": "Presence Penalty",
+                  "type": "number",
+                  "default": 0,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "temperature",
+                  "displayName": "Output Randomness (Temperature)",
+                  "type": "number",
+                  "default": 0.7,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "topP",
+                  "displayName": "Output Randomness (Top P)",
+                  "type": "number",
+                  "default": 0.95,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "topK",
+                  "displayName": "Output Randomness (Top K)",
+                  "type": "number",
+                  "default": 40,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "thinkingBudget",
+                  "displayName": "Thinking Budget",
+                  "type": "number",
+                  "default": 0,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "maxToolCallsIterations",
+                  "displayName": "Max Tool Calls Iterations",
+                  "type": "number",
+                  "default": 1,
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Message a Model"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "startTime",
+                  "displayName": "Start Time",
+                  "type": "string",
+                  "default": "",
+                  "description": "Start timestamp for transcription range. Example: 00:00:30 or 30s.",
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Transcribe a Recording"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "name": "endTime",
+                  "displayName": "End Time",
+                  "type": "string",
+                  "default": "",
+                  "description": "End timestamp for transcription range. Example: 00:02:00 or 120s.",
+                  "displayOptions": {
+                    "show": {
+                      "/operation": [
+                        "Transcribe a Recording"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "initialData": {
+            "resource": "Text",
+            "operation": "Message a Model",
+            "model": "gemini-2.5-flash",
+            "inputType": "Binary File(s)",
+            "prompt": "",
+            "audioUrl": "",
+            "documentUrl": "",
+            "fileUrl": "",
+            "fileSearchStoreName": "",
+            "displayName": "",
+            "fileDisplayName": "",
+            "pageSize": 10,
+            "pageToken": "",
+            "forceDelete": false,
+            "inputDataFieldName": "data",
+            "simplify": true,
+            "outputContentAsJson": false,
+            "builtInTools": {},
+            "credentialId": "",
+            "options": {}
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a7955fe53b933eae140c1ae",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Click **Brand Kit** in the left navigation menu of your dashboard. From there, select the **Colours** tab to input and save your brand's hex codes, which the AI will then apply to your future generations."
+                    }
+                  ],
+                  "role": "model"
+                },
+                "finishReason": "STOP",
+                "index": 0,
+                "groundingMetadata": {},
+                "groundingChunks": [],
+                "groundingSupports": [],
+                "webSearchQueries": []
+              },
+              "pairedItem": 0
+            }
+          ]
+        }
+      },
+      "type": "action",
+      "width": 220,
+      "height": 94,
+      "dragging": false,
+      "position": {
+        "x": 984.0592670076925,
+        "y": 316.59114728166014
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 984.0592670076925,
+        "y": 316.59114728166014
+      }
+    },
+    {
+      "id": "code.execute-1786318669981",
+      "data": {
+        "label": "Code",
+        "inputs": {
+          "code": "reply = \"\"\ntry:\n    reply = _json[\"content\"][\"parts\"][0][\"text\"]\nexcept Exception:\n    reply = _json.get(\"text\", \"\") or \"\"\n\nreply = reply.strip()\nif reply.startswith(\"Assistant:\"):\n    reply = reply[10:].strip()\nreply = reply.replace(\"**\", \"\").replace(\"__\", \"\")\n\nif not reply:\n    reply = (\"I couldn't generate a reply just then. Please try again, or \"\n             \"contact support if it keeps happening.\")\n\nreturn [{\"json\": {\"reply\": reply, \"ok\": bool(reply)}}]",
+          "mode": "all",
+          "model": "gemini-3.5-flash",
+          "prompt": "{{ $json.prompt }}",
+          "fileUrl": "",
+          "options": {
+            "temperature": "0.3",
+            "systemMessage": "{{ $json.system }}"
+          },
+          "audioUrl": "",
+          "language": "python",
+          "pageSize": 10,
+          "resource": "Text",
+          "simplify": true,
+          "inputType": "Binary File(s)",
+          "operation": "Message a Model",
+          "pageToken": "",
+          "displayName": "",
+          "documentUrl": "",
+          "forceDelete": false,
+          "builtInTools": {},
+          "credentialId": "9e2f94b5-e83d-40bc-86d2-9f9e83d09fd3",
+          "fileDisplayName": "",
+          "inputDataFieldName": "data",
+          "fileSearchStoreName": "",
+          "outputContentAsJson": false
+        },
+        "toolId": "code.execute",
+        "toolData": {
+          "id": "code.execute",
+          "displayName": "Code",
+          "category": "Data  Processing",
+          "provider": "code",
+          "operation": "execute",
+          "icon": "💻",
+          "description": "Execute custom JavaScript or Python code",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "javascript",
+                  "python"
+                ],
+                "description": "Programming language to execute"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "all",
+                  "each"
+                ],
+                "default": "all",
+                "description": "Execution mode"
+              },
+              "code": {
+                "type": "string",
+                "description": "Code to execute"
+              },
+              "input": {
+                "description": "Input data available as \"input\" variable"
+              },
+              "context": {
+                "description": "Execution context including other node results"
+              }
+            },
+            "required": [
+              "language",
+              "code"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a7955fe53b933eae140c1ae",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "reply": "Click Brand Kit in the left navigation menu of your dashboard. From there, select the Colours tab to input and save your brand's hex codes, which the AI will then apply to your future generations.",
+                "ok": true
+              }
+            }
+          ]
+        }
+      },
+      "type": "action",
+      "width": 220,
+      "height": 94,
+      "dragging": false,
+      "position": {
+        "x": 1258.8435157788144,
+        "y": 312.1291567738747
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1258.8435157788144,
+        "y": 312.1291567738747
+      }
+    },
+    {
+      "id": "respondToWebhook-1786318705078",
+      "data": {
+        "label": "Webhook Response",
+        "inputs": {
+          "respondWith": "JSON",
+          "responseBody": "{{ JSON.stringify($json) }}",
+          "responseCode": 200,
+          "inputFieldName": "data"
+        },
+        "toolId": "respondToWebhook",
+        "toolData": {
+          "id": "respondToWebhook",
+          "displayName": "Webhook Response",
+          "category": "Input /  Output",
+          "icon": "reply",
+          "description": "Send response to webhook",
+          "inputSchemaJSON": {
+            "type": "object",
+            "properties": {
+              "respondWith": {
+                "type": "string",
+                "enum": [
+                  "All Incoming Items",
+                  "First Incoming Item",
+                  "JSON",
+                  "Binary File",
+                  "JWT Token",
+                  "Text",
+                  "Redirect",
+                  "No Data"
+                ],
+                "default": "All Incoming Items",
+                "description": "What to respond with."
+              },
+              "responseBody": {
+                "type": "string",
+                "description": "The body of the response (can be an expression)"
+              },
+              "credentialId": {
+                "type": "string",
+                "description": "JWT credential ID"
+              },
+              "payload": {
+                "type": "string",
+                "description": "JWT Token Payload (JSON string or expression)"
+              },
+              "redirectUrl": {
+                "type": "string",
+                "description": "Redirect URL"
+              },
+              "inputFieldName": {
+                "type": "string",
+                "default": "data",
+                "description": "Input Field Name containing the binary file"
+              },
+              "responseCode": {
+                "type": "number",
+                "description": "HTTP Response Code"
+              },
+              "putResponseInField": {
+                "type": "string",
+                "description": "If set, put the response into this field instead of the default output"
+              },
+              "enableStreaming": {
+                "type": "boolean",
+                "description": "Stream the response back to the caller when supported"
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "headers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        },
+        "isTrigger": false,
+        "isFormWait": false,
+        "executionId": "6a7955fe53b933eae140c1ae",
+        "isTimerWait": false,
+        "isWebhookWait": false,
+        "connectedHandles": [],
+        "isPrimaryTrigger": false,
+        "executionStatus": "success",
+        "lastTestOutput": {
+          "items": [
+            {
+              "json": {
+                "_respondWith": "JSON",
+                "_responseCode": 200,
+                "_responseData": {
+                  "reply": "Click Brand Kit in the left navigation menu of your dashboard. From there, select the Colours tab to input and save your brand's hex codes, which the AI will then apply to your future generations.",
+                  "ok": true
+                },
+                "items": [
+                  {
+                    "json": {
+                      "reply": "Click Brand Kit in the left navigation menu of your dashboard. From there, select the Colours tab to input and save your brand's hex codes, which the AI will then apply to your future generations.",
+                      "ok": true
+                    }
+                  }
+                ]
+              },
+              "pairedItem": 0
+            }
+          ]
+        }
+      },
+      "type": "action",
+      "width": 220,
+      "height": 94,
+      "dragging": false,
+      "position": {
+        "x": 1547.3855686156085,
+        "y": 306.55166863914286
+      },
+      "selected": true,
+      "positionAbsolute": {
+        "x": 1547.3855686156085,
+        "y": 306.55166863914286
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "reactflow__edge-webhook-1786318310862-code.execute-1786318473997",
+      "data": {},
+      "type": "custom",
+      "source": "webhook-1786318310862",
+      "target": "code.execute-1786318473997"
+    },
+    {
+      "id": "reactflow__edge-code.execute-1786318473997-gemini-1786318526278",
+      "data": {},
+      "type": "custom",
+      "source": "code.execute-1786318473997",
+      "target": "gemini-1786318526278"
+    },
+    {
+      "id": "reactflow__edge-gemini-1786318526278-code.execute-1786318669981",
+      "data": {},
+      "type": "custom",
+      "source": "gemini-1786318526278",
+      "target": "code.execute-1786318669981"
+    },
+    {
+      "id": "reactflow__edge-code.execute-1786318669981-respondToWebhook-1786318705078",
+      "data": {},
+      "type": "custom",
+      "source": "code.execute-1786318669981",
+      "target": "respondToWebhook-1786318705078"
+    }
+  ]
+}

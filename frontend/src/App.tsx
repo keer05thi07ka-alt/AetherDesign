@@ -32,6 +32,7 @@ import { CanvaEditorPage } from './pages/creator/CanvaEditorPage';
 
 // Shared Pages
 import { SettingsPage } from './pages/SettingsPage';
+import { SupportPage } from './pages/SupportPage';
 
 export const App: React.FC = () => {
   return (
@@ -51,6 +52,7 @@ export const App: React.FC = () => {
             <Route path="/access-denied" element={<AccessDeniedPage />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
+            <Route path="/support" element={<SupportPage />} />
 
             {/* Business Workspace Routes (Protected for Business Role Only) */}
             <Route
@@ -146,6 +148,7 @@ export const App: React.FC = () => {
 
             {/* Shared Routes */}
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/support" element={<SupportPage />} />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />

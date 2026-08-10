@@ -90,7 +90,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/creator/generator" className="hover:text-[#8B5CF6] transition-colors">AI Generator</Link></li>
               <li><Link to="/business/brand-kit" className="hover:text-[#8B5CF6] transition-colors">Brand Kit Engine</Link></li>
               <li><Link to="/creator/templates" className="hover:text-[#8B5CF6] transition-colors">Template Library</Link></li>
-              <li><Link to="/creator/editor" className="hover:text-[#8B5CF6] transition-colors">Canva Canvas Editor</Link></li>
+              <li><Link to="/creator/editor" className="hover:text-[#8B5CF6] transition-colors">Design Studio</Link></li>
               <li><Link to="/business/campaigns" className="hover:text-[#8B5CF6] transition-colors">Campaign Workflows</Link></li>
               <li><Link to="/business/analytics" className="hover:text-[#8B5CF6] transition-colors">Creative Analytics</Link></li>
             </ul>
@@ -117,7 +117,7 @@ export const Footer: React.FC = () => {
               <li><a href="#" className="hover:text-[#8B5CF6] transition-colors">Press & Media</a></li>
               <li><a href="#" className="hover:text-[#8B5CF6] transition-colors">Privacy Policy</a></li>
               <li><a href="#" className="hover:text-[#8B5CF6] transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-[#8B5CF6] transition-colors">Contact Support</a></li>
+              <li><Link to="/support" className="hover:text-[#8B5CF6] transition-colors">Contact Support</Link></li>
             </ul>
           </div>
 

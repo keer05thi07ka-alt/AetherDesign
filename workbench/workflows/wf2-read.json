@@ -1,7 +1,7 @@
 {
   "_platform": "agentbuilder",
   "_version": 1,
-  "_exportedAt": "2026-08-09T17:44:32.352Z",
+  "_exportedAt": "2026-08-10T05:11:20.179Z",
   "_fingerprint": "YWN0aW9uOnBvc3RncmVzLmV4ZWN1dGVRdWVyeXx3ZWJob29rOndlYmhvb2s6Ondl",
   "nodes": [
     {
@@ -567,7 +567,7 @@
         },
         "isTrigger": true,
         "isFormWait": false,
-        "executionId": "6a7899bb53b933eae140ba07",
+        "executionId": "6a795cf253b933eae140c4c9",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
@@ -579,13 +579,13 @@
               "json": {
                 "query": {},
                 "headers": {
-                  "x-forwarded-for": "103.224.35.25",
+                  "x-forwarded-for": "103.196.28.74",
                   "x-forwarded-proto": "https",
                   "x-forwarded-port": "443",
                   "host": "api.agents.snsihub.ai",
-                  "x-amzn-trace-id": "Root=1-6a7899bb-53bddbe9563d2838453e93c3",
+                  "x-amzn-trace-id": "Root=1-6a795cf2-438c65ed3f62800d0b7c0dac",
                   "sec-ch-ua-platform": "\"Windows\"",
-                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2Mzc0OTI5LCJpYXQiOjE3ODYyODg1Mjl9.OfBdKPmoYKkpU7nfTNFqzB735gaNYoVWP_xeq6e9BCo",
+                  "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZDIzNGFkMS0xN2UyLTRmMjEtYWYxOC1mMzk5YmU0NGZmMjUiLCJvcmdfaWQiOiIzMTUyMjg3Mi0wMDdlLTQxNjUtYjg5OS1jOTQxYzI3ZWI4YmMiLCJvcmdfbmFtZSI6IkJyaWdodGZvbGQgU3R1ZGlvIiwicm9sZSI6Im93bmVyIiwicGxhbiI6ImVudGVycHJpc2UiLCJlbWFpbCI6InByaXlhQGJyaWdodGZvbGQub3JnIiwiZXhwIjoxNzg2NDI0OTQ1LCJpYXQiOjE3ODYzMzg1NDV9.Yw1ZvKVp-lRJBi7DlLR24xMGCmsLtG0IYu5Oxgriu3s",
                   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
                   "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Google Chrome\";v=\"150\"",
                   "content-type": "application/json",
@@ -598,11 +598,11 @@
                   "referer": "http://localhost:5173/",
                   "accept-encoding": "gzip, deflate, br, zstd",
                   "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
-                  "if-none-match": "W/\"3bf-CO5BIK/6TtG6N+OCu7QMjxK1HBU\"",
+                  "if-none-match": "W/\"a75-BiyV3QrBkbc+O/XJQM6QaB7S1hE\"",
                   "priority": "u=1, i"
                 },
                 "params": {
-                  "resource": "platform_presets"
+                  "resource": "assets"
                 },
                 "jwt": {
                   "sub": "ad234ad1-17e2-4f21-af18-f399be44ff25",
@@ -611,11 +611,11 @@
                   "role": "owner",
                   "plan": "enterprise",
                   "email": "priya@brightfold.org",
-                  "exp": 1786374929,
-                  "iat": 1786288529
+                  "exp": 1786424945,
+                  "iat": 1786338545
                 },
                 "file": null,
-                "sessionId": "rs_1dea64064c1b524597cc6442b079d2c506b9"
+                "sessionId": "rs_6697cad76d1974eafd8f0e4da7bd721de921"
               }
             }
           ],
@@ -624,7 +624,7 @@
             "metrics": {
               "durationMs": 0,
               "apiCalls": 1,
-              "payloadSizeBytes": 1600
+              "payloadSizeBytes": 1590
             },
             "cost": 2
           }
@@ -649,20 +649,23 @@
       "data": {
         "label": "Execute Query",
         "inputs": {
+          "query": "select coalesce(\r\n  case $2::text\r\n    when 'campaigns' then (\r\n      select json_agg(t) from (\r\n        select id, name, brief, audience, platform, status, deadline,\r\n               brand_kit_id, assigned_to, created_by, created_at\r\n        from campaigns\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'assets' then (\r\n      select json_agg(t) from (\r\n        select id, campaign_id, brand_kit_id, title, description, category,\r\n               status, current_version, width, height, storage_path,\r\n               thumbnail_path, quality_score, created_by, created_at\r\n        from assets\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'asset_versions' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, version_no, storage_path, prompt, negative_prompt,\r\n               model, params, locale, quality_score, created_by, created_at\r\n        from asset_versions\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or asset_id = nullif($3,'')::uuid)\r\n        order by asset_id, version_no desc limit 100\r\n      ) t)\r\n    \r\n    when 'brand_kit_detail' then (\r\n      select json_agg(t) from (\r\n        select id, name, tokens, guidelines_text, created_by, created_at\r\n        from brand_kits\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 1\r\n      ) t)\r\n    \r\n    when 'platform_presets' then (\r\n      select json_agg(t) from (\r\n        select key, label, width, height, aspect, description\r\n        from platform_presets order by label\r\n      ) t)\r\n\r\n    when 'designs' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, campaign_id, title, platform,\r\n               width, height, thumbnail_url, created_by, created_at, updated_at\r\n        from designs\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by updated_at desc limit 100\r\n      ) t)\r\n\r\n    when 'design_detail' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, campaign_id, title, platform,\r\n               width, height, canvas, thumbnail_url, created_at\r\n        from designs\r\n        where org_id = $1 and id = nullif($3,'')::uuid\r\n        limit 1\r\n      ) t)\r\n\r\n    when 'support_tickets' then (\r\n      select json_agg(t) from (\r\n        select id, email, name, topic::text, subject, message,\r\n               status::text, created_at,\r\n               (chat_transcript is not null) as has_transcript\r\n        from support_tickets\r\n        where org_id = $1\r\n          -- Owners and brand admins see every ticket for the organisation.\r\n          -- Everyone else sees only their own, so a designer cannot read\r\n          -- the owner's billing correspondence.\r\n          and (coalesce($4, '') in ('owner', 'brand_admin')\r\n               or user_id = nullif($5, '')::uuid)\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'brand_kits' then (\r\n      select json_agg(t) from (\r\n        select id, name, tokens, created_by, created_at,\r\n               length(coalesce(guidelines_text,'')) as guidelines_length\r\n        from brand_kits\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'approvals' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, asset_version_id, reviewer_id, decision, comment,\r\n               requested_by, requested_at, decided_at\r\n        from approvals\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or asset_id = nullif($3,'')::uuid)\r\n        order by requested_at desc limit 100\r\n      ) t)\r\n\r\n    when 'generation_jobs' then (\r\n      select json_agg(t) from (\r\n        select id, campaign_id, brand_kit_id, prompt, refined_prompt, status,\r\n               progress, error_message, result_asset_id, created_by, created_at\r\n        from generation_jobs\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'templates' then (\r\n      select json_agg(t) from (\r\n        select id, title, category, spec, preview_path, is_public, created_at\r\n        from templates\r\n        where (org_id = $1 or org_id is null)\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by title limit 100\r\n      ) t)\r\n\r\n    when 'members' then (\r\n      select json_agg(t) from (\r\n        select u.id, u.email, u.full_name, u.avatar_url, m.role\r\n        from memberships m\r\n        join users u on u.id = m.user_id\r\n        where m.org_id = $1\r\n        order by u.full_name limit 100\r\n      ) t)\r\n\r\n  end, '[]'::json) as data;",
+          "schema": "public",
+          "tableMode": "list",
+          "schemaMode": "list",
+          "columnsMode": "manually",
+          "idleTimeout": 0,
+          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e",
+          "queryBatching": "single",
           "queryParameters": [
             " {{$node[\"webhook-1785993024192\"].json[\"jwt\"][\"org_id\"]}}",
             " {{$node[\"webhook-1785993024192\"].json[\"params\"][\"resource\"]}}",
-            "{{ $json.query.id || '' }}"
+            "{{ $json.query.id || '' }}",
+            "{{ $json.jwt.role }}",
+            "{{ $json.jwt.sub }}"
           ],
-          "query": "select coalesce(\r\n  case $2::text\r\n\r\n    when 'campaigns' then (\r\n      select json_agg(t) from (\r\n        select id, name, brief, audience, platform, status, deadline,\r\n               brand_kit_id, assigned_to, created_by, created_at\r\n        from campaigns\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'assets' then (\r\n      select json_agg(t) from (\r\n        select id, campaign_id, brand_kit_id, title, description, category,\r\n               status, current_version, width, height, storage_path,\r\n               thumbnail_path, quality_score, created_by, created_at\r\n        from assets\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'asset_versions' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, version_no, storage_path, prompt, negative_prompt,\r\n               model, params, locale, quality_score, created_by, created_at\r\n        from asset_versions\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or asset_id = nullif($3,'')::uuid)\r\n        order by asset_id, version_no desc limit 100\r\n      ) t)\r\n    \r\n    when 'brand_kit_detail' then (\r\n      select json_agg(t) from (\r\n        select id, name, tokens, guidelines_text, created_by, created_at\r\n        from brand_kits\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 1\r\n      ) t)\r\n    \r\n    when 'platform_presets' then (\r\n      select json_agg(t) from (\r\n        select key, label, width, height, aspect, description\r\n        from platform_presets order by label\r\n      ) t)\r\n\r\n    when 'brand_kits' then (\r\n      select json_agg(t) from (\r\n        select id, name, tokens, created_by, created_at,\r\n               length(coalesce(guidelines_text,'')) as guidelines_length\r\n        from brand_kits\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'approvals' then (\r\n      select json_agg(t) from (\r\n        select id, asset_id, asset_version_id, reviewer_id, decision, comment,\r\n               requested_by, requested_at, decided_at\r\n        from approvals\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or asset_id = nullif($3,'')::uuid)\r\n        order by requested_at desc limit 100\r\n      ) t)\r\n\r\n    when 'generation_jobs' then (\r\n      select json_agg(t) from (\r\n        select id, campaign_id, brand_kit_id, prompt, refined_prompt, status,\r\n               progress, error_message, result_asset_id, created_by, created_at\r\n        from generation_jobs\r\n        where org_id = $1\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by created_at desc limit 100\r\n      ) t)\r\n\r\n    when 'templates' then (\r\n      select json_agg(t) from (\r\n        select id, title, category, spec, preview_path, is_public, created_at\r\n        from templates\r\n        where (org_id = $1 or org_id is null)\r\n          and (nullif($3,'')::uuid is null or id = nullif($3,'')::uuid)\r\n        order by title limit 100\r\n      ) t)\r\n\r\n    when 'members' then (\r\n      select json_agg(t) from (\r\n        select u.id, u.email, u.full_name, u.avatar_url, m.role\r\n        from memberships m\r\n        join users u on u.id = m.user_id\r\n        where m.org_id = $1\r\n        order by u.full_name limit 100\r\n      ) t)\r\n\r\n  end, '[]'::json) as data;",
-          "replaceEmptyStringsWithNull": false,
           "outputLargeNumbersAsText": false,
-          "schemaMode": "list",
-          "tableMode": "list",
-          "columnsMode": "manually",
-          "schema": "public",
-          "queryBatching": "single",
-          "credentialId": "a06f68a5-211b-4fde-a30b-71311e2a8f5e"
+          "replaceEmptyStringsWithNull": false
         },
         "toolId": "postgres.executeQuery",
         "toolData": {
@@ -732,11 +735,12 @@
         },
         "isTrigger": false,
         "isFormWait": false,
-        "executionId": "6a7899bb53b933eae140ba07",
+        "executionId": "6a795cf253b933eae140c4c9",
         "isTimerWait": false,
         "isWebhookWait": false,
         "connectedHandles": [],
         "isPrimaryTrigger": false,
+        "executionStatus": "success",
         "lastTestOutput": {
           "items": [
             {
@@ -748,60 +752,55 @@
                       "json": {
                         "data": [
                           {
-                            "key": "email_banner",
-                            "label": "Email Banner",
-                            "width": 1200,
-                            "height": 400,
-                            "aspect": "3:1",
-                            "description": "Newsletter header"
-                          },
-                          {
-                            "key": "facebook_link",
-                            "label": "Facebook Link",
-                            "width": 1200,
-                            "height": 630,
-                            "aspect": "16:9",
-                            "description": "Link preview card"
-                          },
-                          {
-                            "key": "instagram_square",
-                            "label": "Instagram Post",
+                            "id": "84c3569d-e7fc-4123-8bf1-e1a3329caba5",
+                            "campaign_id": null,
+                            "brand_kit_id": null,
+                            "title": "Summer sale announcement for a durable, practical canvas tote bag designed for s",
+                            "description": "An editorial still life photograph of a structured sand-colored canvas tote bag resting on a matte deep-sage-green surface, bathed in warm, soft summer sunlight casting gentle shadows. A terracotta ceramic vessel sits quietly in the background, creating a balanced, calm, and practical scene for a craftsperson, with clean space left for design layout.",
+                            "category": "instagram_square",
+                            "status": "draft",
+                            "current_version": 1,
                             "width": 1080,
                             "height": 1080,
-                            "aspect": "1:1",
-                            "description": "Feed post, square"
+                            "storage_path": "https://ydbzcsfkgwaqrygenrqo.supabase.co/storage/v1/object/public/brand-assets/ad234ad1-17e2-4f21-af18-f399be44ff25/generated/1786287402075-1080x1080.jpg",
+                            "thumbnail_path": null,
+                            "quality_score": null,
+                            "created_by": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                            "created_at": "2026-08-09T14:56:42.285368+00:00"
                           },
                           {
-                            "key": "instagram_story",
-                            "label": "Instagram Story",
+                            "id": "ea88072c-31f7-4dff-8913-57cd04fed8ab",
+                            "campaign_id": null,
+                            "brand_kit_id": null,
+                            "title": "Product launch banner for a premium insulated water bottle aimed at mindful smal",
+                            "description": "An editorial lifestyle photograph of a sleek matte-textured insulated water bottle in forest green (#2F5D50) with terracotta (#C4622D) accents, standing on a warm beige (#D9C7A3) wooden desk. Soft natural window light illuminates the scene, casting long, gentle shadows. Next to the bottle is a blank linen notebook, creating a clean, calm, and spacious composition suitable for a slow-living aesthetic. Shallow depth of field, professional product photography.",
+                            "category": "instagram_square",
+                            "status": "draft",
+                            "current_version": 1,
                             "width": 1080,
-                            "height": 1920,
-                            "aspect": "9:16",
-                            "description": "Full-screen vertical"
+                            "height": 1080,
+                            "storage_path": "https://ydbzcsfkgwaqrygenrqo.supabase.co/storage/v1/object/public/brand-assets/ad234ad1-17e2-4f21-af18-f399be44ff25/generated/1786284871881.jpg",
+                            "thumbnail_path": null,
+                            "quality_score": null,
+                            "created_by": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                            "created_at": "2026-08-09T14:14:31.928524+00:00"
                           },
                           {
-                            "key": "linkedin_post",
-                            "label": "LinkedIn Post",
-                            "width": 1200,
-                            "height": 1200,
-                            "aspect": "1:1",
-                            "description": "Feed post"
-                          },
-                          {
-                            "key": "pinterest_pin",
-                            "label": "Pinterest Pin",
-                            "width": 1000,
-                            "height": 1500,
-                            "aspect": "2:3",
-                            "description": "Tall pin"
-                          },
-                          {
-                            "key": "web_hero",
-                            "label": "Website Hero",
-                            "width": 1920,
-                            "height": 720,
-                            "aspect": "8:3",
-                            "description": "Landing page banner"
+                            "id": "e8deb02b-52d2-4358-bfa9-914b38862ddd",
+                            "campaign_id": null,
+                            "brand_kit_id": null,
+                            "title": "team photo for our about page",
+                            "description": "team photo for our about page",
+                            "category": "instagram_square",
+                            "status": "draft",
+                            "current_version": 1,
+                            "width": 1080,
+                            "height": 1080,
+                            "storage_path": "https://ydbzcsfkgwaqrygenrqo.supabase.co/storage/v1/object/public/brand-assets/ad234ad1-17e2-4f21-af18-f399be44ff25/generated/1786284758003.jpg",
+                            "thumbnail_path": null,
+                            "quality_score": null,
+                            "created_by": "ad234ad1-17e2-4f21-af18-f399be44ff25",
+                            "created_at": "2026-08-09T14:12:38.64369+00:00"
                           }
                         ]
                       }
@@ -815,8 +814,7 @@
               }
             }
           ]
-        },
-        "executionStatus": "success"
+        }
       },
       "type": "action",
       "width": 220,
